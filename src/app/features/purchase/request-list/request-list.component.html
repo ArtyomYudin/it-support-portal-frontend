@@ -1,0 +1,72 @@
+<div class="limit-height clr-row">
+    <clr-datagrid [(clrDgSelected)]="selected" class="datagrid-compact clr-col-8">
+        <clr-dg-action-bar>
+            <div class="btn-group btn-link btn-sm">
+                <button class="btn" (click)="purchaseRequestPage.onOpen()"><clr-icon shape="file"></clr-icon>Создать заявку</button>
+                <!--
+            <button class="btn" (click)="purchaseRequestPage.onOpen()" [disabled]="!(selected.length == 1 && selected[0].statusId == 1)">
+                <clr-icon shape="pencil"></clr-icon>Редактировать
+            </button>
+        -->
+                <button class="btn" (click)="(null)" [disabled]="!(selected.length == 1)">
+                    <clr-icon shape="pencil"></clr-icon>Подписать заявку
+                </button>
+                <button class="btn" (click)="(null)" [disabled]="selected.length == 0"><clr-icon shape="trash"></clr-icon>Удалить</button>
+            </div>
+        </clr-dg-action-bar>
+
+        <clr-dg-column>Дата заявки</clr-dg-column>
+        <clr-dg-column>Инициатор Ф.И.О</clr-dg-column>
+        <clr-dg-column>Подразделение</clr-dg-column> -->
+        <clr-dg-column>Ответственное лицо</clr-dg-column>
+        <clr-dg-column>Объект приобретения</clr-dg-column>
+        <clr-dg-column>Статус заявки</clr-dg-column>
+        <clr-dg-placeholder>Не создана ни одна заявка !</clr-dg-placeholder>
+
+        <clr-dg-row
+            *clrDgItems="let purchaseRequest of this.purchaseRequestArray$ | async"
+            [clrDgItem]="purchaseRequest"
+            [(clrDgSelected)]="purchaseRequest.selected"
+        >
+            <clr-dg-cell>{{ purchaseRequest.date | date: 'dd MM YYYY, HH:mm' }}</clr-dg-cell>
+            <clr-dg-cell>{{ purchaseRequest.authorDisplayName }}</clr-dg-cell>
+            <clr-dg-cell>{{ purchaseRequest.authorDepartmentName }}</clr-dg-cell>
+            <clr-dg-cell>{{ purchaseRequest.responsibleDisplayName }}</clr-dg-cell>
+            <clr-dg-cell>{{ purchaseRequest.purchaseTarget | purchaseTarget }}</clr-dg-cell>
+            <clr-dg-cell><clr-icon shape="pencil"></clr-icon>{{ purchaseRequest.statusId }}</clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer> {{ this.purchaseRequestArray$?.length }} заявок </clr-dg-footer>
+        <!--
+        <clr-dg-footer>
+            <clr-dg-pagination #paginationUser [clrDgPageSize]="20">
+                <clr-dg-page-size [clrPageSizeOptions]="[20, 50, 100]">Заявок на страницу</clr-dg-page-size>
+                {{ paginationUser.firstItem + 1 }} - {{ paginationUser.lastItem + 1 }} из {{ paginationUser.totalItems }} Заявок
+            </clr-dg-pagination>
+        </clr-dg-footer>
+    -->
+    </clr-datagrid>
+    <div class="clr-col purchase-request-card">
+        <div class="card">
+            <!--
+            Selected users: <textarea *ngFor="let user of selected">{{ user.purchaseReason }}</textarea>
+            <clr-input-container>
+                <label>Объект приобретения (наименование, количество):</label>
+                {{ this.selected }}
+            </clr-input-container>
+            <clr-textarea-container>
+                <label>Обоснование:</label>
+                <textarea>{{ selected }}</textarea>
+            </clr-textarea-container>
+        --></div>
+    </div>
+</div>
+<!--
+    Selected users: <span *ngFor="let user of selected">{{ user.id }}</span>
+-->
+
+<!--
+    <fe-purchase-request-page [purchaseRequestDraftId]="selected" #purchaseRequestPage></fe-purchase-request-page>
+-->
+
+<fe-purchase-request-page #purchaseRequestPage></fe-purchase-request-page>

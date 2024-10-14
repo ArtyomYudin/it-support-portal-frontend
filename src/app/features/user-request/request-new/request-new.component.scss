@@ -1,0 +1,123 @@
+.clr-form-control {
+  align-items: unset;
+  margin-top: 0.6rem;
+}
+
+.clr-input,
+.clr-textarea {
+  width: 100%;
+}
+
+.clr-textarea {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  line-height: 0.8rem;
+}
+
+.clr-textarea:focus {
+  outline: none;
+}
+.button-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
+
+.image-upload-btn {
+  padding: 0;
+  color: #454545;
+
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0rem;
+}
+.card {
+  margin-top: 0rem;
+  box-shadow: none;
+}
+
+.clr-control-label {
+  margin-top: 0.18rem !important;
+}
+
+/*
+::ng-deep .mat-option.mat-active {
+  color: #fcfcfc;
+}
+
+::ng-deep .cdk-overlay-pane {
+  min-width: 250px;
+}
+*/
+.status-list {
+  margin-left: 1.4rem;
+  max-width: 8rem;
+}
+
+.priority-list {
+  margin-left: 2.3rem;
+  max-width: 8rem;
+}
+.date-list-input {
+  //margin-left: -0.2rem;
+  width: 6.7rem;
+}
+
+.status-autocomplete-panel {
+  /*
+TODO(mdc-migration): The following rule targets internal classes of autocomplete that may no longer apply for the MDC version.
+*/
+  & .mat-autocomplete-panel:not([class*='mat-elevation-z']) {
+    width: inherit !important;
+  }
+}
+.date-form-control {
+  flex: 0 0 27%;
+  max-width: 27%;
+}
+.status-form-control {
+  flex: 0 0 26%;
+  max-width: 26%;
+}
+.priority-form-control {
+  flex: 0 0 32%;
+  max-width: 32%;
+}
+
+.status-list-icon,
+.priority-list-icon {
+  margin-left: -1.4rem;
+}
+
+.status-list-label,
+.priority-list-label {
+  padding-left: 0.8rem;
+}
+
+.date-list-input {
+  & .clr-input-group {
+    margin-left: 0.2rem !important;
+  }
+}
+
+.clr-input-group {
+  & .clr-input-group-icon-action {
+    margin-left: -0.4rem !important;
+  }
+}
+
+.request-control-section {
+  padding-bottom: 1rem;
+}
+.file-List {
+  font-size: 0.55rem;
+}
+.delete-file-btn {
+  margin: 0rem;
+  padding: 0rem;
+}

@@ -1,0 +1,173 @@
+.limit-height clr-datagrid {
+  //height: calc(100vh - 144px);
+  // height: calc(100vh - 7.75rem);
+  height: calc(100vh - 7.15rem);
+  //height: 100% !important;
+}
+
+.history-limit-height clr-datagrid {
+  //height: calc(100vh - 144px);
+  height: 66vh;
+  //height: 100% !important;
+  margin-top: 0.3rem !important;
+}
+
+::ng-deep .vpn-user-activity-datagrid .datagrid {
+  margin-top: 0.3rem;
+}
+
+::ng-deep .datagrid-detail-open > .datagrid-outer-wrapper > .datagrid-inner-wrapper div.datagrid-table-wrapper {
+  overflow: visible;
+}
+
+.userName {
+  margin-top: -1rem;
+}
+
+.date-column {
+  max-width: 156px;
+}
+
+.byte-column {
+  max-width: 96px;
+}
+
+.btn-session-refresh {
+  margin-top: -0.1rem;
+  margin-bottom: 0rem;
+  height: 1rem;
+  clr-icon {
+    width: 12px;
+    height: 12px;
+  }
+}
+::ng-deep .vpn-history-switch {
+  .nav {
+    box-shadow: none !important;
+    //margin-top: -0.55rem;
+    height: unset;
+    /*
+    .nav-link {
+      line-height: 1.15rem;
+      letter-spacing: 0.073em;
+      font-size: 0.55rem;
+      font-weight: 500;
+      height: 1.2rem;
+      padding: 0 0.6rem;
+      border-color: transparent;
+      background-color: transparent;
+      color: #0072a3;
+    }
+    */
+  }
+  &-button {
+    text-transform: uppercase !important;
+    color: #0072a3 !important;
+    line-height: 1.15rem !important;
+    letter-spacing: 0.073em !important;
+    font-size: 0.55rem !important;
+    font-weight: 500 !important;
+    height: 1.2rem !important;
+    padding: 0 0.6rem !important;
+    box-shadow: none !important;
+  }
+  &-button.active,
+  &-button:hover {
+    color: hsl(198deg, 100%, 24%) !important;
+  }
+}
+
+.person-photo {
+  width: 36px;
+  height: 36px;
+  //margin: 0 auto;
+  overflow: hidden;
+  border-radius: 50%;
+  text-align: center;
+  background-color: white;
+  //margin-right: 1.1rem;
+  margin-top: 0.3rem;
+  float: left;
+  border: 0.01rem solid #cccccc;
+}
+/*
+.photo {
+  width: 36px;
+  height: 36px;
+  margin-top: 0.3rem;
+  overflow: hidden;
+  border-radius: 50%;
+  text-align: center;
+  background-color: white;
+  float: left;
+  //margin-left: 0.7rem;
+}
+
+.person-photo {
+  width: auto;
+  height: 100%;
+  margin: 0 auto;
+  vertical-align: middle;
+}
+*/
+.personName {
+  margin-top: 0.45rem;
+  margin-left: 2.2rem;
+}
+.vpn-filter {
+  //& .clr-control-container {
+  //  max-width: fit-content !important;
+  //}
+  text-align: end;
+  padding: 0rem;
+}
+
+.view-period {
+  max-width: 41%;
+  position: absolute;
+  margin-left: calc(65vw - 20rem);
+
+  &-container {
+    &-label {
+      color: #666;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+
+    &.clr-form-control {
+      //align-items: unset;
+      margin-top: -0.4rem;
+      flex-direction: row;
+    }
+
+    ::ng-deep &-input {
+      color: #666;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      // width: 4rem;
+      flex: 0 0 50%;
+      max-width: 100%;
+      width: 100%;
+      padding-left: 0rem;
+    }
+  }
+
+  /*
+  &-period {
+    //width: 16rem;
+    //flex-direction: row;
+    &-label {
+      min-width: 5rem;
+      max-width: 5rem;
+      padding-right: 0rem;
+    }
+    &-input {
+      width: 10rem;
+    }
+  }
+  */
+}

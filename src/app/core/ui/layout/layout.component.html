@@ -1,0 +1,26 @@
+<clr-main-container class="main-container">
+    <!--
+  <div class="alert alert-app-level">        
+  </div>
+  -->
+    <!--  
+  <div class="content-area">
+        <clr-alert [clrAlertType]="'danger'" [clrAlertClosable]="false" *ngIf="!isConnected">
+            <clr-alert-item>
+                <span class="alert-text"> Отсутствует связь с сервером. </span>
+            </clr-alert-item>
+        </clr-alert>
+        <router-outlet></router-outlet>
+    </div>
+-->
+    <clr-alert [clrAlertType]="'danger'" [clrAlertAppLevel]="true" [clrAlertClosable]="false" *ngIf="!isConnected && currentUser">
+        <clr-alert-item>
+            <span class="alert-text"> Отсутствует связь с сервером. </span>
+        </clr-alert-item>
+    </clr-alert>
+
+    <fe-header-mobile [currentUser]="this.currentUser"></fe-header-mobile>
+    <fe-main [currentUser]="this.currentUser">
+        <!-- <ng-content></ng-content> -->
+    </fe-main>
+</clr-main-container>

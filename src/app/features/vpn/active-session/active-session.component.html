@@ -1,0 +1,38 @@
+<div class="limit-height">
+    <clr-datagrid class="datagrid-compact vpn-active-session-datagrid" [clrDgLoading]="loading">
+        <clr-dg-column class="date-column">Текущие сеансы</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+
+        <clr-dg-placeholder>Нет активных сеансов !</clr-dg-placeholder>
+
+        <clr-dg-row *clrDgItems="let session of (eventVpnActiveSessionArray$ | async)?.results" [clrDgItem]="session">
+            <clr-dg-cell class="date-column">{{ session.sessionStart | date: 'dd.MM.YYYY, HH:mm:ss' }}</clr-dg-cell>
+            <clr-dg-cell>{{ session.displayName ? session.displayName : session.user }}</clr-dg-cell>
+            <clr-dg-row-detail *clrIfExpanded>
+                <div class="clr-row">
+                    <div class="clr-col-12">
+                        <span>Узел:</span>
+                        {{ session.node }}
+                    </div>
+                    <div class="clr-col-12">
+                        <span>Имя входа:</span>
+                        {{ session.user }}
+                    </div>
+                    <div class="clr-col-12">
+                        <span>IP клиента:</span>
+                        {{ session.clientIP }}
+                    </div>
+                    <div class="clr-col-12">
+                        <span>Назначенный IP:</span>
+                        {{ session.mappedIP }}
+                    </div>
+                    <div class="clr-col-12">
+                        <span>Политика:</span>
+                        {{ session.policyName }}
+                    </div>
+                </div>
+            </clr-dg-row-detail>
+        </clr-dg-row>
+        <clr-dg-footer> {{ (this.eventVpnActiveSessionArray$ | async)?.total }} сеансов </clr-dg-footer>
+    </clr-datagrid>
+</div>

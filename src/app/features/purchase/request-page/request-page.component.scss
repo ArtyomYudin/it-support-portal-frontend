@@ -1,0 +1,159 @@
+.clr-form-control {
+  align-items: unset;
+  margin-top: 1rem;
+}
+
+.clr-input,
+.clr-textarea {
+  width: 100%;
+}
+
+//::ng-deep .modal-header--accessible {
+//  padding: 0;
+//}
+
+/*
+::slotted([slot='label']) {
+  color: #acbac3 !important;
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 0.9rem;
+  font-family: Metropolis, 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+}
+*/
+
+/*
+@media (max-height: 1028px) {
+  ::ng-deep .clr-wizard.wizard-xl .modal-dialog {
+    height: 85vh;
+  }
+}
+
+@media (max-height: 907px) {
+  ::ng-deep .clr-wizard.wizard-xl .modal-dialog {
+    height: 87vh;
+  }
+}
+*/
+.expense-item-description {
+  align-items: unset;
+  margin-top: 0rem;
+}
+
+.expense-item-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+}
+
+/*
+::ng-deep .mat-autocomplete-panel {
+  background-color: #22343c;
+}
+*/
+/*
+.clr-input,
+.clr-textarea {
+  font-family: 'Avenir Next';
+}
+*/
+.clr-textarea {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.clr-textarea:focus {
+  outline: none;
+}
+
+/*
+.clr-textarea:not([readonly]) {
+  background: linear-gradient(to bottom, transparent 95%, #0072a3 95%) no-repeat;
+  background-size: 0 100%;
+  transition: background-size 0.2s ease;
+}
+*/
+::ng-deep .mat-mdc-option {
+  font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  //color: #adbbc4;
+  height: 32px !important;
+}
+/*
+::ng-deep .mat-option.mat-active {
+  color: #fcfcfc;
+}
+*/
+::ng-deep .cdk-overlay-pane {
+  /* Do you changes here */
+  min-width: 250px;
+}
+
+.purchase-target-container {
+  //margin-top: 1.2rem;
+  width: 100%;
+  box-shadow: 0 0 5px 0 transparent;
+  display: flex;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+}
+.purcase-targer-label {
+  margin-top: 1.2rem;
+  display: block;
+  color: #454545;
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 0.9rem;
+}
+
+.purchase-target-container .purchase-target-wrapper {
+  width: calc(100% - 36px);
+  //max-width: calc(45rem - 216px);
+  //position: relative;
+  flex: 0 0 auto;
+  text-align: left;
+  //white-space: nowrap;
+  //max-height: 1.2rem;
+}
+
+.purchase-target-container .purchase-target-input-label .purchase-target-button-group {
+  position: absolute;
+  right: 0rem;
+  top: 0.4rem;
+  color: #0072a3;
+  margin-right: 0rem;
+}
+.purchase-target-button {
+  padding: 0rem;
+  outline: none;
+}
+
+.purchase-target-container .purchase-target-input-label {
+  // position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.purchase-target-container .purchase-target-input-label input.purchase-target-input {
+  width: 100%;
+  //padding: 0 0 0 2rem;
+  max-height: 1.2rem;
+  //display: flex;
+}
+
+.purchase-target-input-container {
+  margin-top: 0rem;
+  margin-bottom: 0.3rem;
+  //display: flex;
+  flex-direction: row;
+}
+
+.purchase-target-input-number {
+  margin-top: auto;
+  font-weight: 300;
+}
+.purchase-reason {
+  padding: 0 0.4rem 0.4rem 0.4rem;
+}

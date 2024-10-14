@@ -1,0 +1,17 @@
+.limit-height clr-datagrid {
+  height: calc(100vh - 5.9rem);
+}
+
+::ng-deep .dhcp-lease .datagrid {
+  //margin-top: 0.45rem;
+  margin-top: 1.53rem;
+}
+.btn-session-refresh {
+  margin-top: -0.1rem;
+  margin-bottom: 0rem;
+  height: 1rem;
+  clr-icon {
+    width: 12px;
+    height: 12px;
+  }
+}

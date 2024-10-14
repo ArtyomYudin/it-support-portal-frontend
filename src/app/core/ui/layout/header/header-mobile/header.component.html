@@ -1,0 +1,97 @@
+<!--
+<clr-header class="header header-6" *ngIf="currentUser">
+    <div class="branding">
+        <a class="nav-link">
+            <clr-icon shape="help-info"></clr-icon>
+            <span class="title">Портал ИТО</span>
+        </a>
+    </div>
+
+    <div class="header-actions">
+        <div class="settings" style="align-items: center">
+            <span class="title">&nbsp;&nbsp;{{ clock | async | date: 'dd MMMM, HH:mm' }} </span>
+        </div>
+        <clr-dropdown>
+            <button class="nav-text" clrDropdownTrigger *ngIf="currentUser">
+                <img class="personPhoto" [src]="currentUser.userPhoto | thumbnailPhoto" />
+                {{ currentUser.userDisplayName }}
+                <clr-icon shape="angle" style="transform: rotate(180deg)"></clr-icon>
+            </button>
+            <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                <button (click)="onLogout()" clrDropdownItem>Выход</button>
+            </clr-dropdown-menu>
+        </clr-dropdown>
+    </div>
+</clr-header>
+
+<nav class="subnav" [clr-nav-level]="1" *ngIf="currentUser">
+    <ul class="nav">
+        <li class="nav-item">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/', 'skud']">Статистика СКУД</a>
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/', 'vpn']">Статистика VPN</a>
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/', 'dhcp']">Статистика DHCP</a>
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/', 'avaya']">Статистика Avaya</a>
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/', 'monitoring']">Мониторинг оборудования</a>
+        </li>
+        <li class="nav-item" *ngIf="false">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/', 'purchase']">Закупки</a>
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/', 'user-request']">Обращения пользователей</a>
+        </li>
+        <li class="nav-item" *ngIf="isAdmin()">
+            <a class="nav-link" routerLinkActive="active" [routerLink]="['/', 'setting']">Настройки системы</a>
+        </li>
+    </ul>
+</nav>
+-->
+<clr-header class="header-5 header-mobile" *ngIf="currentUser">
+    <div class="branding">
+        <a href="#" class="nav-link">
+            <clr-icon class="clr-icon clr-clarity-logo" shape="help-info"></clr-icon>
+            <!--<span class="clr-icon clr-clarity-logo"></span>-->
+            <span class="title">Портал ИТО</span>
+        </a>
+    </div>
+    <div class="header-nav" [clr-nav-level]="1">
+        <a href="#" [routerLink]="['/home']" routerLinkActive="active" class="nav-link nav-text">Главная</a>
+    </div>
+    <div class="header-actions">
+        <div class="notify-signpost">
+            <clr-signpost>
+                <button class="btn btn-link btn-icon" clrSignpostTrigger>
+                    <span class="badge">12</span>
+                    <clr-icon shape="bell"> </clr-icon>
+                </button>
+                <clr-signpost-content [clrPosition]="'bottom-left'" *clrIfOpen> Lorem ipsum... </clr-signpost-content>
+            </clr-signpost>
+        </div>
+        <clr-dropdown>
+            <button class="nav-icon" clrDropdownTrigger>
+                <!--<clr-icon shape="user"></clr-icon>-->
+                <!--<img class="person-photo" [src]="currentUser.userPhoto | thumbnailPhoto" />-->
+                <clr-icon shape="caret down"></clr-icon>
+            </button>
+            <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
+                <label class="dropdown-header" aria-hidden="true">
+                    <!--<img class="person-photo" [src]="currentUser.userPhoto | thumbnailPhoto" /> {{ currentUser.userDisplayName }}-->
+                </label>
+                <clr-toggle-container>
+                    <clr-toggle-wrapper class="theme-toggle">
+                        <input type="checkbox" clrToggle (click)="(null)" />
+                        <label>Темная тема</label>
+                    </clr-toggle-wrapper>
+                </clr-toggle-container>
+                <button (click)="onLogout()" clrDropdownItem>Выход</button>
+            </clr-dropdown-menu>
+        </clr-dropdown>
+    </div>
+</clr-header>

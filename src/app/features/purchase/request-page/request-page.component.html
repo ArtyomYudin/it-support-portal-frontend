@@ -1,0 +1,190 @@
+<clr-wizard #purchaseRequestWizard [clrWizardClosable]="false" (clrWizardOnFinish)="onSubmit()" (clrWizardOnCancel)="onCancel()">
+    <clr-wizard-title>Заявка на приобретение ОС, ТМЦ</clr-wizard-title>
+    <clr-wizard-button [type]="'cancel'">Отмена</clr-wizard-button>
+    <clr-wizard-button [type]="'previous'">Назад</clr-wizard-button>
+    <clr-wizard-button [type]="'next'">Далее</clr-wizard-button>
+    <clr-wizard-button [type]="'finish'">Сохранить</clr-wizard-button>
+
+    <!-- additional clr-wizard-button components as needed -->
+    <clr-wizard-page #purchaseRequestPage [clrWizardPageNextDisabled]="!requestInfo.valid">
+        <ng-template clrPageTitle>Описание</ng-template>
+        <ng-template clrPageNavTitle>Описание</ng-template>
+        <form [formGroup]="requestInfo" clrForm [clrLayout]="'vertical'" autocomplete="off">
+            <clr-input-container>
+                <label>Инициатор приобретения (Подразделение):</label>
+                <input type="text" formControlName="purchaseInitiator" clrInput />
+            </clr-input-container>
+            <!--
+            <clr-textarea-container>
+                <label>Объект приобретения (наименование, количество):</label>
+                <textarea formControlName="purchaseTarget" clrTextarea rows="4"></textarea>
+            </clr-textarea-container>
+        -->
+            <label class="purcase-targer-label">Объект приобретения (наименование, количество):</label>
+            <div formArrayName="purchaseTargets">
+                <div class="purchase-target-container" *ngFor="let purchaseTarget of purchaseTargets.controls; let i = index">
+                    <div [formGroupName]="i" class="purchase-target-wrapper form-row">
+                        <!-- <div>{{ i + 1 }}.</div> -->
+                        <label class="purchase-target-input-label">
+                            <clr-input-container class="purchase-target-input-container">
+                                <label class="purchase-target-input-number">{{ i + 1 }}.</label>
+                                <input type="text" formControlName="target" class="purchase-target-input" clrInput />
+                            </clr-input-container>
+                            <div class="purchase-target-button-group btn-group btn-icon btn-link btn-sm">
+                                <button
+                                    *ngIf="purchaseTargets.value.length == i + 1"
+                                    class="btn purchase-target-button"
+                                    (click)="addPurchaseTarget()"
+                                >
+                                    <clr-icon shape="plus"></clr-icon>
+                                </button>
+                                <button
+                                    *ngIf="purchaseTargets.value.length > 1"
+                                    class="btn purchase-target-button"
+                                    (click)="removePurchaseTarget(i)"
+                                >
+                                    <clr-icon shape="minus"></clr-icon>
+                                </button>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <clr-input-container>
+                <label>Ответственное лицо, за которым будет закреплено ОС, ТМЦ:</label>
+                <input type="text" formControlName="responsiblePerson" clrInput [matAutocomplete]="auto" />
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                    <ng-container *ngIf="!isLoading">
+                        <mat-option
+                            (onSelectionChange)="setResponsiblePerson(respPerson)"
+                            *ngFor="let respPerson of filteredRespPerson"
+                            [value]="respPerson.displayName"
+                        >
+                            {{ respPerson.displayName }}
+                        </mat-option>
+                    </ng-container>
+                </mat-autocomplete>
+            </clr-input-container>
+            <label class="clr-form-control clr-control-label">Статья расходов:</label>
+            <div class="clr-control-container clr-control-inline">
+                <clr-checkbox-wrapper>
+                    <input
+                        type="checkbox"
+                        formControlName="expenseItemCompany"
+                        clrCheckbox
+                        (change)="onCheckboxChange($event, 'company')"
+                    />
+                    <label>ОХР, для нужд предприятия</label>
+                </clr-checkbox-wrapper>
+                <clr-checkbox-wrapper>
+                    <input
+                        type="checkbox"
+                        formControlName="expenseItemDepartment"
+                        clrCheckbox
+                        (change)="onCheckboxChange($event, 'department')"
+                    />
+                    <label>ОХР, для нужд подразделения</label>
+                </clr-checkbox-wrapper>
+                <clr-checkbox-wrapper>
+                    <input
+                        type="checkbox"
+                        formControlName="expenseItemProject"
+                        clrCheckbox
+                        (change)="onCheckboxChange($event, 'project')"
+                    />
+                    <label>для реализации проекта</label>
+                </clr-checkbox-wrapper>
+            </div>
+            <clr-input-container class="expense-item-description" *ngIf="this.expenseDepartmentDescriptionStatus">
+                <input type="text" formControlName="expenseDepartmentDescription" clrInput />
+                <clr-control-helper>{{ this.expenseDepartmentDescriptionHelper }}</clr-control-helper>
+            </clr-input-container>
+            <clr-input-container class="expense-item-description" *ngIf="this.expenseProjectDescriptionStatus">
+                <input type="text" formControlName="expenseProjectDescription" clrInput />
+                <clr-control-helper>{{ this.expenseProjectDescriptionHelper }}</clr-control-helper>
+            </clr-input-container>
+            <clr-textarea-container>
+                <label>Обоснование необходимости::</label>
+                <textarea formControlName="purchaseReason" clrTextarea rows="3" class="purchase-reason"></textarea>
+            </clr-textarea-container>
+            <!--
+            <clr-input-container>
+                <label>Подразделение предприятия, ответственное за приобретение:</label>
+                <input type="text" formControlName="purchaseDepartment" clrInput />
+            </clr-input-container>
+        -->
+            <label class="clr-form-control clr-control-label">Подразделение предприятия, ответственное за приобретение:</label>
+            <div class="clr-control-container clr-control-inline">
+                <clr-checkbox-wrapper>
+                    <input type="checkbox" formControlName="purchaseITDepartment" clrCheckbox (change)="onCheckboxChange($event, 'ito')" />
+                    <label>Отдел информационно-технического обеспечения </label>
+                </clr-checkbox-wrapper>
+                <clr-checkbox-wrapper>
+                    <input
+                        type="checkbox"
+                        formControlName="purchaseLogisticDepartment"
+                        clrCheckbox
+                        (change)="onCheckboxChange($event, 'logistic')"
+                    />
+                    <label>Отдел материального и хозяйственного обеспечения</label>
+                </clr-checkbox-wrapper>
+            </div>
+            <clr-input-container>
+                <label>Подготовил заявку:</label>
+                <input type="text" formControlName="requestAuthor" clrInput />
+            </clr-input-container>
+        </form>
+    </clr-wizard-page>
+
+    <!--
+    <clr-wizard-page #authorPage [clrWizardPageNextDisabled]="!requestAuthor.valid">
+        <ng-template clrPageTitle>Сотрудник подразделения-инициатора</ng-template>
+        <ng-template clrPageNavTitle>Составитель заявки</ng-template>
+        <form [formGroup]="requestAuthor" clrForm [clrLayout]="'vertical'" autocomplete="off">
+            <clr-input-container>
+                <label>Должность:</label>
+                <input type="text" formControlName="requestAuthorPosition" clrInput />
+            </clr-input-container>
+            <clr-input-container>
+                <label>ФИО:</label>
+                <input type="text" formControlName="requestAuthorName" clrInput />
+            </clr-input-container>
+        </form>
+    </clr-wizard-page>
+-->
+    <clr-wizard-page #approversPage [clrWizardPageNextDisabled]="!requestApprovers.valid">
+        <ng-template clrPageTitle>Согласующие лица</ng-template>
+        <form [formGroup]="requestApprovers" clrForm [clrLayout]="'vertical'" autocomplete="off">
+            <clr-input-container>
+                <label>Руководитель подразделения-инициатора:</label>
+                <input type="text" formControlName="headOfInitDepartment" clrInput />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Руководитель подразделения ответственного за приобретение:</label>
+                <input type="text" formControlName="headOfPurchaseDepartment" clrInput />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Заместитель Генерального директора по направлению:</label>
+                <input type="text" formControlName="deputyDirector" clrInput />
+            </clr-input-container>
+            <clr-input-container>
+                <label>Начальник финансово-экономического отдела:</label>
+                <input type="text" formControlName="headOfFinDepartment" clrInput />
+            </clr-input-container>
+        </form>
+    </clr-wizard-page>
+</clr-wizard>
+
+<!--
+<clr-modal [(clrModalOpen)]="isConfirmModalVisible">
+    <h3 class="modal-title">Заполнение заявки было прервано.</h3>
+    <div class="modal-body">
+        <p>Сохранить заявку как черновик для последующего продолжения заполнения?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline" (click)="onSavePurchaseRequest()">Да</button>
+        <button type="button" class="btn btn-primary" (click)="onResetRequestPage()">Нет</button>
+    </div>
+</clr-modal>
+-->

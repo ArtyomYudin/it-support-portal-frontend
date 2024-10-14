@@ -1,0 +1,21 @@
+.limit-height clr-datagrid {
+  height: calc(100vh - 6.9rem);
+}
+
+.datagrid-action-bar {
+  margin-top: 0rem;
+}
+
+clr-icon {
+  margin-right: 0.1rem;
+}
+
+::ng-deep .pacs-department .datagrid {
+  //margin-top: 0.45rem;
+  margin-top: 0.53rem;
+}
+
+.date-column {
+  max-width: 80px;
+  min-width: 80px;
+}

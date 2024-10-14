@@ -1,0 +1,53 @@
+<div class="module-title">
+    <div class="clr-row clr-justify-content-between">
+        <div class="clr-col-lg-4 clr-col-md-4 clr-col-sm-12 clr-col-xs-12">
+            <span>Статистика телефонных звонков</span>
+        </div>
+        <div class="clr-col-lg-5 clr-col-md-8 clr-col-sm-12 clr-col-xs-12">
+            <fe-avaya-cdr-filter></fe-avaya-cdr-filter>
+        </div>
+    </div>
+</div>
+
+<div class="limit-height avaya-cdr">
+    <clr-datagrid class="datagrid-compact avaya-cdr-datagrid" [clrDgLoading]="loading">
+        <clr-dg-column class="date-column">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Время начала</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Продолжительность</ng-container>
+        </clr-dg-column>
+        <clr-dg-column class="number-column" [clrDgField]="'callingNumber'">Вызывающий абонент</clr-dg-column>
+        <clr-dg-column [clrDgField]="'callingName'">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">ФИО</ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'calledNumber'">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Вызываемый абонент</ng-container>
+        </clr-dg-column>
+        <clr-dg-column [clrDgField]="'calledName'">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">ФИО</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Тип вызова</ng-container>
+        </clr-dg-column>
+
+        <clr-dg-placeholder>Нет записей о звонках !</clr-dg-placeholder>
+
+        <clr-dg-row *clrDgItems="let cdr of (eventAvayaCDRArray$ | async)?.results" [clrDgItem]="cdr">
+            <clr-dg-cell>{{ cdr.callStart | date : 'dd.MM.YYYY, HH:mm:ss' }}</clr-dg-cell>
+            <clr-dg-cell>{{ cdr.callDuration | avayaDurationConvert }}</clr-dg-cell>
+            <clr-dg-cell>{{ cdr.callingNumber }}</clr-dg-cell>
+            <clr-dg-cell>{{ cdr.callingName | employeeName }}</clr-dg-cell>
+            <clr-dg-cell><cds-icon shape="arrow" direction="right"></cds-icon>{{ cdr.calledNumber }}</clr-dg-cell>
+            <clr-dg-cell>{{ cdr.calledName | employeeName }}</clr-dg-cell>
+            <clr-dg-cell>{{ cdr.callCode | avayaCallCodeConvert : cdr.calledNumber : cdr.callingNumber }}</clr-dg-cell>
+        </clr-dg-row>
+        <!--
+        <clr-dg-column-toggle>
+            <clr-dg-column-toggle-title>Column Toggle Title</clr-dg-column-toggle-title>
+            <clr-dg-column-toggle-button>Select All Button</clr-dg-column-toggle-button>
+        </clr-dg-column-toggle>
+    -->
+        <clr-dg-footer> {{ (this.eventAvayaCDRArray$ | async)?.total }} звонков </clr-dg-footer>
+    </clr-datagrid>
+</div>

@@ -1,0 +1,14 @@
+<clr-tabs clrLayout="vertical">
+    <clr-tab>
+        <button clrTabLink>Заявки на приобретение</button>
+        <clr-tab-content *clrIfActive><fe-purchase-request-list #purchaseRequestList></fe-purchase-request-list></clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button clrTabLink>Распоряжения на оплату</button>
+        <clr-tab-content *clrIfActive>Распоряжения на оплату</clr-tab-content>
+    </clr-tab>
+    <clr-tab>
+        <button clrTabLink>Закупки</button>
+        <clr-tab-content *clrIfActive>Закупки</clr-tab-content>
+    </clr-tab>
+</clr-tabs>

@@ -1,0 +1,35 @@
+.datagrid-action-bar {
+  margin-top: 0.3rem;
+}
+
+//::ng-deep .datagrid {
+// margin-top: 0.3rem;
+//}
+
+.datagrid-action-bar {
+  margin-top: 0rem;
+}
+
+clr-icon {
+  margin-right: 0.1rem;
+}
+
+.btn-group .btn:focus {
+  outline: none;
+}
+
+.card {
+  height: -webkit-fill-available;
+  max-height: 100%;
+}
+.limit-height clr-datagrid {
+  height: calc(100vh - 144px);
+}
+.card {
+  margin-top: 0rem;
+  box-shadow: none;
+}
+
+.purchase-request-card {
+  margin-top: 1.5rem;
+}

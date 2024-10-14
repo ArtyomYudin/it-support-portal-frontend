@@ -1,0 +1,215 @@
+/* You can add global styles to this file, and also import other style files */
+//@import '~@clr/ui/clr-ui-dark.min.css';
+// @import '~@cds/core/styles/theme.dark.min.css';
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+/*
+body {
+  background-color: #1b2a32;
+  // height: 100%;
+}
+*/
+///.main-container .content-container .content-area {
+///  //padding: 0rem 1rem 1rem 1rem;
+///  //padding: 0;
+///  padding-bottom: 0;
+///}
+.main-container {
+  // height: fit-content !important;
+}
+
+/*
+.app-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+}
+.app-loading .spinner {
+  animation: rotate 1s linear infinite;
+  transform-origin: center center;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+}
+
+@keyframes rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+*/
+
+@media (max-width: 768px) {
+  .clr-vertical-nav {
+    // margin-top: 0rem !important;
+  }
+  .header-desktop {
+    display: none;
+  }
+}
+@media (min-width: 769px) {
+  .clr-vertical-nav {
+    // margin-top: -3rem !important;
+    //position: fixed;
+    //height: 100%;
+    // z-index: 1000;
+  }
+  .clr-vertical-nav .nav-trigger + .nav-content {
+    border-top-width: 0rem !important;
+  }
+  .content-area {
+    //margin-left: 2rem;
+    padding-top: 0rem !important;
+  }
+
+  .header-mobile {
+    display: none;
+  }
+}
+
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper,
+.cdk-overlay-connected-position-bounding-box {
+  z-index: 9000;
+}
+
+///.tab-content {
+///  width: 100%;
+///}
+
+.clr-control-container {
+  width: 100%;
+}
+
+///.tabs-vertical .nav {
+///  margin-right: 0rem;
+///}
+
+///.tabs-vertical .nav .nav-link.active {
+///  background-color: #fafafa;
+///  color: #0072a3;
+///  font-weight: 500;
+///}
+
+///.tabs-vertical .nav .nav-link:hover {
+///  color: #0072a3;
+///  //box-shadow: inset 0.15rem 0 #fafafa;
+///}
+///.tabs-vertical .nav .nav-link:not(.active):hover {
+///  background-color: #fafafa;
+///}
+
+///.tabs-vertical .nav-link:focus {
+///  outline: none;
+///  // box-shadow: none;
+///}
+
+.modal-title-wrapper:focus,
+.clr-vertical-nav .nav-trigger:focus,
+.clr-vertical-nav .nav-group-trigger:focus,
+.clr-vertical-nav .nav-link:focus {
+  outline: none;
+  // box-shadow: none;
+}
+
+.btn:focus {
+  outline: none;
+}
+/*
+.btn:active {
+  box-shadow: 0;
+  transform: none;
+}
+*/
+button.close:focus,
+button.datagrid-column-title:focus {
+  outline: none;
+  // box-shadow: none;
+}
+
+///.datagrid-table .datagrid-column .datagrid-filter-toggle {
+///  outline: none;
+///}
+button.datagrid-column-title {
+  text-decoration: none !important;
+}
+
+.datagrid-footer .column-switch-wrapper .column-toggle--action {
+  border: none;
+}
+
+.datagrid-footer .column-switch-wrapper .column-toggle--action:hover {
+  background-color: #fafafa;
+}
+
+.datagrid-footer .column-switch-wrapper .column-toggle--action:focus,
+.datagrid-table .datagrid-detail-caret .datagrid-detail-caret-button:focus,
+.datagrid-table .datagrid-expandable-caret .datagrid-expandable-caret-button:focus,
+.datagrid-table .datagrid-cell:focus,
+.datagrid-table .datagrid-column:focus,
+.datagrid-table .datagrid-column .datagrid-filter-toggle:focus {
+  outline: none;
+  // box-shadow: none;
+}
+
+.datagrid-table input[type='checkbox']:focus + label::before,
+.clr-control-container input[type='checkbox']:focus + label::before {
+  outline: none;
+}
+
+/*
+.datagrid-table .datagrid-cell {
+    min-width: 25px !important;
+  //font-size: 0.55rem;
+}
+*/
+///.clr-radio-wrapper input[type='radio']:focus + label:before {
+///  outline: none !important;
+///}
+
+///.clr-select-wrapper select:hover {
+///  background: unset !important;
+///  border-color: #0072a3;
+///}
+///.clr-input-group .clr-input-group-icon-action {
+///  outline: none;
+///}
+
+.mat-mdc-option {
+  font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 12px;
+  //color: #adbbc4;
+  //height: 24px !important;
+  //box-shadow: 0 0.05rem 0.15rem #8c8c8c40;
+  min-height: 24px !important;
+}
+/* TODO(mdc-migration): The following rule targets internal classes of autocomplete that may no longer apply for the MDC version. */
+.mat-mdc-autocomplete-panel {
+  border-radius: 0.15rem !important;
+  width: inherit !important;
+}
+/* TODO(mdc-migration): The following rule targets internal classes of autocomplete that may no longer apply for the MDC version. */
+.mat-mdc-autocomplete-panel:not([class*='mat-elevation-z']) {
+  box-shadow: 0 0.05rem 0.15rem #8c8c8c40 !important;
+  border-top: 0 !important;
+  border-right: 0.05rem solid !important;
+  border-bottom: 0.05rem solid !important;
+  border-left: 0.05rem solid !important;
+  border-color: #ccc !important;
+}
+
+.dark-backdrop {
+  background: #000;
+  opacity: 0.85 !important;
+}
+
+.module-title {
+  font-size: 0.8rem;
+  color: #565656;
+  padding-top: 0rem;
+  padding-bottom: 0.5rem;
+}

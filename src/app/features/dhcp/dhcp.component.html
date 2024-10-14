@@ -1,0 +1,45 @@
+<div class="module-title">
+    <span>Список IP адресов</span>
+</div>
+
+<div class="limit-height dhcp-lease">
+    <clr-datagrid class="datagrid-compact dhcp-lease-datagrid" [clrDgLoading]="loading">
+        <clr-dg-column [clrDgField]="'ipAddress'">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">IP адрес</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: false }">MAC адрес</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Имя компьютера</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Статус</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Срок</ng-container>
+        </clr-dg-column>
+
+        <clr-dg-placeholder>Нет записей об адресах !</clr-dg-placeholder>
+
+        <clr-dg-row *clrDgItems="let lease of (dhcpLeaseArray$ | async)?.results" [clrDgItem]="lease">
+            <clr-dg-cell>{{ lease.ipAddress }}</clr-dg-cell>
+            <clr-dg-cell>{{ lease.macAddress }}</clr-dg-cell>
+            <clr-dg-cell>{{ lease.hostName }}</clr-dg-cell>
+            <clr-dg-cell>{{ lease.addressState }}</clr-dg-cell>
+            <clr-dg-cell>{{ lease.leaseExpiryTime }}</clr-dg-cell>
+        </clr-dg-row>
+        <!--
+        <clr-dg-column-toggle>
+            <clr-dg-column-toggle-title>Column Toggle Title</clr-dg-column-toggle-title>
+            <clr-dg-column-toggle-button>Select All Button</clr-dg-column-toggle-button>
+        </clr-dg-column-toggle>
+    -->
+        <clr-dg-footer>
+            {{ (dhcpLeaseArray$ | async)?.total }} адресов
+            <button type="button" class="btn btn-icon btn-sm btn-link btn-session-refresh" (click)="dhcpLeaseRefresh()">
+                <clr-icon shape="refresh"></clr-icon>
+            </button>
+        </clr-dg-footer>
+    </clr-datagrid>
+</div>

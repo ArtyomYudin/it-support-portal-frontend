@@ -1,0 +1,64 @@
+.clr-form-control {
+  //align-items: unset;
+  margin-top: 0rem;
+}
+
+.avaya-filter {
+  & .clr-control-container {
+    //  max-width: fit-content !important;
+  }
+  text-align: end;
+}
+.view-period {
+  max-width: 50%;
+  &-container {
+    &-label {
+      color: #666;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+      flex: 0 0 50%;
+      max-width: 50%;
+    }
+
+    ::ng-deep &-input {
+      color: #666;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.03em;
+      // width: 4rem;
+      flex: 0 0 50%;
+      max-width: 100%;
+      width: 100%;
+      padding-left: 0rem;
+    }
+  }
+}
+.filter-button {
+  flex: 0 0 30%;
+  max-width: 30%;
+  margin-top: -0.2rem;
+  & .btn {
+    padding: 0 0.4rem;
+    margin: 0rem;
+  }
+}
+/*
+  &-period {
+    //width: 16rem;
+    //flex-direction: row;
+    &-label {
+      min-width: 5rem;
+      max-width: 5rem;
+      padding-right: 0rem;
+    }
+    &-input {
+      width: 10rem;
+    }
+  }
+  */
+
+//.date-list-input {
+//  //margin-left: -0.2rem;
+//  width: 6.7rem;
+//}

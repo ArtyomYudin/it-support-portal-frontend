@@ -1,0 +1,210 @@
+@import '@angular/cdk/overlay-prebuilt.css';
+
+.user-request-card {
+  max-height: 60vh; //calc(60vh - 7.5rem);
+  //margin-top: 6px;
+}
+/*
+.status-list {
+  margin-left: 1.4rem;
+  max-width: 8rem;
+}
+
+.priority-list {
+  margin-left: 2.3rem;
+  max-width: 8rem;
+}
+.data-list-input {
+  //margin-left: -0.2rem;
+  width: 6.7rem;
+}
+*/
+
+.card {
+  margin-top: 0rem;
+  box-shadow: none;
+  height: 100%;
+}
+
+.clr-input,
+.clr-textarea {
+  width: 100%;
+}
+
+//.clr-textarea {
+//  width: 100%;
+//}
+
+.clr-textarea {
+  //border-top: none;
+  //border-left: none;
+  //border-right: none;
+  border-color: #dedede;
+  line-height: 0.8rem;
+}
+.clr-textarea:focus {
+  outline: none;
+}
+/*
+.request-topic-container,
+.request-description-container,
+.data-form-control,
+.status-form-control,
+.priority-form-control {
+  margin-top: 0rem;
+}
+*/
+.request-title-container {
+  //padding-left: 0.15rem;
+  //margin-right: -0.6rem;
+  margin-left: 0rem;
+}
+.request-title {
+  flex: 0 0 55%;
+  max-width: 55%;
+  flex-direction: row;
+}
+
+.request-info .clr-form-control,
+.request-execution .clr-form-control {
+  margin-top: 0.2rem;
+}
+
+::ng-deep .request-title-status .clr-control-container,
+::ng-deep .request-title-priority .clr-control-container,
+::ng-deep .request-title-deadline .clr-control-container {
+  // margin-top: -0.3rem;
+  margin-top: -0.2rem;
+}
+
+.request-title-status .clr-control-label,
+.request-title-priority .clr-control-label,
+.request-title-deadline .clr-control-label {
+  display: inline;
+}
+
+.request-title-status clr-icon,
+.request-title-priority clr-icon {
+  margin-top: -0.2rem;
+}
+
+.request-title-deadline {
+  flex: 0 0 30%;
+  max-width: 30%;
+  flex-direction: row;
+  //margin-top: 0.25rem;
+  margin-left: 0.6rem;
+}
+.request-title-status {
+  flex: 0 0 20%;
+  max-width: 20%;
+  flex-direction: row;
+  //margin-top: 0.25rem;
+}
+.request-title-priority {
+  flex: 0 0 35%;
+  max-width: 35%;
+  flex-direction: row;
+  //margin-top: 0.25rem;
+}
+/*
+.status-list-icon,
+.priority-list-icon {
+  margin-left: -1.4rem;
+}
+.status-list-label,
+.priority-list-label {
+  padding-left: 0.8rem;
+}
+*/
+.image-upload-btn {
+  padding: 0;
+  color: #454545;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0rem;
+  line-height: 0.9rem;
+}
+.file-List {
+  width: fit-content;
+  font-size: 0.55rem;
+  & .image-preview-btn {
+    line-height: 1.2rem;
+    font-size: 0.55rem;
+    padding: 0;
+    text-transform: none;
+    letter-spacing: 0rem;
+  }
+}
+
+ul {
+  columns: 2;
+  -webkit-columns: 2;
+  -moz-columns: 2;
+}
+.request-topic-input {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.request-service-container,
+.request-topic-container,
+.request-initiator-container,
+.request-executor-container,
+.request-delegate-container {
+  flex-direction: row;
+}
+
+::ng-deep .request-service-container .clr-control-container,
+::ng-deep .request-topic-container .clr-control-container,
+::ng-deep .request-initiator-container .clr-control-container,
+::ng-deep .request-executor-container .clr-control-container,
+::ng-deep .request-delegate-container .clr-control-container {
+  margin-top: -0.2rem;
+}
+
+.request-description-container,
+.request-attachment-container,
+.request-comment-container,
+.request-initiator-container,
+.request-executor-container,
+.request-delegate-container,
+.request-lifecycle-container {
+  margin-top: 0.3rem !important;
+}
+
+.request-lifecycle-container {
+  height: 30vh;
+  overflow-y: auto;
+  width: 100%;
+}
+.request-lifecycle-label {
+  padding: 0;
+  color: #454545;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0rem;
+  line-height: 0.9rem;
+  margin-top: 0.3rem !important;
+}
+.request-lifecycle-header {
+  margin-top: 0rem;
+  color: #454545;
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0rem;
+  margin-left: 0.4rem;
+}
+.request-lifecycle-event {
+  margin-top: 0rem;
+  color: #454545;
+  font-size: 0.6rem;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0rem;
+  margin-left: 0.6rem;
+  line-height: 1.15;
+}

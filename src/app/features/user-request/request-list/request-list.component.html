@@ -1,0 +1,122 @@
+<div class="module-title">
+    <span>Обращения пользователей</span>
+</div>
+
+<div class="limit-height user-request-list">
+    <clr-datagrid [(clrDgSelected)]="selected" class="datagrid-compact user-request-list-datagrid" [clrDgLoading]="loading">
+        <clr-dg-action-bar>
+            <div class="btn-group btn-link btn-sm">
+                <button class="btn" (click)="modalNew.openNewRequest()"><clr-icon shape="file"></clr-icon>Создать обращение</button>
+                <button class="btn" (click)="modalCard.openRequestCard(selected[0].requestNumber)" [disabled]="selected.length != 1">
+                    <clr-icon shape="pencil"></clr-icon>Редактировать
+                </button>
+                <button class="btn" (click)="deleteRequestCard(selected)" [disabled]="selected.length == 0">
+                    <clr-icon shape="trash"></clr-icon>Удалить
+                </button>
+            </div>
+        </clr-dg-action-bar>
+
+        <clr-dg-column class="priority-column">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Приоритет</ng-container>
+        </clr-dg-column>
+        <clr-dg-column class="date-column" [clrDgSortBy]="'creationDate'">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Дата обращения</ng-container>
+        </clr-dg-column>
+        <clr-dg-column class="number-column" [clrDgSortBy]="'requestNumber'">Номер</clr-dg-column>
+        <clr-dg-column [clrDgField]="'initiator'">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Инициатор</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: true }">Услуга</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Тема</ng-container>
+        </clr-dg-column>
+        <clr-dg-column class="status-column">
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Статус</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: false }">Исполнитель</ng-container>
+        </clr-dg-column>
+        <clr-dg-column>
+            <ng-container *clrDgHideableColumn="{ hidden: true }">Срок</ng-container>
+        </clr-dg-column>
+
+        <clr-dg-placeholder>Не создана ни одна заявка !</clr-dg-placeholder>
+
+        <clr-dg-row
+            *clrDgItems="let userRequest of (this.userRequestArray$ | async)?.results"
+            [clrDgItem]="userRequest"
+            (dblclick)="modalCard.openRequestCard(userRequest.requestNumber)"
+        >
+            <!--[ngStyle]="{
+                    color: (userRequest.deadline | date: 'dd.MM.YYYY') < (this.currentDate | date: 'dd.MM.YYYY') ? 'red' : '#666666'
+                }"-->
+            <clr-dg-cell class="priority-column">
+                <!--<span class="color-square" [style.backgroundColor]="userRequest.priority.color"></span>-->
+                <clr-icon class="priority-icon is-solid" [style.fill]="userRequest.priority.color" shape="flag"></clr-icon>
+            </clr-dg-cell>
+            <clr-dg-cell class="date-column">{{ userRequest.creationDate | date : 'dd.MM.YYYY, HH:mm' }}</clr-dg-cell>
+
+            <clr-dg-cell class="number-column">{{ userRequest.requestNumber }}</clr-dg-cell>
+            <clr-dg-cell>{{ userRequest.initiator | employeeName }}</clr-dg-cell>
+            <clr-dg-cell>{{ userRequest.service }}</clr-dg-cell>
+            <clr-dg-cell>{{ userRequest.topic }}</clr-dg-cell>
+            <clr-dg-cell class="status-column">
+                <clr-icon
+                    class="status-icon"
+                    [attr.shape]="userRequest.status.icon"
+                    [style.fill]="
+                        userRequest.status.id == 1
+                            ? 'hsl(48, 95%, 48%)'
+                            : userRequest.status.id == 2
+                            ? 'hsl(198, 80%, 46%)'
+                            : 'hsl(93, 85%, 32%)'
+                    "
+                >
+                </clr-icon>
+            </clr-dg-cell>
+            <clr-dg-cell>{{ userRequest.executor.name | employeeName }}</clr-dg-cell>
+            <clr-dg-cell>{{ userRequest.deadline | date : 'dd.MM.YYYY' }}</clr-dg-cell>
+        </clr-dg-row>
+        <!--
+        <clr-dg-column-toggle>
+            <clr-dg-column-toggle-title>Column Toggle Title</clr-dg-column-toggle-title>
+            <clr-dg-column-toggle-button>Select All Button</clr-dg-column-toggle-button>
+        </clr-dg-column-toggle>
+    -->
+        <clr-dg-footer> {{ (this.userRequestArray$ | async)?.total }} заявок </clr-dg-footer>
+        <!--
+        <clr-dg-footer>
+            <clr-dg-pagination #paginationUser [clrDgPageSize]="20">
+                <clr-dg-page-size [clrPageSizeOptions]="[20, 50, 100]">Заявок на страницу</clr-dg-page-size>
+                {{ paginationUser.firstItem + 1 }} - {{ paginationUser.lastItem + 1 }} из {{ paginationUser.totalItems }} Заявок
+            </clr-dg-pagination>
+        </clr-dg-footer>
+    -->
+    </clr-datagrid>
+</div>
+<!-- <fe-user-request-card [userRequest]="selected"></fe-user-request-card> -->
+
+<!--
+    Selected users: <span *ngFor="let user of selected">{{ user.id }}</span>
+-->
+
+<!--
+    <fe-purchase-request-page [purchaseRequestDraftId]="selected" #purchaseRequestPage></fe-purchase-request-page>
+-->
+
+<fe-user-request-new></fe-user-request-new>
+
+<fe-user-request-card></fe-user-request-card>
+
+<clr-modal [(clrModalOpen)]="isConfirmDeleteVisible">
+    <h3 class="modal-title">Подтверждение удаления</h3>
+    <div class="modal-body">
+        <p>Вы уверены что хотите удалить обращение?</p>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-outline btn-sm" (click)="isConfirmDeleteVisible = false">Отмена</button>
+        <button type="button" class="btn btn-primary btn-warning btn-sm" (click)="deleteRequestCard(selected, true)">Удалить</button>
+    </div>
+</clr-modal>

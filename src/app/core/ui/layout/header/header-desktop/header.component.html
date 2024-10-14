@@ -1,0 +1,30 @@
+<clr-header class="header-desktop" *ngIf="currentUser">
+    <div class="branding">
+        <!--<clr-icon class="clr-icon clr-clarity-logo" shape="help-info"></clr-icon>-->
+        <!--<span class="clr-icon clr-clarity-logo"></span>-->
+        <span class="title">Портал ИТО</span>
+    </div>
+    <div class="header-actions">
+        <div class="settings" style="align-items: center">
+            <div class="notify-signpost">
+                <clr-signpost>
+                    <button class="btn btn-link btn-icon" clrSignpostTrigger>
+                        <span class="badge">12</span>
+                        <clr-icon shape="bell"> </clr-icon>
+                    </button>
+                    <clr-signpost-content [clrPosition]="'bottom-left'" *clrIfOpen> Lorem ipsum... </clr-signpost-content>
+                </clr-signpost>
+            </div>
+            <span class="title">&nbsp;&nbsp;{{ clock | async | date: 'E dd MMMM, HH:mm' }} </span>
+        </div>
+
+       <!-- <img class="person-photo" [src]="currentUser.userPhoto | thumbnailPhoto" />-->
+        <button class="btn btn-link btn-icon header-actions-logout" (click)="onLogout()">
+            <clr-icon shape="logout"> </clr-icon>
+        </button>
+        <!--
+        <a href="#" [routerLink]="['/login']" class="nav-link nav-icon">
+            <clr-icon shape="logout"> </clr-icon>
+        </a>
+    --></div>
+</clr-header>

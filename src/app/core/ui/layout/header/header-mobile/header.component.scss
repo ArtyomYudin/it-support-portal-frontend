@@ -1,0 +1,119 @@
+.header.header-6,
+header.header-6 {
+  //background-color: #25408f;
+}
+
+.clr-icon {
+  &.clr-clarity-logo {
+    height: 24px;
+    width: 24px;
+    margin-right: 11px;
+    color: #ffffff;
+  }
+}
+
+.badge {
+  background: #ffffff;
+  color: black;
+}
+
+/*
+.header .branding clr-icon {
+  height: 24px;
+  width: 24px;
+  margin-right: 0.5rem;
+  margin-top: -0.1rem;
+}
+*/
+
+/*
+.person-photo {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto;
+  overflow: hidden;
+  border-radius: 50%;
+  text-align: center;
+  background-color: white;
+  margin-right: 0.2rem;
+}
+*/
+.dropdown-toggle,
+.dropdown-item:focus {
+  outline: none;
+  // box-shadow: none;
+}
+
+.dropdown {
+  width: 4.5rem;
+  & .person-photo {
+    width: 36px;
+    height: 36px;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 50%;
+    text-align: center;
+    background-color: white;
+    margin-right: 1.1rem;
+  }
+  & .dropdown-toggle {
+    & clr-icon[shape^='caret'] {
+      margin-right: -1.5rem !important;
+    }
+  }
+}
+
+.dropdown {
+  & .dropdown-toggle {
+    & clr-icon {
+      height: 18px;
+      width: 18px;
+      position: unset;
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+/*
+.nav .nav-link.active {
+  font-weight: 500;
+}
+.nav .nav-link.active,
+.nav .nav-link:hover {
+  box-shadow: none;
+  //color: #4aaed9;
+  color: #0072a3;
+}
+*/
+
+.theme-toggle {
+  padding-left: 0.6rem !important;
+}
+
+.notify-signpost {
+  position: relative;
+  display: inline-block;
+  text-align: center;
+  //padding: 0.9rem 1.2rem;
+  color: #fafafa;
+  height: 3rem;
+  width: 3rem;
+
+  & .signpost {
+    margin-top: 0.6rem;
+  }
+  & .badge {
+    opacity: 0.65;
+    margin-right: -0.6rem;
+    margin-top: -0.3rem;
+  }
+  & clr-icon {
+    opacity: 0.65;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+.header-desktop {
+  height: 3rem;
+}
