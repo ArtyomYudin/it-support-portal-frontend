@@ -35,7 +35,7 @@ import { registerLocaleData } from '@angular/common';
 import { JwtInterceptor } from '@service/jwt.interceptor';
 import localeRu from '@angular/common/locales/ru';
 //import { JwtModule } from '@auth0/angular-jwt';
-import { AppComponent } from './app/app.component';
+import { AppComponent } from '@app/app.component';
 
 registerLocaleData(localeRu, 'ru');
 
