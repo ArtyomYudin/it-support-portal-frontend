@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit} from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { SubscriptionLike } from 'rxjs/internal/types';
@@ -33,7 +33,7 @@ import { GuestComponent } from './guest/guest.component';
   templateUrl: './pacs.component.html',
   styleUrls: ['./pacs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MatSnackBar, DatePipe, EmployeeNamePipe],
+  providers: [MatSnackBar, DatePipe, EmployeeNamePipe, WebsocketService, {provide: 'ws_path', useValue: 'ws/pacs/'}],
 })
 export default class PacsComponent implements OnInit, OnDestroy {
   public departmentStructureArray$: Observable<any>;
@@ -109,6 +109,7 @@ export default class PacsComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe$.next(null);
     this.ngUnsubscribe$.complete();
     this.departmentStructureSubscription.unsubscribe();
+    this.wsService.disconnect()
   }
 
   private openNotifyBar(e: any) {

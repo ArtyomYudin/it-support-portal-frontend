@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import {Inject, Injectable, Input, OnDestroy} from '@angular/core';
 // import { Observable } from 'rxjs/internal/Observable';
 import { Observable, Subject, interval, ReplaySubject } from 'rxjs';
 import { SubscriptionLike, Observer } from 'rxjs/internal/types';
@@ -33,10 +33,14 @@ export interface IwsMessage<T> {
   data: T;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+//@Injectable({
+//  providedIn: 'root',
+//})
+
+@Injectable()
+
 export class WebsocketService implements IWebsocketService, OnDestroy {
+
   public status: Observable<boolean>;
 
   private config: WebSocketSubjectConfig<IwsMessage<any>>;
@@ -59,14 +63,15 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
 
   private isConnected: boolean;
 
-  constructor() {
+  // @Inject('isCreated') private isCreated: boolean
+  constructor( @Inject('ws_path') private ws_path: string) {
     this.wsMessages$ = new Subject<IwsMessage<any>>();
 
     this.reconnectInterval = 5000; // pause between connections
     this.reconnectAttempts = 200; // number of connection attempts
 
     this.config = {
-      url: `wss://${environment.apiHost}:${environment.apiPort}`,
+      url: `ws://${environment.apiHost}:${environment.apiPort}/${this.ws_path}`,
       closeObserver: {
         next: (event: CloseEvent) => {
           this.websocket$ = null;
@@ -96,6 +101,7 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
 
     // run reconnect if not connection
     this.statusSub = this.status.subscribe(isConnected => {
+       console.log(isConnected);
       this.isConnected = isConnected;
 
       if (!this.reconnection$ && typeof isConnected === 'boolean' && !isConnected) {
@@ -130,6 +136,9 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
    * on message to server
    * */
   public send(event: string, data: any = {}): void {
+    console.log(event);
+    console.log(this.isConnected)
+
     if (event && this.isConnected) {
       // this.websocket$.next(JSON.stringify({ event, data }) as any);
       this.websocket$.next({ event, data } as any);
@@ -154,6 +163,12 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
       },
       complete: null,
     });
+  }
+
+  public disconnect(): void {
+    this.websocketSub.unsubscribe();
+    this.statusSub.unsubscribe();
+    this.websocket$.complete()
   }
 
   /*

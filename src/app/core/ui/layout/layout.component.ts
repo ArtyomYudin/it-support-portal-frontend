@@ -16,6 +16,7 @@ import { HeaderMobileComponent } from '@core/ui/layout/header/header-mobile/head
   imports: [ClarityModule, NgIf, MainComponent, HeaderMobileComponent],
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
+  //providers:[WebsocketService, {provide: 'ws_path', useValue: '/ws/'}]
 })
 export class LayoutComponent implements OnDestroy {
   public isConnected: boolean;
@@ -24,10 +25,11 @@ export class LayoutComponent implements OnDestroy {
 
   private ngUnsubscribe$: Subject<any> = new Subject();
 
-  constructor(private wsService: WebsocketService, private authenticationService: AuthenticationService) {
-    this.wsService.status.pipe(share(), distinctUntilChanged(), takeUntil(this.ngUnsubscribe$)).subscribe(isConnected => {
-      this.isConnected = isConnected;
-    });
+  //constructor(private wsService: WebsocketService, private authenticationService: AuthenticationService) {
+  constructor(private authenticationService: AuthenticationService) {
+    //this.wsService.status.pipe(share(), distinctUntilChanged(), takeUntil(this.ngUnsubscribe$)).subscribe(isConnected => {
+    //  this.isConnected = isConnected;
+    //});
     this.authenticationService.currentUser$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe(x => {
       this.currentUser = x;
     });
