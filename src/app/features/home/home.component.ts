@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
-import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
+import {distinctUntilChanged, share, takeUntil, tap} from 'rxjs/operators';
 import { ClarityModule } from '@clr/angular';
 import { Chart, registerables } from 'chart.js';
 import { NgFor, NgIf, AsyncPipe } from '@angular/common';
@@ -43,8 +43,6 @@ Chart.register(...registerables);
 
 export default class HomeComponent implements OnInit, OnDestroy {
 
-  public wsCreated : boolean
-
   public dhcpLoading = true;
 
   public vpnLoading = true;
@@ -60,6 +58,8 @@ export default class HomeComponent implements OnInit, OnDestroy {
   private room1CamPlayer: any;
 
   private room2CamPlayer: any;
+
+  private isConnected: boolean;
 
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private wsService: WebsocketService) {
     this.vpnActiveSessionCountArray$ = this.wsService.on<any>(Event.EV_VPN_ACTIVE_SESSION_COUNT).pipe(
@@ -79,7 +79,9 @@ export default class HomeComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.wsService.send('getDashboardEvent', null);
+    this.wsService.status.pipe(share(), distinctUntilChanged(), takeUntil(this.ngUnsubscribe$)).subscribe(isConnected => {
+      this.wsService.send('getDashboardEvent', null);
+    });
     this.loadScripts();
   }
 

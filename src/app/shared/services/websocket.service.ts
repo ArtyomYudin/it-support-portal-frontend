@@ -101,7 +101,6 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
 
     // run reconnect if not connection
     this.statusSub = this.status.subscribe(isConnected => {
-       console.log(isConnected);
       this.isConnected = isConnected;
 
       if (!this.reconnection$ && typeof isConnected === 'boolean' && !isConnected) {
@@ -136,9 +135,6 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
    * on message to server
    * */
   public send(event: string, data: any = {}): void {
-    console.log(event);
-    console.log(this.isConnected)
-
     if (event && this.isConnected) {
       // this.websocket$.next(JSON.stringify({ event, data }) as any);
       this.websocket$.next({ event, data } as any);
@@ -166,16 +162,17 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
   }
 
   public disconnect(): void {
+    this.websocket$.complete()
     this.websocketSub.unsubscribe();
     this.statusSub.unsubscribe();
-    this.websocket$.complete()
   }
 
   /*
    * reconnect if not connecting or errors
    * */
   private reconnect(): void {
-    this.reconnection$ = interval(this.reconnectInterval).pipe(takeWhile((v, index) => index < this.reconnectAttempts && !this.websocket$));
+    this.reconnection$ = interval(this.reconnectInterval)
+      .pipe(takeWhile((v, index) => index < this.reconnectAttempts && !this.websocket$));
 
     this.reconnection$.subscribe({
       next: () => this.connect(),

@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { SubscriptionLike } from 'rxjs/internal/types';
 import { WebsocketService } from '@service/websocket.service';
-import { debounceTime, distinctUntilChanged, filter, first, switchMap, takeUntil, tap } from 'rxjs/operators';
+import {debounceTime, distinctUntilChanged, filter, first, share, switchMap, takeUntil, tap} from 'rxjs/operators';
 import { ClarityModule } from '@clr/angular';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NgFor, DatePipe } from '@angular/common';
@@ -71,11 +71,13 @@ export default class PacsComponent implements OnInit, OnDestroy {
     this.employeeSearch = this.formBuilder.group({
       employeeName: '',
     });
-    this.wsService.send('getPacsInitValue');
-    this.wsService.send(
-      'getDepartmentStructureByUPN',
-      localStorage.getItem('IT-Support-Portal') ? JSON.parse(localStorage.getItem('IT-Support-Portal')).id : null,
-    );
+     this.wsService.status.pipe(share(), distinctUntilChanged(), takeUntil(this.ngUnsubscribe$)).subscribe(isConnected => {
+        this.wsService.send('getPacsInitValue');
+        this.wsService.send(
+            'getDepartmentStructureByUPN',
+              localStorage.getItem('IT-Support-Portal') ? JSON.parse(localStorage.getItem('IT-Support-Portal')).id : null,
+        );
+    });
     this.departmentStructureSubscription = this.departmentStructureArray$.subscribe(date => {
       this.departmentStructure = date;
     });
