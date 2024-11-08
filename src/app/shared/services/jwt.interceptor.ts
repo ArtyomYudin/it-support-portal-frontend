@@ -29,7 +29,6 @@ export class JwtInterceptor implements HttpInterceptor {
         }
 
         return next.handle(request).pipe(catchError(error => {
-
             if ( error instanceof HttpErrorResponse && (error.status === 401 || error.status === 403)
               && request.url === `${environment.apiUrl}/${environment.jwtRefresh}`) {
               // We do another check to see if refresh token failed
