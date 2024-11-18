@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import {ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {AsyncPipe, DatePipe, NgForOf} from '@angular/common';
 import { ClarityModule, ClrCommonStringsService } from '@clr/angular';
 import { Observable } from 'rxjs/internal/Observable';
-import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
+import {distinctUntilChanged, share, takeUntil, tap} from 'rxjs/operators';
 import { IPacsEvent } from '@model/pacs-event.model';
 import { WebsocketService } from '@service/websocket.service';
 import { Subject } from 'rxjs/internal/Subject';
@@ -13,7 +13,7 @@ import { russionLocale } from '@translation/russion';
 @Component({
   selector: 'fe-pacs-employee',
   standalone: true,
-  imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe],
+  imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe, NgForOf],
   templateUrl: './employee.component.html',
   styleUrls: ['./employee.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,11 +21,14 @@ import { russionLocale } from '@translation/russion';
 export class EmployeeComponent implements OnDestroy {
   public loading = true;
 
+  public eventArray: any[] = []
+
   public pacsEventArray$: Observable<IPacsEvent>;
 
   public pacsLastEventArray$: Observable<IPacsEvent>;
 
   private ngUnsubscribe$: Subject<any> = new Subject();
+
 
   constructor(private wsService: WebsocketService, private commonStrings: ClrCommonStringsService) {
     commonStrings.localize(russionLocale);
@@ -35,10 +38,15 @@ export class EmployeeComponent implements OnDestroy {
       tap(() => {
         this.loading = false;
       }),
-    );
+    )
   }
 
-  // ngOnInit(): void {}
+  public ngOnInit(): void {
+    this.pacsEventArray$.subscribe(data => {
+      this.eventArray.push(data.results[0])
+    })
+  }
+
   public ngOnDestroy(): void {
     this.ngUnsubscribe$.next(null);
     this.ngUnsubscribe$.complete();
