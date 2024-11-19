@@ -18,7 +18,7 @@ import { russionLocale } from '@translation/russion';
   styleUrls: ['./employee.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmployeeComponent implements OnDestroy {
+export class EmployeeComponent implements OnDestroy, OnInit {
   public loading = true;
 
   public eventArray: any[] = []
@@ -43,7 +43,7 @@ export class EmployeeComponent implements OnDestroy {
 
   public ngOnInit(): void {
     this.pacsEventArray$.subscribe(data => {
-      this.eventArray.push(data.results[0])
+      this.eventArray.unshift(data.results[0])
     })
   }
 
