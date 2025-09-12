@@ -22,9 +22,9 @@
     "@angular/platform-browser-dynamic": "^19.2.15",
     "@angular/router": "^19.2.15",
     "@cds/core": "^6.3.1",
-    "@clr/angular": "^15.0.0",
+    "@clr/angular": "^17.11.5",
     "@clr/icons": "^13.0.2",
-    "@clr/ui": "^15.0.0",
+    "@clr/ui": "^17.11.5",
     "@lit/reactive-element": "^1.6.1",
     "@webcomponents/custom-elements": "^1.5.1",
     "buffer": "^6.0.3",
@@ -37,10 +37,10 @@
     "zone.js": "^0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.2.0",
-    "@angular/compiler-cli": "^19.2.15",
+    "@angular-devkit/build-angular": "^20.3.1",
+    "@angular/compiler-cli": "^20.3.0",
     "@types/file-saver": "^2.0.5",
-    "@types/node": "^18.14.2",
+    "@types/node": "^24.3.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.9.2"
   },
