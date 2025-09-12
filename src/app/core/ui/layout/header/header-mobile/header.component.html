@@ -2,7 +2,7 @@
 <clr-header class="header header-6" *ngIf="currentUser">
   <div class="branding">
     <a class="nav-link">
-      <clr-icon shape="help-info"></clr-icon>
+      <cds-icon shape="help-info"></cds-icon>
       <span class="title">Портал ИТО</span>
     </a>
   </div>
@@ -15,7 +15,7 @@
       <button class="nav-text" clrDropdownTrigger *ngIf="currentUser">
         <img class="personPhoto" [src]="currentUser.userPhoto | thumbnailPhoto" />
         {{ currentUser.userDisplayName }}
-        <clr-icon shape="angle" style="transform: rotate(180deg)"></clr-icon>
+        <cds-icon shape="angle" style="transform: rotate(180deg)"></cds-icon>
       </button>
       <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
         <button (click)="onLogout()" clrDropdownItem>Выход</button>
@@ -57,8 +57,8 @@
   <clr-header class="header-5 header-mobile">
     <div class="branding">
       <a href="#" class="nav-link">
-        <clr-icon class="clr-icon clr-clarity-logo" shape="help-info"></clr-icon>
-        <!--<span class="clr-icon clr-clarity-logo"></span>-->
+        <cds-icon class="cds-icon clr-clarity-logo" shape="help-info"></cds-icon>
+        <!--<span class="cds-icon clr-clarity-logo"></span>-->
         <span class="title">Портал ИТО</span>
       </a>
     </div>
@@ -70,16 +70,16 @@
         <clr-signpost>
           <button class="btn btn-link btn-icon" clrSignpostTrigger>
             <span class="badge">12</span>
-            <clr-icon shape="bell"> </clr-icon>
+            <cds-icon shape="bell"> </cds-icon>
           </button>
           <clr-signpost-content [clrPosition]="'bottom-left'" *clrIfOpen> Lorem ipsum... </clr-signpost-content>
         </clr-signpost>
       </div>
       <clr-dropdown>
         <button class="nav-icon" clrDropdownTrigger>
-          <!--<clr-icon shape="user"></clr-icon>-->
+          <!--<cds-icon shape="user"></cds-icon>-->
           <!--<img class="person-photo" [src]="currentUser.userPhoto | thumbnailPhoto" />-->
-          <clr-icon shape="caret down"></clr-icon>
+          <cds-icon shape="caret down"></cds-icon>
         </button>
         <clr-dropdown-menu *clrIfOpen clrPosition="bottom-right">
           <label class="dropdown-header" aria-hidden="true">

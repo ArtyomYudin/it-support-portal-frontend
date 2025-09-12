@@ -5,8 +5,7 @@
         <clr-dg-column></clr-dg-column>
 
         <clr-dg-placeholder>Нет событий!</clr-dg-placeholder>
-
-        <clr-dg-row *clrDgItems="let pacsLastEvent of pacsLastEventArray$ | async" [clrDgItem]="pacsLastEvent">
+        <clr-dg-row *clrDgItems="let pacsLastEvent of (pacsLastEventArray$ | async)?.results" [clrDgItem]="pacsLastEvent">
             <clr-dg-cell class="date-column">{{ pacsLastEvent.eventDate | date : 'HH:mm:ss' }}</clr-dg-cell>
             <clr-dg-cell>{{
                 pacsLastEvent.displayName ? (pacsLastEvent.displayName | employeeName) : pacsLastEvent.pacsDisplayName

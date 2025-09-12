@@ -2,16 +2,16 @@
     <clr-datagrid [(clrDgSelected)]="selected" class="datagrid-compact clr-col-8">
         <clr-dg-action-bar>
             <div class="btn-group btn-link btn-sm">
-                <button class="btn" (click)="purchaseRequestPage.onOpen()"><clr-icon shape="file"></clr-icon>Создать заявку</button>
+                <button class="btn" (click)="purchaseRequestPage.onOpen()"><cds-icon shape="file"></cds-icon>Создать заявку</button>
                 <!--
             <button class="btn" (click)="purchaseRequestPage.onOpen()" [disabled]="!(selected.length == 1 && selected[0].statusId == 1)">
-                <clr-icon shape="pencil"></clr-icon>Редактировать
+                <cds-icon shape="pencil"></cds-icon>Редактировать
             </button>
         -->
                 <button class="btn" (click)="(null)" [disabled]="!(selected.length == 1)">
-                    <clr-icon shape="pencil"></clr-icon>Подписать заявку
+                    <cds-icon shape="pencil"></cds-icon>Подписать заявку
                 </button>
-                <button class="btn" (click)="(null)" [disabled]="selected.length == 0"><clr-icon shape="trash"></clr-icon>Удалить</button>
+                <button class="btn" (click)="(null)" [disabled]="selected.length == 0"><cds-icon shape="trash"></cds-icon>Удалить</button>
             </div>
         </clr-dg-action-bar>
 
@@ -33,7 +33,7 @@
             <clr-dg-cell>{{ purchaseRequest.authorDepartmentName }}</clr-dg-cell>
             <clr-dg-cell>{{ purchaseRequest.responsibleDisplayName }}</clr-dg-cell>
             <clr-dg-cell>{{ purchaseRequest.purchaseTarget | purchaseTarget }}</clr-dg-cell>
-            <clr-dg-cell><clr-icon shape="pencil"></clr-icon>{{ purchaseRequest.statusId }}</clr-dg-cell>
+            <clr-dg-cell><cds-icon shape="pencil"></cds-icon>{{ purchaseRequest.statusId }}</clr-dg-cell>
         </clr-dg-row>
 
         <clr-dg-footer> {{ this.purchaseRequestArray$?.length }} заявок </clr-dg-footer>

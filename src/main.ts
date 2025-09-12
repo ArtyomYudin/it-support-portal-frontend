@@ -25,9 +25,9 @@ platformBrowserDynamic()
 */
 
 import { bootstrapApplication } from '@angular/platform-browser';
-import { provideAnimations } from '@angular/platform-browser/animations';
+// import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { importProvidersFrom, LOCALE_ID } from '@angular/core';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { PreloadAllModules, RouteReuseStrategy, RouterModule } from '@angular/router';
 import { CustomReuseStrategy } from '@core/custom-reuse-strategy';
 import { routes } from '@core/app-routing.module';
@@ -49,7 +49,8 @@ bootstrapApplication(AppComponent, {
     { provide: LOCALE_ID, useValue: 'ru' },
     { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    provideAnimations(),
+    // provideAnimationsAsync(),
+    // provideHttpClient(withInterceptorsFromDi()),
     importProvidersFrom(HttpClientModule),
     //importProvidersFrom(JwtModule),
     //importProvidersFrom(

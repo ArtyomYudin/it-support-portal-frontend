@@ -24,9 +24,9 @@ export class DepartmentComponent implements OnDestroy {
 
   public pacsLastEventArray$: Observable<any>;
 
-  public departmentStructureArray$: Observable<any>;
+  // public departmentStructureArray$: Observable<any>;
 
-  public departmentStructureSubscription: SubscriptionLike;
+  // public departmentStructureSubscription: SubscriptionLike;
 
   private ngUnsubscribe$: Subject<any> = new Subject();
 

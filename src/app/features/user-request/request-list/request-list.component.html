@@ -6,12 +6,12 @@
     <clr-datagrid [(clrDgSelected)]="selected" class="datagrid-compact user-request-list-datagrid" [clrDgLoading]="loading">
         <clr-dg-action-bar>
             <div class="btn-group btn-link btn-sm">
-                <button class="btn" (click)="modalNew.openNewRequest()"><clr-icon shape="file"></clr-icon>Создать обращение</button>
+                <button class="btn" (click)="modalNew.openNewRequest()"><cds-icon shape="file"></cds-icon>Создать обращение</button>
                 <button class="btn" (click)="modalCard.openRequestCard(selected[0].requestNumber)" [disabled]="selected.length != 1">
-                    <clr-icon shape="pencil"></clr-icon>Редактировать
+                    <cds-icon shape="pencil"></cds-icon>Редактировать
                 </button>
                 <button class="btn" (click)="deleteRequestCard(selected)" [disabled]="selected.length == 0">
-                    <clr-icon shape="trash"></clr-icon>Удалить
+                    <cds-icon shape="trash"></cds-icon>Удалить
                 </button>
             </div>
         </clr-dg-action-bar>
@@ -54,7 +54,7 @@
                 }"-->
             <clr-dg-cell class="priority-column">
                 <!--<span class="color-square" [style.backgroundColor]="userRequest.priority.color"></span>-->
-                <clr-icon class="priority-icon is-solid" [style.fill]="userRequest.priority.color" shape="flag"></clr-icon>
+                <cds-icon class="priority-icon is-solid" [style.fill]="userRequest.priority.color" shape="flag"></cds-icon>
             </clr-dg-cell>
             <clr-dg-cell class="date-column">{{ userRequest.creationDate | date : 'dd.MM.YYYY, HH:mm' }}</clr-dg-cell>
 
@@ -63,7 +63,7 @@
             <clr-dg-cell>{{ userRequest.service }}</clr-dg-cell>
             <clr-dg-cell>{{ userRequest.topic }}</clr-dg-cell>
             <clr-dg-cell class="status-column">
-                <clr-icon
+                <cds-icon
                     class="status-icon"
                     [attr.shape]="userRequest.status.icon"
                     [style.fill]="
@@ -74,7 +74,7 @@
                             : 'hsl(93, 85%, 32%)'
                     "
                 >
-                </clr-icon>
+                </cds-icon>
             </clr-dg-cell>
             <clr-dg-cell>{{ userRequest.executor.name | employeeName }}</clr-dg-cell>
             <clr-dg-cell>{{ userRequest.deadline | date : 'dd.MM.YYYY' }}</clr-dg-cell>

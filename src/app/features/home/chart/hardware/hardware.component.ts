@@ -150,7 +150,7 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
               font: {
                 family: "'Metropolis','Avenir Next','Helvetica Neue','Arial','sans-serif'",
                 size: 13,
-                weight: '500',
+                weight: 500,
               },
             },
           },

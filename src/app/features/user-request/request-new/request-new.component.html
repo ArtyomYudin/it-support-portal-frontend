@@ -35,7 +35,7 @@
                 [matAutocomplete]="statusList"
                 onkeydown="return false"
                 />
-              <clr-icon class="status-list-icon" shape="checkbox-list" size="24"></clr-icon>
+              <cds-icon class="status-list-icon" shape="checkbox-list" size="24"></cds-icon>
               <mat-autocomplete #statusList="matAutocomplete" class="status-autocomplete-panel">
                 <ng-container>
                   @for (status of statusListArray$ | async; track status) {
@@ -62,7 +62,7 @@
                 [matAutocomplete]="priorityList"
                 onkeydown="return false"
                 />
-              <clr-icon class="priority-list-icon" shape="sort-by" size="24"></clr-icon>
+              <cds-icon class="priority-list-icon" shape="sort-by" size="24"></cds-icon>
               <mat-autocomplete #priorityList="matAutocomplete">
                 <ng-container>
                   @for (priority of priorityListArray$ | async; track priority) {
@@ -91,7 +91,7 @@
           [matAutocomplete]="statusList"
           onkeydown="return false"
           />
-        <clr-icon shape="search" size="24"></clr-icon>
+        <cds-icon shape="search" size="24"></cds-icon>
         <mat-autocomplete #statusList="matAutocomplete">
           <ng-container>
             <mat-option (onSelectionChange)="(null)" *ngFor="let status of statusNameList" [value]="status.name">
@@ -121,7 +121,7 @@
           [matAutocomplete]="statusList"
           onkeydown="return false"
           />
-        <clr-icon shape="search" size="24"></clr-icon>
+        <cds-icon shape="search" size="24"></cds-icon>
         <mat-autocomplete #statusList="matAutocomplete">
           <ng-container>
             <mat-option (onSelectionChange)="(null)" *ngFor="let status of statusNameList" [value]="status.name">
@@ -193,7 +193,7 @@
         <textarea formControlName="description" clrTextarea rows="5" contenteditable="true"></textarea>
       </clr-textarea-container>
       <label class="image-upload-btn btn btn-link btn-icon clr-col-0">
-        <clr-icon shape="attachment"></clr-icon>
+        <cds-icon shape="attachment"></cds-icon>
         <input
           multiple
           type="file"
@@ -209,7 +209,7 @@
           @for (file of listOfFiles; track file; let index = $index) {
             <li>
               <button type="button" class="btn btn-icon btn-sm btn-link delete-file-btn" (click)="onDeleteAttachFile(index)">
-                <clr-icon shape="trash"></clr-icon>
+                <cds-icon shape="trash"></cds-icon>
               </button>
               {{ file }}
             </li>

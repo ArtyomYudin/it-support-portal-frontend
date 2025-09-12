@@ -23,7 +23,6 @@
     "@angular/router": "^20.3.0",
     "@cds/core": "^6.3.1",
     "@clr/angular": "^17.11.5",
-    "@clr/icons": "^13.0.2",
     "@clr/ui": "^17.11.5",
     "@lit/reactive-element": "^2.1.1",
     "@webcomponents/custom-elements": "^1.5.1",

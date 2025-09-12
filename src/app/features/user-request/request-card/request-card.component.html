@@ -117,7 +117,7 @@
             </clr-textarea-container>
             <div class="request-attachment-container">
               <label class="image-upload-btn clr-col-0">
-                <clr-icon shape="attachment"></clr-icon>
+                <cds-icon shape="attachment"></cds-icon>
                 Вложенные файлы:
               </label>
               <div class="file-List">
@@ -161,7 +161,7 @@
               </div>
               <div class="request-title-status">
                 <label class="clr-control-label">Статус:</label>
-                <clr-icon
+                <cds-icon
                   class="status-icon"
                   [attr.shape]="this.userRequest?.status.icon"
                                         [style.fill]="
@@ -172,15 +172,15 @@
                                                 : 'hsl(93, 85%, 32%)'
                                         "
                   >
-                </clr-icon>
+                </cds-icon>
               </div>
               <div class="request-title-priority">
                 <label class="clr-control-label">Приоритет:</label>
-                <clr-icon
+                <cds-icon
                   class="priority-icon is-solid"
                   [style.fill]="this.userRequest?.priority.color"
                   shape="flag"
-                ></clr-icon>
+                ></cds-icon>
               </div>
             </div>
 
@@ -231,12 +231,12 @@
                   }
                   @if (event.eventType == 'status') {
                     <p class="request-lifecycle-event">
-                      изменен статус заявки <clr-icon shape="arrow right"></clr-icon> {{ event.eventValue }}
+                      изменен статус заявки <cds-icon shape="arrow right"></cds-icon> {{ event.eventValue }}
                     </p>
                   }
                   @if (event.eventType == 'delegate') {
                     <p class="request-lifecycle-event">
-                      изменен исполнитель заявки <clr-icon shape="arrow right"></clr-icon> {{ event.eventValue }}
+                      изменен исполнитель заявки <cds-icon shape="arrow right"></cds-icon> {{ event.eventValue }}
                     </p>
                   }
                   @if (event.eventType === 'comment') {

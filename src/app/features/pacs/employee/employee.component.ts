@@ -20,11 +20,11 @@ import { russionLocale } from '@translation/russion';
 export class EmployeeComponent implements OnDestroy, OnInit {
   public loading = true;
 
-  public eventArray: any[] = []
+  // public eventArray: any[] = []
 
   public pacsEventArray$: Observable<IPacsEvent>;
 
-  public pacsLastEventArray$: Observable<IPacsEvent>;
+  // public pacsLastEventArray$: Observable<IPacsEvent>;
 
   private ngUnsubscribe$: Subject<any> = new Subject();
 

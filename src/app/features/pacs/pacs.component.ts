@@ -22,8 +22,8 @@ import { GuestComponent } from './guest/guest.component';
     ClarityModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
-    DatePipe,
-    EmployeeNamePipe,
+    // DatePipe,
+    // EmployeeNamePipe,
     GuestComponent,
     EmployeeComponent,
     DepartmentComponent
