@@ -16,12 +16,11 @@ import { Employee } from '@model/employee.model';
 import { Observable } from 'rxjs';
 
 @Component({
-  selector: 'fe-user-request-new',
-  standalone: true,
-  imports: [ClarityModule, NgFor, AsyncPipe, MatAutocompleteModule, ReactiveFormsModule],
-  templateUrl: './request-new.component.html',
-  styleUrls: ['./request-new.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-user-request-new',
+    imports: [ClarityModule, NgFor, AsyncPipe, MatAutocompleteModule, ReactiveFormsModule],
+    templateUrl: './request-new.component.html',
+    styleUrls: ['./request-new.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestNewComponent implements OnInit, OnDestroy {
   public modalOpen: boolean;

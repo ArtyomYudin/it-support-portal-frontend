@@ -14,12 +14,11 @@ import { RequestNewComponent } from '@feature/user-request/request-new/request-n
 import { RequestCardComponent } from '@feature/user-request/request-card/request-card.component';
 
 @Component({
-  selector: 'fe-user-request-list',
-  standalone: true,
-  imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe, RequestNewComponent, RequestCardComponent],
-  templateUrl: './request-list.component.html',
-  styleUrls: ['./request-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-user-request-list',
+    imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe, RequestNewComponent, RequestCardComponent],
+    templateUrl: './request-list.component.html',
+    styleUrls: ['./request-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestListComponent implements OnDestroy {
   public selected: any = [];

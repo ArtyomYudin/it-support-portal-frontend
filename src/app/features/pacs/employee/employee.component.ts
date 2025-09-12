@@ -11,12 +11,11 @@ import { EmployeeNamePipe } from '@pipe/employeename.pipe';
 import { russionLocale } from '@translation/russion';
 
 @Component({
-  selector: 'fe-pacs-employee',
-  standalone: true,
-  imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe, NgForOf],
-  templateUrl: './employee.component.html',
-  styleUrls: ['./employee.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-pacs-employee',
+    imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe, NgForOf],
+    templateUrl: './employee.component.html',
+    styleUrls: ['./employee.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EmployeeComponent implements OnDestroy, OnInit {
   public loading = true;

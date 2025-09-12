@@ -18,12 +18,11 @@ import { Buffer } from 'buffer';
 import { EmployeeNamePipe } from '@pipe/employeename.pipe';
 
 @Component({
-  selector: 'fe-user-request-card',
-  standalone: true,
-  imports: [ClarityModule, NgFor, NgIf, DatePipe, AsyncPipe, MatAutocompleteModule, ReactiveFormsModule, EmployeeNamePipe],
-  templateUrl: './request-card.component.html',
-  styleUrls: ['./request-card.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-user-request-card',
+    imports: [ClarityModule, NgFor, NgIf, DatePipe, AsyncPipe, MatAutocompleteModule, ReactiveFormsModule, EmployeeNamePipe],
+    templateUrl: './request-card.component.html',
+    styleUrls: ['./request-card.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequestCardComponent implements OnInit, OnDestroy {
   public userRequest: any;

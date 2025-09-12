@@ -14,12 +14,11 @@ import { Event } from '@service/websocket.service.event';
 Chart.register(...registerables);
 
 @Component({
-  selector: 'fe-home-chart-provider',
-  standalone: true,
-  imports: [ClarityModule],
-  templateUrl: './provider.component.html',
-  styleUrls: ['../..//home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-home-chart-provider',
+    imports: [ClarityModule],
+    templateUrl: './provider.component.html',
+    styleUrls: ['../..//home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderChartComponent implements OnInit, OnDestroy {
   @ViewChild('providerSpeedChart', { static: true }) public refProviderSpeedChart: ElementRef;

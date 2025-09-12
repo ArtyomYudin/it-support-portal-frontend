@@ -12,12 +12,11 @@ import { ClarityModule } from '@clr/angular';
 Chart.register(...registerables);
 
 @Component({
-  selector: 'fe-home-chart-avaya-e1-daily',
-  standalone: true,
-  imports: [ClarityModule],
-  templateUrl: './avaya-e1-daily.component.html',
-  styleUrls: ['../../home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-home-chart-avaya-e1-daily',
+    imports: [ClarityModule],
+    templateUrl: './avaya-e1-daily.component.html',
+    styleUrls: ['../../home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AvayaE1DailyChartComponent implements OnInit, OnDestroy {
   @ViewChild('avayaE1DailyChart', { static: true }) public refAvayaE1DailyChart: ElementRef;

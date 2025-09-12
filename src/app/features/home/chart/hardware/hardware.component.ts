@@ -12,12 +12,11 @@ import { ClarityModule } from '@clr/angular';
 Chart.register(...registerables);
 
 @Component({
-  selector: 'fe-home-chart-hardware',
-  standalone: true,
-  imports: [ClarityModule],
-  templateUrl: './hardware.component.html',
-  styleUrls: ['../../home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-home-chart-hardware',
+    imports: [ClarityModule],
+    templateUrl: './hardware.component.html',
+    styleUrls: ['../../home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HardwareChartComponent implements OnInit, OnDestroy {
   @ViewChild('hwAlarmChart', { static: true }) public refHWAlarmChart: ElementRef;

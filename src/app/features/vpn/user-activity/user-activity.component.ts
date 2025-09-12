@@ -16,22 +16,21 @@ import { ByteConvertPipe } from '@pipe/byteconvert.pipe';
 import { ThumbnailPhotoPipe } from '@pipe/thumbnailphoto.pipe';
 
 @Component({
-  selector: 'fe-vpn-user-activity',
-  standalone: true,
-  imports: [
-    ClarityModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    NgIf,
-    NgFor,
-    AsyncPipe,
-    EmployeeNamePipe,
-    ByteConvertPipe,
-    ThumbnailPhotoPipe,
-  ],
-  templateUrl: './user-activity.component.html',
-  styleUrls: ['./user-activity.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-vpn-user-activity',
+    imports: [
+        ClarityModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        NgIf,
+        NgFor,
+        AsyncPipe,
+        EmployeeNamePipe,
+        ByteConvertPipe,
+        ThumbnailPhotoPipe,
+    ],
+    templateUrl: './user-activity.component.html',
+    styleUrls: ['./user-activity.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserActivityComponent implements OnInit, OnDestroy {
   public loadingEmployee = true;

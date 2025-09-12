@@ -11,12 +11,11 @@ import { Observable } from 'rxjs/internal/Observable';
 import { SubscriptionLike } from 'rxjs/internal/types';
 
 @Component({
-  selector: 'fe-pacs-department',
-  standalone: true,
-  imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe],
-  templateUrl: './department.component.html',
-  styleUrls: ['./department.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-pacs-department',
+    imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe],
+    templateUrl: './department.component.html',
+    styleUrls: ['./department.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DepartmentComponent implements OnDestroy {
   @Input() departmentStructure: any[];

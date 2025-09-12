@@ -10,12 +10,11 @@ import { NgIf } from '@angular/common';
 import { HeaderDesktopComponent } from '@core/ui/layout/header/header-desktop/header.component';
 
 @Component({
-  selector: 'fe-main',
-  standalone: true,
-  imports: [RouterModule, ClarityModule, NgIf, HeaderDesktopComponent],
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-main',
+    imports: [RouterModule, ClarityModule, NgIf, HeaderDesktopComponent],
+    templateUrl: './main.component.html',
+    styleUrls: ['./main.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MainComponent {
   @Input() currentUser: AuthUser;

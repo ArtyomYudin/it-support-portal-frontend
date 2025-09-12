@@ -9,12 +9,11 @@ import { IVpnActiveSession } from '@model/vpn-active-session.model';
 import { Event } from '@service/websocket.service.event';
 
 @Component({
-  selector: 'fe-vpn-active-session',
-  standalone: true,
-  imports: [ClarityModule, DatePipe, AsyncPipe],
-  templateUrl: './active-session.component.html',
-  styleUrls: ['./active-session.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-vpn-active-session',
+    imports: [ClarityModule, DatePipe, AsyncPipe],
+    templateUrl: './active-session.component.html',
+    styleUrls: ['./active-session.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ActiveSessionComponent implements OnInit, OnDestroy {
   public loading = true;

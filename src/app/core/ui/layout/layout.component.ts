@@ -11,12 +11,10 @@ import { MainComponent } from '@core/ui/layout/main/main.component';
 import { HeaderMobileComponent } from '@core/ui/layout/header/header-mobile/header.component';
 
 @Component({
-  selector: 'fe-layout',
-  standalone: true,
-  imports: [ClarityModule, NgIf, MainComponent, HeaderMobileComponent],
-  templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss'],
-  //providers:[WebsocketService, {provide: 'ws_path', useValue: '/ws/'}]
+    selector: 'fe-layout',
+    imports: [ClarityModule, NgIf, MainComponent, HeaderMobileComponent],
+    templateUrl: './layout.component.html',
+    styleUrls: ['./layout.component.scss']
 })
 export class LayoutComponent implements OnDestroy {
   public isConnected: boolean;

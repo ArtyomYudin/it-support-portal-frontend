@@ -6,11 +6,10 @@ declare let streamCam: any;
 declare let streamCamBack: any;
 
 @Component({
-  selector: 'fe-pacs-guest',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './guest.component.html',
-  styleUrls: ['./guest.component.scss'],
+    selector: 'fe-pacs-guest',
+    imports: [CommonModule],
+    templateUrl: './guest.component.html',
+    styleUrls: ['./guest.component.scss']
 })
 export class GuestComponent implements OnInit, OnDestroy {
   private mainCamPlayer: any;

@@ -22,24 +22,21 @@ declare let streamCamRoom2: any;
 Chart.register(...registerables);
 
 @Component({
-  selector: 'fe-home',
-  standalone: true,
-  imports: [
-    ClarityModule,
-    RouterModule,
-    NgFor,
-    NgIf,
-    AsyncPipe,
-    ProviderChartComponent,
-    AvayaE1ChartComponent,
-    HardwareChartComponent,
-    AvayaE1DailyChartComponent,
-  ],
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  // providers:[WebsocketService]
-  // providers:[WebsocketService, {provide: 'ws_path', useValue: 'ws'}]
+    selector: 'fe-home',
+    imports: [
+        ClarityModule,
+        RouterModule,
+        NgFor,
+        NgIf,
+        AsyncPipe,
+        ProviderChartComponent,
+        AvayaE1ChartComponent,
+        HardwareChartComponent,
+        AvayaE1DailyChartComponent,
+    ],
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 
 export default class HomeComponent implements OnInit, OnDestroy {

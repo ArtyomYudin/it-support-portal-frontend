@@ -7,12 +7,11 @@ import { WebsocketService } from '@service/websocket.service';
 import { AvayaCDRService } from '@service/avaya.cdr.service';
 
 @Component({
-  selector: 'fe-avaya-cdr-filter',
-  standalone: true,
-  imports: [ClarityModule, ReactiveFormsModule, MatAutocompleteModule, NgFor, AsyncPipe],
-  templateUrl: './avaya-cdr-filter.component.html',
-  styleUrls: ['./avaya-cdr-filter.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-avaya-cdr-filter',
+    imports: [ClarityModule, ReactiveFormsModule, MatAutocompleteModule, NgFor, AsyncPipe],
+    templateUrl: './avaya-cdr-filter.component.html',
+    styleUrls: ['./avaya-cdr-filter.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AvayaCDRFilterComponent implements OnInit, OnDestroy {
   public periods: any[] = [

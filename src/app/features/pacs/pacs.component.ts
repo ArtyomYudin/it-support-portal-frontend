@@ -17,23 +17,22 @@ import { EmployeeComponent } from './employee/employee.component';
 import { GuestComponent } from './guest/guest.component';
 
 @Component({
-  selector: 'fe-pacs',
-  standalone: true,
-  imports: [
-    ClarityModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
-    NgFor,
-    DatePipe,
-    EmployeeNamePipe,
-    GuestComponent,
-    EmployeeComponent,
-    DepartmentComponent,
-  ],
-  templateUrl: './pacs.component.html',
-  styleUrls: ['./pacs.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MatSnackBar, DatePipe, EmployeeNamePipe],
+    selector: 'fe-pacs',
+    imports: [
+        ClarityModule,
+        ReactiveFormsModule,
+        MatAutocompleteModule,
+        NgFor,
+        DatePipe,
+        EmployeeNamePipe,
+        GuestComponent,
+        EmployeeComponent,
+        DepartmentComponent,
+    ],
+    templateUrl: './pacs.component.html',
+    styleUrls: ['./pacs.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [MatSnackBar, DatePipe, EmployeeNamePipe]
 })
 export default class PacsComponent implements OnInit, OnDestroy {
   public departmentStructureArray$: Observable<any>;

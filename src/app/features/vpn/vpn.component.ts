@@ -5,12 +5,11 @@ import { ActiveSessionComponent } from './active-session/active-session.componen
 import { UserActivityComponent } from './user-activity/user-activity.component';
 
 @Component({
-  selector: 'fe-vpn',
-  standalone: true,
-  imports: [ActiveSessionComponent, UserActivityComponent],
-  templateUrl: './vpn.component.html',
-  styleUrls: ['./vpn.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-vpn',
+    imports: [ActiveSessionComponent, UserActivityComponent],
+    templateUrl: './vpn.component.html',
+    styleUrls: ['./vpn.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class VpnComponent implements OnInit {
   constructor(private wsService: WebsocketService) {}

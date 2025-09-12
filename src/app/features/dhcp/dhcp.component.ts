@@ -10,12 +10,11 @@ import { IDHCPLease } from '@model/dhcp-lease.model';
 import { Event } from '@service/websocket.service.event';
 
 @Component({
-  selector: 'fe-dhcp',
-  standalone: true,
-  templateUrl: './dhcp.component.html',
-  styleUrls: ['./dhcp.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ClarityModule, AsyncPipe],
+    selector: 'fe-dhcp',
+    templateUrl: './dhcp.component.html',
+    styleUrls: ['./dhcp.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [ClarityModule, AsyncPipe]
 })
 export default class DhcpComponent implements OnInit, OnDestroy {
   public loading = true;

@@ -11,12 +11,11 @@ import { interval } from 'rxjs/internal/observable/interval';
 import { ThumbnailPhotoPipe } from '@pipe/thumbnailphoto.pipe';
 
 @Component({
-  selector: 'fe-header-desktop',
-  standalone: true,
-  imports: [ClarityModule, ThumbnailPhotoPipe, NgIf, DatePipe, AsyncPipe],
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-header-desktop',
+    imports: [ClarityModule, ThumbnailPhotoPipe, NgIf, DatePipe, AsyncPipe],
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderDesktopComponent {
   @Input() currentUser: AuthUser;

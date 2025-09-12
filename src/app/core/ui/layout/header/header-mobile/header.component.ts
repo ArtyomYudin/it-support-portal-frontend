@@ -11,11 +11,10 @@ import { AuthUser } from '@model/auth-user.model';
 import { ThumbnailPhotoPipe } from '@pipe/thumbnailphoto.pipe';
 
 @Component({
-  selector: 'fe-header-mobile',
-  standalone: true,
-  imports: [ClarityModule, RouterModule, ThumbnailPhotoPipe, NgIf],
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+    selector: 'fe-header-mobile',
+    imports: [ClarityModule, RouterModule, ThumbnailPhotoPipe, NgIf],
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderMobileComponent {
   @Input() currentUser: AuthUser;

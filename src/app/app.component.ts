@@ -18,12 +18,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { LayoutComponent } from '@core/ui/layout/layout.component';
 
 @Component({
-  selector: 'fe-root',
-  standalone: true,
-  imports: [LayoutComponent],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-root',
+    imports: [LayoutComponent],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent {
   // constructor() {}

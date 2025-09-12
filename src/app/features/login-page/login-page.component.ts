@@ -11,12 +11,11 @@ import { NgIf } from '@angular/common';
 import { AuthenticationService } from '@service/auth.service';
 
 @Component({
-  selector: 'fe-login-page',
-  standalone: true,
-  imports: [ClarityModule, ReactiveFormsModule, NgIf],
-  templateUrl: './login-page.component.html',
-  styleUrls: ['./login-page.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-login-page',
+    imports: [ClarityModule, ReactiveFormsModule, NgIf],
+    templateUrl: './login-page.component.html',
+    styleUrls: ['./login-page.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export default class LoginPageComponent implements OnInit, OnDestroy {
   public submitted = false;

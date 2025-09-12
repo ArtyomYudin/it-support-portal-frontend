@@ -15,20 +15,19 @@ import { russionLocale } from '@translation/russion';
 import { AvayaCDRFilterComponent } from '../avaya-cdr-filter/avaya-cdr-filter.component';
 
 @Component({
-  selector: 'fe-avaya-cdr',
-  standalone: true,
-  imports: [
-    ClarityModule,
-    AvayaCDRFilterComponent,
-    DatePipe,
-    AsyncPipe,
-    EmployeeNamePipe,
-    AvayaDurationConvertPipe,
-    AvayaCallCodeConvertPipe,
-  ],
-  templateUrl: './avaya-cdr.component.html',
-  styleUrls: ['./avaya-cdr.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fe-avaya-cdr',
+    imports: [
+        ClarityModule,
+        AvayaCDRFilterComponent,
+        DatePipe,
+        AsyncPipe,
+        EmployeeNamePipe,
+        AvayaDurationConvertPipe,
+        AvayaCallCodeConvertPipe,
+    ],
+    templateUrl: './avaya-cdr.component.html',
+    styleUrls: ['./avaya-cdr.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AvayaCDRComponent implements OnInit, OnDestroy {
   // public loading = true;
