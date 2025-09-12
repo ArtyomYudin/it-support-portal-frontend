@@ -6,13 +6,13 @@ import { first, takeUntil } from 'rxjs/operators';
 
 import { ClarityModule } from '@clr/angular';
 
-import { NgIf } from '@angular/common';
+
 
 import { AuthenticationService } from '@service/auth.service';
 
 @Component({
     selector: 'fe-login-page',
-    imports: [ClarityModule, ReactiveFormsModule, NgIf],
+    imports: [ClarityModule, ReactiveFormsModule],
     templateUrl: './login-page.component.html',
     styleUrls: ['./login-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

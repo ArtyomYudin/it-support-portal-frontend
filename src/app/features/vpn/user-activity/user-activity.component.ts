@@ -6,7 +6,7 @@ import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ClarityModule, ClrCommonStringsService } from '@clr/angular';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { NgIf, NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { russionLocale } from '@translation/russion';
 import { IEmployee } from '@model/employee.model';
 import { IVpnSession } from '@model/vpn-session.model';
@@ -18,16 +18,14 @@ import { ThumbnailPhotoPipe } from '@pipe/thumbnailphoto.pipe';
 @Component({
     selector: 'fe-vpn-user-activity',
     imports: [
-        ClarityModule,
-        MatAutocompleteModule,
-        ReactiveFormsModule,
-        NgIf,
-        NgFor,
-        AsyncPipe,
-        EmployeeNamePipe,
-        ByteConvertPipe,
-        ThumbnailPhotoPipe,
-    ],
+    ClarityModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    AsyncPipe,
+    EmployeeNamePipe,
+    ByteConvertPipe,
+    ThumbnailPhotoPipe
+],
     templateUrl: './user-activity.component.html',
     styleUrls: ['./user-activity.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

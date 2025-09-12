@@ -1,149 +1,153 @@
 <form [formGroup]="vpnFilter" clrForm class="vpn-filter" [clrLayout]="'horizontal'" autocomplete="off">
-    <div class="view-period" *ngIf="tabName == 'sessionTab'">
-        <clr-input-container class="view-period-container">
-            <label class="view-period-container-label">За последний:</label>
-            <input
-                class="view-period-container-input"
-                formControlName="vpnViewPeriod"
-                type="text"
-                clrInput
-                [matAutocomplete]="viewPeriod"
-                onkeydown="return false"
-            />
-            <mat-autocomplete #viewPeriod="matAutocomplete" [displayWith]="displayFn">
-                <ng-container>
-                    <mat-option *ngFor="let period of this.periods" [value]="period" (onSelectionChange)="onFilterPeriodChange($event)">
-                        {{ period.name }}
-                    </mat-option>
-                </ng-container>
-            </mat-autocomplete>
-        </clr-input-container>
+  @if (tabName == 'sessionTab') {
+    <div class="view-period">
+      <clr-input-container class="view-period-container">
+        <label class="view-period-container-label">За последний:</label>
+        <input
+          class="view-period-container-input"
+          formControlName="vpnViewPeriod"
+          type="text"
+          clrInput
+          [matAutocomplete]="viewPeriod"
+          onkeydown="return false"
+          />
+        <mat-autocomplete #viewPeriod="matAutocomplete" [displayWith]="displayFn">
+          <ng-container>
+            @for (period of this.periods; track period) {
+              <mat-option [value]="period" (onSelectionChange)="onFilterPeriodChange($event)">
+                {{ period.name }}
+              </mat-option>
+            }
+          </ng-container>
+        </mat-autocomplete>
+      </clr-input-container>
     </div>
+  }
 </form>
 
 <clr-tabs class="vpn-history-switch">
-    <clr-tab>
-        <button class="btn-sm vpn-history-switch-button" clrTabLink (click)="onTabChange('employeeTab')">История по пользователям</button>
-        <clr-tab-content>
-            <div class="limit-height">
-                <clr-datagrid class="datagrid-compact vpn-user-activity-datagrid" [clrDgLoading]="loadingEmployee">
-                    <clr-dg-column>Пользователь</clr-dg-column>
+  <clr-tab>
+    <button class="btn-sm vpn-history-switch-button" clrTabLink (click)="onTabChange('employeeTab')">История по пользователям</button>
+    <clr-tab-content>
+      <div class="limit-height">
+        <clr-datagrid class="datagrid-compact vpn-user-activity-datagrid" [clrDgLoading]="loadingEmployee">
+          <clr-dg-column>Пользователь</clr-dg-column>
 
-                    <clr-dg-placeholder>Мы не смогли найти пользователей!</clr-dg-placeholder>
+          <clr-dg-placeholder>Мы не смогли найти пользователей!</clr-dg-placeholder>
 
-                    <clr-dg-row *clrDgItems="let user of (employeeListArray$ | async)?.results" [clrDgItem]="user">
-                        <clr-dg-cell>
-                            {{ user.displayName }}
-                        </clr-dg-cell>
-                    </clr-dg-row>
+          <clr-dg-row *clrDgItems="let user of (employeeListArray$ | async)?.results" [clrDgItem]="user">
+            <clr-dg-cell>
+              {{ user.displayName }}
+            </clr-dg-cell>
+          </clr-dg-row>
 
-                    <ng-template clrIfDetail let-detail (clrIfDetailChange)="onDetailOpen($event?.userPrincipalName)">
-                        <clr-dg-detail>
-                            <clr-dg-detail-header>
-                                <div class="photo">
-                                    <img class="person-photo" [src]="detail.thumbnailPhoto | thumbnailPhoto" />
-                                </div>
-                                <div class="personName">
-                                    {{ detail.displayName }}
-                                </div>
-                            </clr-dg-detail-header>
-                            <clr-dg-detail-body>
-                                <div>
-                                    <span class="accountHeader">VPN аккаунт:</span>
-                                    {{ detail.account }}
-                                </div>
-                                <div>
-                                    <span class="statusHeader">Статус подключения:</span>
-                                    <!--{{ this.ipAddress !== null ? 'Подключен к сети VPN с IP адреса ' + this.ipAddress : 'Не подключен к сети VPN' }}-->
-                                </div>
-                                <div class="history-limit-height">
-                                    <clr-datagrid class="datagrid-compact">
-                                        <clr-dg-column class="date-column">Дата</clr-dg-column>
-                                        <clr-dg-column>Длительность</clr-dg-column>
-                                        <clr-dg-column class="byte-column">Передано</clr-dg-column>
-                                        <clr-dg-column class="byte-column">Принято</clr-dg-column>
-                                        <clr-dg-placeholder>Мы не смогли найти историю сеансов!</clr-dg-placeholder>
-                                        <clr-dg-row
-                                            *clrDgItems="let sessionbyUpn of (sessionByUpnListArray$ | async)?.results"
-                                            [clrDgItem]="sessionbyUpn"
-                                        >
-                                            <clr-dg-cell class="date-column">
-                                                {{ sessionbyUpn.sessionStart }}
-                                            </clr-dg-cell>
-                                            <clr-dg-cell>
-                                                {{ sessionbyUpn.duration }}
-                                            </clr-dg-cell>
-                                            <clr-dg-cell class="byte-column">
-                                                {{ sessionbyUpn.byteRcv | byteConvert }}
-                                            </clr-dg-cell>
-                                            <clr-dg-cell class="byte-column">
-                                                {{ sessionbyUpn.byteXmt | byteConvert }}
-                                            </clr-dg-cell>
-                                        </clr-dg-row>
-                                        <clr-dg-footer> </clr-dg-footer>
-                                    </clr-datagrid>
-                                </div>
-                            </clr-dg-detail-body>
-                        </clr-dg-detail>
-                    </ng-template>
-
-                    <!--<clr-dg-footer> {{ (this.employeeListArray$ | async)?.total }} пользователей </clr-dg-footer>-->
-
-                    <clr-dg-footer>
-                        {{ (this.employeeListArray$ | async)?.total }} пользователей
-                        <clr-dg-pagination #pagination [clrDgPageSize]="(this.employeeListArray$ | async)?.total"></clr-dg-pagination>
-                    </clr-dg-footer>
-                </clr-datagrid>
-            </div>
-        </clr-tab-content>
-    </clr-tab>
-    <clr-tab>
-        <button class="btn-sm vpn-history-switch-button" clrTabLink (click)="onTabChange('sessionTab')">История по сеансам</button>
-        <clr-tab-content>
-            <div class="limit-height">
-                <clr-datagrid class="datagrid-compact vpn-user-activity-datagrid" [clrDgLoading]="loadingSession">
+          <ng-template clrIfDetail let-detail (clrIfDetailChange)="onDetailOpen($event?.userPrincipalName)">
+            <clr-dg-detail>
+              <clr-dg-detail-header>
+                <div class="photo">
+                  <img class="person-photo" [src]="detail.thumbnailPhoto | thumbnailPhoto" />
+                </div>
+                <div class="personName">
+                  {{ detail.displayName }}
+                </div>
+              </clr-dg-detail-header>
+              <clr-dg-detail-body>
+                <div>
+                  <span class="accountHeader">VPN аккаунт:</span>
+                  {{ detail.account }}
+                </div>
+                <div>
+                  <span class="statusHeader">Статус подключения:</span>
+                  <!--{{ this.ipAddress !== null ? 'Подключен к сети VPN с IP адреса ' + this.ipAddress : 'Не подключен к сети VPN' }}-->
+                </div>
+                <div class="history-limit-height">
+                  <clr-datagrid class="datagrid-compact">
                     <clr-dg-column class="date-column">Дата</clr-dg-column>
-                    <clr-dg-column [clrDgField]="'displayName'">Пользователь</clr-dg-column>
                     <clr-dg-column>Длительность</clr-dg-column>
-                    <clr-dg-column>Тип</clr-dg-column>
                     <clr-dg-column class="byte-column">Передано</clr-dg-column>
                     <clr-dg-column class="byte-column">Принято</clr-dg-column>
-                    <clr-dg-column>Завершение</clr-dg-column>
-
-                    <clr-dg-placeholder>Мы не смогли найти пользователей!</clr-dg-placeholder>
-
-                    <clr-dg-row *clrDgItems="let session of (sessionListArray$ | async)?.results" [clrDgItem]="session">
-                        <clr-dg-cell class="date-column">
-                            {{ session.sessionStart }}
-                        </clr-dg-cell>
-                        <clr-dg-cell>
-                            {{ session.displayName ? (session.displayName | employeeName) : session.user }}
-                        </clr-dg-cell>
-                        <clr-dg-cell>
-                            {{ session.duration }}
-                        </clr-dg-cell>
-                        <clr-dg-cell>
-                            {{ session.type }}
-                        </clr-dg-cell>
-                        <clr-dg-cell class="byte-column">
-                            {{ session.byteRcv | byteConvert }}
-                        </clr-dg-cell>
-                        <clr-dg-cell class="byte-column">
-                            {{ session.byteXmt | byteConvert }}
-                        </clr-dg-cell>
-                        <clr-dg-cell>
-                            {{ session.disconnectReason }}
-                        </clr-dg-cell>
+                    <clr-dg-placeholder>Мы не смогли найти историю сеансов!</clr-dg-placeholder>
+                    <clr-dg-row
+                      *clrDgItems="let sessionbyUpn of (sessionByUpnListArray$ | async)?.results"
+                      [clrDgItem]="sessionbyUpn"
+                      >
+                      <clr-dg-cell class="date-column">
+                        {{ sessionbyUpn.sessionStart }}
+                      </clr-dg-cell>
+                      <clr-dg-cell>
+                        {{ sessionbyUpn.duration }}
+                      </clr-dg-cell>
+                      <clr-dg-cell class="byte-column">
+                        {{ sessionbyUpn.byteRcv | byteConvert }}
+                      </clr-dg-cell>
+                      <clr-dg-cell class="byte-column">
+                        {{ sessionbyUpn.byteXmt | byteConvert }}
+                      </clr-dg-cell>
                     </clr-dg-row>
+                    <clr-dg-footer> </clr-dg-footer>
+                  </clr-datagrid>
+                </div>
+              </clr-dg-detail-body>
+            </clr-dg-detail>
+          </ng-template>
 
-                    <clr-dg-footer>
-                        {{ (this.sessionListArray$ | async)?.total }} сеансов
-                        <button type="button" class="btn btn-icon btn-sm btn-link btn-session-refresh" (click)="sessionRefresh()">
-                            <clr-icon shape="refresh"></clr-icon>
-                        </button>
-                    </clr-dg-footer>
-                </clr-datagrid>
-            </div>
-        </clr-tab-content>
-    </clr-tab>
+          <!--<clr-dg-footer> {{ (this.employeeListArray$ | async)?.total }} пользователей </clr-dg-footer>-->
+
+          <clr-dg-footer>
+            {{ (this.employeeListArray$ | async)?.total }} пользователей
+            <clr-dg-pagination #pagination [clrDgPageSize]="(this.employeeListArray$ | async)?.total"></clr-dg-pagination>
+          </clr-dg-footer>
+        </clr-datagrid>
+      </div>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button class="btn-sm vpn-history-switch-button" clrTabLink (click)="onTabChange('sessionTab')">История по сеансам</button>
+    <clr-tab-content>
+      <div class="limit-height">
+        <clr-datagrid class="datagrid-compact vpn-user-activity-datagrid" [clrDgLoading]="loadingSession">
+          <clr-dg-column class="date-column">Дата</clr-dg-column>
+          <clr-dg-column [clrDgField]="'displayName'">Пользователь</clr-dg-column>
+          <clr-dg-column>Длительность</clr-dg-column>
+          <clr-dg-column>Тип</clr-dg-column>
+          <clr-dg-column class="byte-column">Передано</clr-dg-column>
+          <clr-dg-column class="byte-column">Принято</clr-dg-column>
+          <clr-dg-column>Завершение</clr-dg-column>
+
+          <clr-dg-placeholder>Мы не смогли найти пользователей!</clr-dg-placeholder>
+
+          <clr-dg-row *clrDgItems="let session of (sessionListArray$ | async)?.results" [clrDgItem]="session">
+            <clr-dg-cell class="date-column">
+              {{ session.sessionStart }}
+            </clr-dg-cell>
+            <clr-dg-cell>
+              {{ session.displayName ? (session.displayName | employeeName) : session.user }}
+            </clr-dg-cell>
+            <clr-dg-cell>
+              {{ session.duration }}
+            </clr-dg-cell>
+            <clr-dg-cell>
+              {{ session.type }}
+            </clr-dg-cell>
+            <clr-dg-cell class="byte-column">
+              {{ session.byteRcv | byteConvert }}
+            </clr-dg-cell>
+            <clr-dg-cell class="byte-column">
+              {{ session.byteXmt | byteConvert }}
+            </clr-dg-cell>
+            <clr-dg-cell>
+              {{ session.disconnectReason }}
+            </clr-dg-cell>
+          </clr-dg-row>
+
+          <clr-dg-footer>
+            {{ (this.sessionListArray$ | async)?.total }} сеансов
+            <button type="button" class="btn btn-icon btn-sm btn-link btn-session-refresh" (click)="sessionRefresh()">
+              <clr-icon shape="refresh"></clr-icon>
+            </button>
+          </clr-dg-footer>
+        </clr-datagrid>
+      </div>
+    </clr-tab-content>
+  </clr-tab>
 </clr-tabs>

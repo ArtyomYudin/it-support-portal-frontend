@@ -1,194 +1,202 @@
 <div class="module-title">
-    <span>Главная</span>
+  <span>Главная</span>
 </div>
 <div class="clr-row main-section">
-    <!-- Cекция заявок -->
-    <div class="clr-col-lg-4 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-        <div class="clr-row request-section">
-            <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-                <div class="card clickable" routerLink="/user-request">
-                    <div class="card-header">
-                        <div class="card-icon card-icon__blue">
-                            <clr-icon shape="form" style="width: 24px; height: 24px"></clr-icon>
-                        </div>
-                        <h5 class="card-header__head">Обращения пользователей</h5>
-                    </div>
-                    <div class="card-block">
-                        <!--
-                        <div class="card-info">
-                            <p class="card-info__head">Новые заявки</p>
-                            <p class="card-info__data">24</p>
-                        </div>
-                        <div class="card-info">
-                            <p class="card-info__head">Заявки в работе</p>
-                            <p class="card-info__data">24</p>
-                        </div>
-                        <div class="card-info">
-                            <p class="card-info__head">Выполненые заявки</p>
-                            <p class="card-info__data">24</p>
-                        </div>
-                    -->
-                        <table class="card-info__request">
-                            <tr>
-                                <td>
-                                    <div class="card-info__request__data"><span>20</span> <span>Новые</span></div>
-                                </td>
-                                <td>
-                                    <div class="card-info__request__data"><span>0</span> <span>В работе</span></div>
-                                </td>
-                                <td>
-                                    <div class="card-info__request__data"><span>35</span> <span>Выполненые</span></div>
-                                </td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
+  <!-- Cекция заявок -->
+  <div class="clr-col-lg-4 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+    <div class="clr-row request-section">
+      <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+        <div class="card clickable" routerLink="/user-request">
+          <div class="card-header">
+            <div class="card-icon card-icon__blue">
+              <clr-icon shape="form" style="width: 24px; height: 24px"></clr-icon>
             </div>
+            <h5 class="card-header__head">Обращения пользователей</h5>
+          </div>
+          <div class="card-block">
+            <!--
+            <div class="card-info">
+              <p class="card-info__head">Новые заявки</p>
+              <p class="card-info__data">24</p>
+            </div>
+            <div class="card-info">
+              <p class="card-info__head">Заявки в работе</p>
+              <p class="card-info__data">24</p>
+            </div>
+            <div class="card-info">
+              <p class="card-info__head">Выполненые заявки</p>
+              <p class="card-info__data">24</p>
+            </div>
+            -->
+            <table class="card-info__request">
+              <tr>
+                <td>
+                  <div class="card-info__request__data"><span>20</span> <span>Новые</span></div>
+                </td>
+                <td>
+                  <div class="card-info__request__data"><span>0</span> <span>В работе</span></div>
+                </td>
+                <td>
+                  <div class="card-info__request__data"><span>35</span> <span>Выполненые</span></div>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
+      </div>
     </div>
-    <!-- Секция заявок Конец -->
+  </div>
+  <!-- Секция заявок Конец -->
 
-    <!-- Cекция статистики -->
-    <div class="clr-col-lg-3 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-        <div class="clr-row statistic-section">
-            <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-                <div class="card clickable" routerLink="/vpn">
-                    <div class="card-header">
-                        <div class="card-icon card-icon__blue">
-                            <clr-icon shape="shield" style="width: 24px; height: 24px"></clr-icon>
-                        </div>
-                        <h5 class="card-header__head">Подключения VPN</h5>
-                    </div>
-                    <div class="card-block">
-                        <div class="spinner-centered"><clr-spinner clrSmall *ngIf="vpnLoading">Loading data</clr-spinner></div>
-                        <div class="card-info">
-                            <table class="card-info__dhcp">
-                                <tr>
-                                    <td *ngFor="let session of vpnActiveSessionCountArray$ | async">
-                                        <div class="card-info__dhcp__data">
-                                            <span class="card-info__dhcp__data_value">{{ session.count }}</span>
-                                            <span class="card-info__dhcp__data_title">{{
-                                                session.node.charAt(0).toUpperCase() + session.node.slice(1)
-                                            }}</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+  <!-- Cекция статистики -->
+  <div class="clr-col-lg-3 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+    <div class="clr-row statistic-section">
+      <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+        <div class="card clickable" routerLink="/vpn">
+          <div class="card-header">
+            <div class="card-icon card-icon__blue">
+              <clr-icon shape="shield" style="width: 24px; height: 24px"></clr-icon>
             </div>
-
-            <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-                <div class="card clickable" routerLink="/dhcp">
-                    <div class="card-header">
-                        <div class="card-icon card-icon__blue">
-                            <clr-icon shape="computer" style="width: 24px; height: 24px"></clr-icon>
-                        </div>
-                        <h5 class="card-header__head">Статистика DHCP</h5>
-                    </div>
-                    <div class="card-block">
-                        <div class="spinner-centered"><clr-spinner clrSmall *ngIf="dhcpLoading">Loading data</clr-spinner></div>
-
-                        <div class="card-info" *ngFor="let dhcp of dhcpInfoArray$ | async">
-                            <table class="card-info__dhcp">
-                                <th colspan="3">{{ dhcp.scopeId }}/24</th>
-                                <tr>
-                                    <td>
-                                        <div class="card-info__dhcp__data">
-                                            <span class="card-info__dhcp__data_value">{{ dhcp.addressesFree }}</span>
-                                            <span class="card-info__dhcp__data_title">Свободно</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="card-info__dhcp__data">
-                                            <span class="card-info__dhcp__data_value">{{ dhcp.addressesInUse }}</span>
-                                            <span class="card-info__dhcp__data_title">Используется</span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="card-info__dhcp__data">
-                                            <span class="card-info__dhcp__data_value">{{ dhcp.reservedAddress }}</span>
-                                            <span class="card-info__dhcp__data_title">Зарезервировано</span>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
-                    </div>
-                </div>
+            <h5 class="card-header__head">Подключения VPN</h5>
+          </div>
+          <div class="card-block">
+            <div class="spinner-centered">@if (vpnLoading) {
+              <clr-spinner clrSmall>Loading data</clr-spinner>
+            }</div>
+            <div class="card-info">
+              <table class="card-info__dhcp">
+                <tr>
+                  @for (session of vpnActiveSessionCountArray$ | async; track session) {
+                    <td>
+                      <div class="card-info__dhcp__data">
+                        <span class="card-info__dhcp__data_value">{{ session.count }}</span>
+                        <span class="card-info__dhcp__data_title">{{
+                          session.node.charAt(0).toUpperCase() + session.node.slice(1)
+                        }}</span>
+                      </div>
+                    </td>
+                  }
+                </tr>
+              </table>
             </div>
+          </div>
         </div>
-    </div>
-    <!-- Секция статистики Конец -->
+      </div>
 
-    <!-- Сукция с камерами -->
-    <div class="clr-col-lg-2 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-        <div class="clr-row camera-section">
-            <div class="clr-col-lg-12 clr-col-md-6 clr-col-sm-12 clr-col-xs-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon card-icon__blue">
-                            <clr-icon shape="video-camera" style="width: 24px; height: 24px"></clr-icon>
-                        </div>
-                        <h5 class="card-header__head">Главный вход</h5>
-                    </div>
-                    <div class="card-block">
-                        <div class="canvas-container">
-                            <canvas class="context-canvas" id="main-camera"></canvas>
-                        </div>
-                    </div>
-                </div>
+      <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+        <div class="card clickable" routerLink="/dhcp">
+          <div class="card-header">
+            <div class="card-icon card-icon__blue">
+              <clr-icon shape="computer" style="width: 24px; height: 24px"></clr-icon>
             </div>
-            <div class="clr-col-lg-12 clr-col-md-6 clr-col-sm-12 clr-col-xs-12">
-                <div class="card">
-                    <div class="card-header">
-                        <div class="card-icon card-icon__blue">
-                            <clr-icon shape="video-camera" style="width: 24px; height: 24px"></clr-icon>
-                        </div>
-                        <h5 class="card-header__head">Серверная 1</h5>
-                    </div>
-                    <div class="card-block">
-                        <div class="canvas-container">
-                            <canvas class="context-canvas" id="server-room-1"></canvas>
-                        </div>
-                    </div>
-                </div>
+            <h5 class="card-header__head">Статистика DHCP</h5>
+          </div>
+          <div class="card-block">
+            <div class="spinner-centered">@if (dhcpLoading) {
+              <clr-spinner clrSmall>Loading data</clr-spinner>
+            }</div>
+
+            @for (dhcp of dhcpInfoArray$ | async; track dhcp) {
+              <div class="card-info">
+                <table class="card-info__dhcp">
+                  <th colspan="3">{{ dhcp.scopeId }}/24</th>
+                  <tr>
+                    <td>
+                      <div class="card-info__dhcp__data">
+                        <span class="card-info__dhcp__data_value">{{ dhcp.addressesFree }}</span>
+                        <span class="card-info__dhcp__data_title">Свободно</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="card-info__dhcp__data">
+                        <span class="card-info__dhcp__data_value">{{ dhcp.addressesInUse }}</span>
+                        <span class="card-info__dhcp__data_title">Используется</span>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="card-info__dhcp__data">
+                        <span class="card-info__dhcp__data_value">{{ dhcp.reservedAddress }}</span>
+                        <span class="card-info__dhcp__data_title">Зарезервировано</span>
+                      </div>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Секция статистики Конец -->
+
+  <!-- Сукция с камерами -->
+  <div class="clr-col-lg-2 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+    <div class="clr-row camera-section">
+      <div class="clr-col-lg-12 clr-col-md-6 clr-col-sm-12 clr-col-xs-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon card-icon__blue">
+              <clr-icon shape="video-camera" style="width: 24px; height: 24px"></clr-icon>
             </div>
-<!--            <div class="clr-col-lg-12 clr-col-md-6 clr-col-sm-12 clr-col-xs-12">-->
-<!--                <div class="card">-->
-<!--                    <div class="card-header">-->
-<!--                        <div class="card-icon card-icon__blue">-->
-<!--                            <clr-icon shape="video-camera" style="width: 24px; height: 24px"></clr-icon>-->
-<!--                        </div>-->
-<!--                        <h5 class="card-header__head">Серверная 2</h5>-->
-<!--                    </div>-->
-<!--                    <div class="card-block">-->
-<!--                        <div class="canvas-container">-->
-<!--                            <canvas class="context-canvas" id="server-room-2"></canvas>-->
+            <h5 class="card-header__head">Главный вход</h5>
+          </div>
+          <div class="card-block">
+            <div class="canvas-container">
+              <canvas class="context-canvas" id="main-camera"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-lg-12 clr-col-md-6 clr-col-sm-12 clr-col-xs-12">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-icon card-icon__blue">
+              <clr-icon shape="video-camera" style="width: 24px; height: 24px"></clr-icon>
+            </div>
+            <h5 class="card-header__head">Серверная 1</h5>
+          </div>
+          <div class="card-block">
+            <div class="canvas-container">
+              <canvas class="context-canvas" id="server-room-1"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--            <div class="clr-col-lg-12 clr-col-md-6 clr-col-sm-12 clr-col-xs-12">-->
+      <!--                <div class="card">-->
+      <!--                    <div class="card-header">-->
+      <!--                        <div class="card-icon card-icon__blue">-->
+      <!--                            <clr-icon shape="video-camera" style="width: 24px; height: 24px"></clr-icon>-->
+    <!--                        </div>-->
+    <!--                        <h5 class="card-header__head">Серверная 2</h5>-->
+  <!--                    </div>-->
+  <!--                    <div class="card-block">-->
+  <!--                        <div class="canvas-container">-->
+  <!--                            <canvas class="context-canvas" id="server-room-2"></canvas>-->
 <!--                        </div>-->
 <!--                    </div>-->
 <!--                </div>-->
 <!--            </div>-->
-        </div>
+</div>
+</div>
+<!-- Секция с камерами Конец -->
+
+<!-- Cекция миниторинга и статистики -->
+<div class="clr-col-lg-3 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+  <div class="clr-row charts-section">
+    <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+      <fe-home-chart-provider></fe-home-chart-provider>
     </div>
-    <!-- Секция с камерами Конец -->
 
-    <!-- Cекция миниторинга и статистики -->
-    <div class="clr-col-lg-3 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-        <div class="clr-row charts-section">
-            <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-                <fe-home-chart-provider></fe-home-chart-provider>
-            </div>
-
-            <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-                <fe-home-chart-avaya-e1></fe-home-chart-avaya-e1>
-            </div>
-
-            <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-                <fe-home-chart-hardware></fe-home-chart-hardware>
-            </div>
-        </div>
+    <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+      <fe-home-chart-avaya-e1></fe-home-chart-avaya-e1>
     </div>
-    <!-- Секция миниторинга и статистики Конец -->
+
+    <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
+      <fe-home-chart-hardware></fe-home-chart-hardware>
+    </div>
+  </div>
+</div>
+<!-- Секция миниторинга и статистики Конец -->
 </div>

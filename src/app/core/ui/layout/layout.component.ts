@@ -1,7 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { takeUntil, share, distinctUntilChanged } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
-import { NgIf } from '@angular/common';
+
 import { ClarityModule } from '@clr/angular';
 import { WebsocketService } from '@service/websocket.service';
 import { AuthenticationService } from '@service/auth.service';
@@ -12,7 +12,7 @@ import { HeaderMobileComponent } from '@core/ui/layout/header/header-mobile/head
 
 @Component({
     selector: 'fe-layout',
-    imports: [ClarityModule, NgIf, MainComponent, HeaderMobileComponent],
+    imports: [ClarityModule, MainComponent, HeaderMobileComponent],
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })

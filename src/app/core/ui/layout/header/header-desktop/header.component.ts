@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators';
 // import { Subject } from 'rxjs';
 
 import { ClarityModule } from '@clr/angular';
-import { NgIf, DatePipe, AsyncPipe } from '@angular/common';
+import { DatePipe, AsyncPipe } from '@angular/common';
 import { AuthenticationService } from '@service/auth.service';
 import { AuthUser } from '@model/auth-user.model';
 import { interval } from 'rxjs/internal/observable/interval';
@@ -12,7 +12,7 @@ import { ThumbnailPhotoPipe } from '@pipe/thumbnailphoto.pipe';
 
 @Component({
     selector: 'fe-header-desktop',
-    imports: [ClarityModule, ThumbnailPhotoPipe, NgIf, DatePipe, AsyncPipe],
+    imports: [ClarityModule, ThumbnailPhotoPipe, DatePipe, AsyncPipe],
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

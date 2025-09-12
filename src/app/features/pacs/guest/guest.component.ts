@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { DynamicScriptLoaderService } from '@service/dynamic.script.loader.service';
 
 declare let streamCam: any;
@@ -7,7 +7,7 @@ declare let streamCamBack: any;
 
 @Component({
     selector: 'fe-pacs-guest',
-    imports: [CommonModule],
+    imports: [],
     templateUrl: './guest.component.html',
     styleUrls: ['./guest.component.scss']
 })

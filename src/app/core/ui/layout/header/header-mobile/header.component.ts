@@ -4,7 +4,7 @@ import { Router, RouterModule } from '@angular/router';
 // import { Subject } from 'rxjs';
 
 import { ClarityModule } from '@clr/angular';
-import { NgIf } from '@angular/common';
+
 import { AuthenticationService } from '@service/auth.service';
 import { AuthUser } from '@model/auth-user.model';
 
@@ -12,7 +12,7 @@ import { ThumbnailPhotoPipe } from '@pipe/thumbnailphoto.pipe';
 
 @Component({
     selector: 'fe-header-mobile',
-    imports: [ClarityModule, RouterModule, ThumbnailPhotoPipe, NgIf],
+    imports: [ClarityModule, RouterModule, ThumbnailPhotoPipe],
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss']
 })

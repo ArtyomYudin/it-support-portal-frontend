@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Validators, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { DatePipe, NgFor, AsyncPipe } from '@angular/common';
+import { DatePipe, AsyncPipe } from '@angular/common';
 import { Subject } from 'rxjs/internal/Subject';
 import { debounceTime, distinctUntilChanged, filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { SubscriptionLike } from 'rxjs/internal/types';
@@ -17,7 +17,7 @@ import { Observable } from 'rxjs';
 
 @Component({
     selector: 'fe-user-request-new',
-    imports: [ClarityModule, NgFor, AsyncPipe, MatAutocompleteModule, ReactiveFormsModule],
+    imports: [ClarityModule, AsyncPipe, MatAutocompleteModule, ReactiveFormsModule],
     templateUrl: './request-new.component.html',
     styleUrls: ['./request-new.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

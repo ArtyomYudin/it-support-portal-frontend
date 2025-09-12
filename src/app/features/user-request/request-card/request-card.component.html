@@ -1,165 +1,169 @@
 <!--[ngStyle]="{ display: userRequest.length != 1 ? 'none' : '' }"-->
 <clr-modal [(clrModalOpen)]="modalOpen" [clrModalClosable]="true" [clrModalSize]="'xl'">
-    <h5 class="modal-title">
-        Обращение пользователя № {{ this.userRequest?.requestNumber }} от {{ this.userRequest?.creationDate | date: 'dd.MM.YYYY' }} г.
-        <!-- <div class="clr-row clr-justify-content-start request-title-container">
-            <div class="request-title">
-                Обращение пользователея № {{ this.userRequest?.requestNumber }} от
-                {{ this.userRequest?.creationDate | date: 'dd.MM.YYYY' }} г.
-            </div>
-        -->
-        <!--
-            <clr-input-container class="request-title-status">
-                <label>Статус:</label>
-                <input clrInput type="text" value="{{ this.userRequest?.status.name }}" [readonly]="true" />
-            </clr-input-container>
-            <clr-input-container class="request-title-priority">
-                <label>Приоритет:</label>
-                <input clrInput type="text" value="{{ this.userRequest?.priority.name }}" [readonly]="true" />
-            </clr-input-container>
-            <clr-input-container class="request-title-deadline">
-                <label>Срок:</label>
-                <input clrInput type="text" value="{{ this.userRequest?.deadline }}" [readonly]="true" />
-            </clr-input-container>
-            
-            <div class="clr-form-control status-form-control">
-                <label class="clr-control-label status-list-label">Статус:</label>
-                <div class="clr-control-container status-list">
-                    <div class="clr-input-wrapper">
-                        <input class="clr-input" type="text" value="{{ userRequest?.status.name }}" [readonly]="true" />
-                    </div>
-                </div>
-            </div>      
-            
-
-            <div class="clr-form-control priority-form-control">
-                <label class="clr-control-label priority-list-label">Приоритет:</label>
-                <div class="clr-control-container priority-list">
-                    <div class="clr-input-wrapper">
-                        <input class="clr-input" type="text" value="{{ userRequest?.priority.name }}" [readonly]="true" />
-                    </div>
-                </div>
-            </div>
-            <div class="clr-form-control priority-form-control">
-                <label class="clr-control-label data-list-label">Срок:</label>
-                <input class="clr-input" type="text" value="{{ userRequest?.deadline }}" [readonly]="true" />
-            </div>
-        </div> -->
-    </h5>
-    <div class="modal-body">
-        <form [formGroup]="userRequestCard" clrForm [clrLayout]="'vertical'" autocomplete="off">
-            <!--
-        <div class="clr-row clr-justify-content-start request-control-container">
-            <div class="clr-form-control status-form-control">
-                <label class="clr-control-label status-list-label">Статус:</label>
-                <div class="clr-control-container status-list">
-                    <div class="clr-input-wrapper">
-                        <input class="clr-input" type="text" value="{{ userRequest?.status.name }}" />
-                    </div>
-                </div>
-            </div>
-            <div class="clr-form-control priority-form-control">
-                <label class="clr-control-label priority-list-label">Приоритет:</label>
-                <div class="clr-control-container priority-list">
-                    <div class="clr-input-wrapper">
-                        <input class="clr-input" type="text" value="{{ userRequest?.priority.name }}" [readonly]="true" />
-                    </div>
-                </div>
-            </div>
-            <div class="clr-form-control priority-form-control">
-                <label class="clr-control-label data-list-label">Срок:</label>
-                <input class="clr-input" type="text" value="{{ userRequest?.deadline }}" [readonly]="true" />
-            </div>
-        </div>
+  <h5 class="modal-title">
+    Обращение пользователя № {{ this.userRequest?.requestNumber }} от {{ this.userRequest?.creationDate | date: 'dd.MM.YYYY' }} г.
+    <!-- <div class="clr-row clr-justify-content-start request-title-container">
+    <div class="request-title">
+      Обращение пользователея № {{ this.userRequest?.requestNumber }} от
+      {{ this.userRequest?.creationDate | date: 'dd.MM.YYYY' }} г.
+    </div>
     -->
-            <div class="clr-row user-request-card">
-                <div class="clr-col-12 clr-col-lg-7">
-                    <div class="card">
-                        <div class="card-block request-info">
-                            <!--
-                        <clr-input-container class="request-initiator-container">
-                            <label>Инициатор:</label>
-                            <input type="text" clrInput value="{{ userRequest?.initiator }}" [readonly]="true" />
-                        </clr-input-container>
-                        -->
-                            <clr-input-container class="request-service-container">
-                                <label>Услуга:</label>
-                                <input
-                                    class="request-service-input"
-                                    type="text"
-                                    clrInput
-                                    value="{{ this.userRequest?.service }}"
-                                    [readonly]="true"
-                                />
-                            </clr-input-container>
+    <!--
+    <clr-input-container class="request-title-status">
+      <label>Статус:</label>
+      <input clrInput type="text" value="{{ this.userRequest?.status.name }}" [readonly]="true" />
+    </clr-input-container>
+    <clr-input-container class="request-title-priority">
+      <label>Приоритет:</label>
+      <input clrInput type="text" value="{{ this.userRequest?.priority.name }}" [readonly]="true" />
+    </clr-input-container>
+    <clr-input-container class="request-title-deadline">
+      <label>Срок:</label>
+      <input clrInput type="text" value="{{ this.userRequest?.deadline }}" [readonly]="true" />
+    </clr-input-container>
 
-                            <clr-input-container class="request-topic-container">
-                                <label>Тема:</label>
-                                <input
-                                    class="request-topic-input"
-                                    type="text"
-                                    clrInput
-                                    value="{{ this.userRequest?.topic }}"
-                                    [readonly]="true"
-                                />
-                            </clr-input-container>
+    <div class="clr-form-control status-form-control">
+      <label class="clr-control-label status-list-label">Статус:</label>
+      <div class="clr-control-container status-list">
+        <div class="clr-input-wrapper">
+          <input class="clr-input" type="text" value="{{ userRequest?.status.name }}" [readonly]="true" />
+        </div>
+      </div>
+    </div>
 
-                            <clr-textarea-container class="request-description-container">
-                                <label>Описание:</label>
-                                <textarea
-                                    type="text"
-                                    clrTextarea
-                                    rows="10"
-                                    contenteditable="true"
-                                    value="{{ this.userRequest?.description }}"
-                                    [readonly]="true"
-                                ></textarea>
-                            </clr-textarea-container>
-                            <div class="request-attachment-container">
-                                <label class="image-upload-btn clr-col-0">
-                                    <clr-icon shape="attachment"></clr-icon>
-                                    Вложенные файлы:
-                                </label>
-                                <div class="file-List">
-                                    <ul class="list-unstyled">
-                                        <div *ngIf="listOfFiles.length == 0">вложений нет</div>
-                                        <li *ngFor="let file of listOfFiles; let index = index">
-                                            <button type="button" class="btn btn-link image-preview-btn" (click)="viewAttachment(file)">
-                                                {{ file.fileName }}
-                                            </button>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
 
-                            <clr-textarea-container class="request-comment-container">
-                                <label>Добавить комментарий:</label>
-                                <textarea
-                                    formControlName="comment"
-                                    type="text"
-                                    clrTextarea
-                                    rows="3"
-                                    contenteditable="true"
-                                    value=""
-                                    [readonly]="isRequestCardReadOnly()"
-                                ></textarea>
-                            </clr-textarea-container>
-                        </div>
-                    </div>
-                </div>
-                <div class="clr-col-12 clr-col-lg-5">
-                    <div class="card">
-                        <div class="card-block request-execution">
-                            <div class="clr-row clr-justify-content-start">
-                                <div class="request-title-deadline">
-                                    <label class="clr-control-label">Срок:</label>
-                                    {{ this.userRequest?.deadline | date: 'dd.MM.YYYY' }}
-                                </div>
-                                <div class="request-title-status">
-                                    <label class="clr-control-label">Статус:</label>
-                                    <clr-icon
-                                        class="status-icon"
-                                        [attr.shape]="this.userRequest?.status.icon"
+    <div class="clr-form-control priority-form-control">
+      <label class="clr-control-label priority-list-label">Приоритет:</label>
+      <div class="clr-control-container priority-list">
+        <div class="clr-input-wrapper">
+          <input class="clr-input" type="text" value="{{ userRequest?.priority.name }}" [readonly]="true" />
+        </div>
+      </div>
+    </div>
+    <div class="clr-form-control priority-form-control">
+      <label class="clr-control-label data-list-label">Срок:</label>
+      <input class="clr-input" type="text" value="{{ userRequest?.deadline }}" [readonly]="true" />
+    </div>
+  </div> -->
+</h5>
+<div class="modal-body">
+  <form [formGroup]="userRequestCard" clrForm [clrLayout]="'vertical'" autocomplete="off">
+    <!--
+    <div class="clr-row clr-justify-content-start request-control-container">
+      <div class="clr-form-control status-form-control">
+        <label class="clr-control-label status-list-label">Статус:</label>
+        <div class="clr-control-container status-list">
+          <div class="clr-input-wrapper">
+            <input class="clr-input" type="text" value="{{ userRequest?.status.name }}" />
+          </div>
+        </div>
+      </div>
+      <div class="clr-form-control priority-form-control">
+        <label class="clr-control-label priority-list-label">Приоритет:</label>
+        <div class="clr-control-container priority-list">
+          <div class="clr-input-wrapper">
+            <input class="clr-input" type="text" value="{{ userRequest?.priority.name }}" [readonly]="true" />
+          </div>
+        </div>
+      </div>
+      <div class="clr-form-control priority-form-control">
+        <label class="clr-control-label data-list-label">Срок:</label>
+        <input class="clr-input" type="text" value="{{ userRequest?.deadline }}" [readonly]="true" />
+      </div>
+    </div>
+    -->
+    <div class="clr-row user-request-card">
+      <div class="clr-col-12 clr-col-lg-7">
+        <div class="card">
+          <div class="card-block request-info">
+            <!--
+            <clr-input-container class="request-initiator-container">
+              <label>Инициатор:</label>
+              <input type="text" clrInput value="{{ userRequest?.initiator }}" [readonly]="true" />
+            </clr-input-container>
+            -->
+            <clr-input-container class="request-service-container">
+              <label>Услуга:</label>
+              <input
+                class="request-service-input"
+                type="text"
+                clrInput
+                value="{{ this.userRequest?.service }}"
+                [readonly]="true"
+                />
+            </clr-input-container>
+
+            <clr-input-container class="request-topic-container">
+              <label>Тема:</label>
+              <input
+                class="request-topic-input"
+                type="text"
+                clrInput
+                value="{{ this.userRequest?.topic }}"
+                [readonly]="true"
+                />
+            </clr-input-container>
+
+            <clr-textarea-container class="request-description-container">
+              <label>Описание:</label>
+              <textarea
+                type="text"
+                clrTextarea
+                rows="10"
+                contenteditable="true"
+                value="{{ this.userRequest?.description }}"
+                [readonly]="true"
+              ></textarea>
+            </clr-textarea-container>
+            <div class="request-attachment-container">
+              <label class="image-upload-btn clr-col-0">
+                <clr-icon shape="attachment"></clr-icon>
+                Вложенные файлы:
+              </label>
+              <div class="file-List">
+                <ul class="list-unstyled">
+                  @if (listOfFiles.length == 0) {
+                    <div>вложений нет</div>
+                  }
+                  @for (file of listOfFiles; track file; let index = $index) {
+                    <li>
+                      <button type="button" class="btn btn-link image-preview-btn" (click)="viewAttachment(file)">
+                        {{ file.fileName }}
+                      </button>
+                    </li>
+                  }
+                </ul>
+              </div>
+            </div>
+
+            <clr-textarea-container class="request-comment-container">
+              <label>Добавить комментарий:</label>
+              <textarea
+                formControlName="comment"
+                type="text"
+                clrTextarea
+                rows="3"
+                contenteditable="true"
+                value=""
+                [readonly]="isRequestCardReadOnly()"
+              ></textarea>
+            </clr-textarea-container>
+          </div>
+        </div>
+      </div>
+      <div class="clr-col-12 clr-col-lg-5">
+        <div class="card">
+          <div class="card-block request-execution">
+            <div class="clr-row clr-justify-content-start">
+              <div class="request-title-deadline">
+                <label class="clr-control-label">Срок:</label>
+                {{ this.userRequest?.deadline | date: 'dd.MM.YYYY' }}
+              </div>
+              <div class="request-title-status">
+                <label class="clr-control-label">Статус:</label>
+                <clr-icon
+                  class="status-icon"
+                  [attr.shape]="this.userRequest?.status.icon"
                                         [style.fill]="
                                             this.userRequest?.status.id == 1
                                                 ? 'hsl(48, 95%, 48%)'
@@ -167,144 +171,160 @@
                                                 ? 'hsl(198, 80%, 46%)'
                                                 : 'hsl(93, 85%, 32%)'
                                         "
-                                    >
-                                    </clr-icon>
-                                </div>
-                                <div class="request-title-priority">
-                                    <label class="clr-control-label">Приоритет:</label>
-                                    <clr-icon
-                                        class="priority-icon is-solid"
-                                        [style.fill]="this.userRequest?.priority.color"
-                                        shape="flag"
-                                    ></clr-icon>
-                                </div>
-                            </div>
-
-                            <clr-input-container class="request-initiator-container">
-                                <label>Инициатор:</label>
-                                <input type="text" clrInput value="{{ this.userRequest?.initiator }}" [readonly]="true" />
-                            </clr-input-container>
-                            <clr-input-container class="request-executor-container">
-                                <label>Исполнитель:</label>
-                                <input type="text" clrInput value="{{ this.userRequest?.executor.name }}" [readonly]="true" />
-                            </clr-input-container>
-
-                            <clr-input-container class="request-delegate-container">
-                                <label>Делегировать:</label>
-                                <input
-                                    formControlName="delegate"
-                                    type="text"
-                                    clrInput
-                                    [matAutocomplete]="delegateList"
-                                    (ngModelChange)="onDelegateChanges()"
-                                    [readonly]="isRequestCardReadOnly()"
-                                />
-                                <mat-autocomplete #delegateList="matAutocomplete">
-                                    <ng-container>
-                                        <mat-option
-                                            (onSelectionChange)="onDegegateSelected(delegate)"
-                                            *ngFor="let delegate of delegateListArray$ | async"
-                                            [value]="delegate.name"
-                                        >
-                                            {{ delegate.name }}
-                                        </mat-option>
-                                    </ng-container>
-                                </mat-autocomplete>
-                            </clr-input-container>
-
-                            <div class="request-lifecycle-label">
-                                <label>Жизненный цикл заявки:</label>
-                            </div>
-                            <div class="request-lifecycle-container file-List">
-                                <div *ngFor="let event of userRequestLifeCycle$ | async; let index = index">
-                                    <p class="request-lifecycle-header">
-                                        {{ event.eventDate | date: 'dd.MM.YYYY HH:mm' }} {{ event.employee | employeeName }}
-                                    </p>
-                                    <p class="request-lifecycle-event" *ngIf="event.eventType === 'creation'">создание заявки</p>
-                                    <p class="request-lifecycle-event" *ngIf="event.eventType == 'status'">
-                                        изменен статус заявки <clr-icon shape="arrow right"></clr-icon> {{ event.eventValue }}
-                                    </p>
-                                    <p class="request-lifecycle-event" *ngIf="event.eventType == 'delegate'">
-                                        изменен исполнитель заявки <clr-icon shape="arrow right"></clr-icon> {{ event.eventValue }}
-                                    </p>
-                                    <p class="request-lifecycle-event" *ngIf="event.eventType === 'comment'">{{ event.eventValue }}</p>
-                                </div>
-                            </div>
-
-                            <!--<clr-textarea-container class="request-description-container">
-                            <label>Ответ:</label>
-                            <textarea type="text" clrTextarea rows="5" contenteditable="true" value=""></textarea>
-                        </clr-textarea-container>
-                    </div>
-                        --></div>
-                    </div>
-                </div>
+                  >
+                </clr-icon>
+              </div>
+              <div class="request-title-priority">
+                <label class="clr-control-label">Приоритет:</label>
+                <clr-icon
+                  class="priority-icon is-solid"
+                  [style.fill]="this.userRequest?.priority.color"
+                  shape="flag"
+                ></clr-icon>
+              </div>
             </div>
 
-            <!--
-        <clr-input-container class="request-topic-container">
-            <label>Тема:</label>
-            <input type="text" clrInput value="{{ userRequest?.topic }}" [readonly]="true" />
-        </clr-input-container>
+            <clr-input-container class="request-initiator-container">
+              <label>Инициатор:</label>
+              <input type="text" clrInput value="{{ this.userRequest?.initiator }}" [readonly]="true" />
+            </clr-input-container>
+            <clr-input-container class="request-executor-container">
+              <label>Исполнитель:</label>
+              <input type="text" clrInput value="{{ this.userRequest?.executor.name }}" [readonly]="true" />
+            </clr-input-container>
 
-        <clr-textarea-container class="request-description-container">
-            <label>Описание:</label>
-            <textarea
+            <clr-input-container class="request-delegate-container">
+              <label>Делегировать:</label>
+              <input
+                formControlName="delegate"
                 type="text"
-                clrTextarea
-                rows="5"
-                contenteditable="true"
-                value="{{ userRequest?.description }}"
-                [readonly]="true"
-            ></textarea>
-        </clr-textarea-container>
+                clrInput
+                [matAutocomplete]="delegateList"
+                (ngModelChange)="onDelegateChanges()"
+                [readonly]="isRequestCardReadOnly()"
+                />
+              <mat-autocomplete #delegateList="matAutocomplete">
+                <ng-container>
+                  @for (delegate of delegateListArray$ | async; track delegate) {
+                    <mat-option
+                      (onSelectionChange)="onDegegateSelected(delegate)"
+                      [value]="delegate.name"
+                      >
+                      {{ delegate.name }}
+                    </mat-option>
+                  }
+                </ng-container>
+              </mat-autocomplete>
+            </clr-input-container>
 
-        <div class="clr-row clr-justify-content-start request-control-container">
-            <div class="clr-form-control status-form-control">
-                <label class="clr-control-label status-list-label">Статус:</label>
-                <div class="clr-control-container status-list">
-                    <div class="clr-input-wrapper">
-                        <input class="clr-input" type="text" value="{{ userRequest?.status.name }}" />
-                    </div>
+            <div class="request-lifecycle-label">
+              <label>Жизненный цикл заявки:</label>
+            </div>
+            <div class="request-lifecycle-container file-List">
+              @for (event of userRequestLifeCycle$ | async; track event; let index = $index) {
+                <div>
+                  <p class="request-lifecycle-header">
+                    {{ event.eventDate | date: 'dd.MM.YYYY HH:mm' }} {{ event.employee | employeeName }}
+                  </p>
+                  @if (event.eventType === 'creation') {
+                    <p class="request-lifecycle-event">создание заявки</p>
+                  }
+                  @if (event.eventType == 'status') {
+                    <p class="request-lifecycle-event">
+                      изменен статус заявки <clr-icon shape="arrow right"></clr-icon> {{ event.eventValue }}
+                    </p>
+                  }
+                  @if (event.eventType == 'delegate') {
+                    <p class="request-lifecycle-event">
+                      изменен исполнитель заявки <clr-icon shape="arrow right"></clr-icon> {{ event.eventValue }}
+                    </p>
+                  }
+                  @if (event.eventType === 'comment') {
+                    <p class="request-lifecycle-event">{{ event.eventValue }}</p>
+                  }
                 </div>
+              }
             </div>
-            <div class="clr-form-control priority-form-control">
-                <label class="clr-control-label priority-list-label">Приоритет:</label>
-                <div class="clr-control-container priority-list">
-                    <div class="clr-input-wrapper">
-                        <input class="clr-input" type="text" value="{{ userRequest?.priority.name }}" [readonly]="true" />
-                    </div>
-                </div>
-            </div>
-            <div class="clr-form-control priority-form-control">
-                <label class="clr-control-label data-list-label">Срок:</label>
-                <input class="clr-input" type="text" value="{{ userRequest?.deadline }}" [readonly]="true" />
-            </div>
+
+            <!--<clr-textarea-container class="request-description-container">
+            <label>Ответ:</label>
+            <textarea type="text" clrTextarea rows="5" contenteditable="true" value=""></textarea>
+          </clr-textarea-container>
         </div>
-        <clr-textarea-container>
-            <label>Комментарии:</label>
-            <textarea clrTextarea rows="5" contenteditable="true"></textarea>
-        </clr-textarea-container>
-    -->
-        </form>
+      --></div>
     </div>
+  </div>
+</div>
 
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline btn-sm" (click)="closeRequestCard()">Отмена</button>
-        <button
-            *ngIf="this.userRequest?.status.id !== 1"
-            type="button"
-            class="btn btn-primary btn-sm"
-            (click)="saveRequestCard()"
-            [disabled]="!isSaveButtonVisible()"
-        >
-            Сохранить
-        </button>
-        <button *ngIf="this.userRequest?.status.id == 1" type="button" class="btn btn-primary btn-sm" (click)="takeRequestToWork()">
-            Взять в работу
-        </button>
-        <button *ngIf="this.userRequest?.status.id == 2" type="button" class="btn btn-primary btn-sm" (click)="finishRequest()">
-            Закрыть заявку
-        </button>
+<!--
+<clr-input-container class="request-topic-container">
+  <label>Тема:</label>
+  <input type="text" clrInput value="{{ userRequest?.topic }}" [readonly]="true" />
+</clr-input-container>
+
+<clr-textarea-container class="request-description-container">
+  <label>Описание:</label>
+  <textarea
+    type="text"
+    clrTextarea
+    rows="5"
+    contenteditable="true"
+    value="{{ userRequest?.description }}"
+    [readonly]="true"
+  ></textarea>
+</clr-textarea-container>
+
+<div class="clr-row clr-justify-content-start request-control-container">
+  <div class="clr-form-control status-form-control">
+    <label class="clr-control-label status-list-label">Статус:</label>
+    <div class="clr-control-container status-list">
+      <div class="clr-input-wrapper">
+        <input class="clr-input" type="text" value="{{ userRequest?.status.name }}" />
+      </div>
     </div>
+  </div>
+  <div class="clr-form-control priority-form-control">
+    <label class="clr-control-label priority-list-label">Приоритет:</label>
+    <div class="clr-control-container priority-list">
+      <div class="clr-input-wrapper">
+        <input class="clr-input" type="text" value="{{ userRequest?.priority.name }}" [readonly]="true" />
+      </div>
+    </div>
+  </div>
+  <div class="clr-form-control priority-form-control">
+    <label class="clr-control-label data-list-label">Срок:</label>
+    <input class="clr-input" type="text" value="{{ userRequest?.deadline }}" [readonly]="true" />
+  </div>
+</div>
+<clr-textarea-container>
+  <label>Комментарии:</label>
+  <textarea clrTextarea rows="5" contenteditable="true"></textarea>
+</clr-textarea-container>
+-->
+</form>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline btn-sm" (click)="closeRequestCard()">Отмена</button>
+  @if (this.userRequest?.status.id !== 1) {
+    <button
+      type="button"
+      class="btn btn-primary btn-sm"
+      (click)="saveRequestCard()"
+      [disabled]="!isSaveButtonVisible()"
+      >
+      Сохранить
+    </button>
+  }
+  @if (this.userRequest?.status.id == 1) {
+    <button type="button" class="btn btn-primary btn-sm" (click)="takeRequestToWork()">
+      Взять в работу
+    </button>
+  }
+  @if (this.userRequest?.status.id == 2) {
+    <button type="button" class="btn btn-primary btn-sm" (click)="finishRequest()">
+      Закрыть заявку
+    </button>
+  }
+</div>
 </clr-modal>

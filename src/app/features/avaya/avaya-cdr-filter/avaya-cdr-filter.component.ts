@@ -1,14 +1,14 @@
 import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
-import { NgFor, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WebsocketService } from '@service/websocket.service';
 import { AvayaCDRService } from '@service/avaya.cdr.service';
 
 @Component({
     selector: 'fe-avaya-cdr-filter',
-    imports: [ClarityModule, ReactiveFormsModule, MatAutocompleteModule, NgFor, AsyncPipe],
+    imports: [ClarityModule, ReactiveFormsModule, MatAutocompleteModule, AsyncPipe],
     templateUrl: './avaya-cdr-filter.component.html',
     styleUrls: ['./avaya-cdr-filter.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

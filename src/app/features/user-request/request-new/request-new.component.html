@@ -1,219 +1,226 @@
 <clr-modal
-    #userRequestModal
-    [(clrModalOpen)]="modalOpen"
-    [clrModalClosable]="true"
-    [clrModalSize]="'lg'"
-    (clrModalOpenChange)="closeNewRequest()"
->
-    <h5 class="modal-title">Новое обращение пользователя № {{ this.newNumber }} от {{ this.currentDate.toLocaleDateString() }} г.</h5>
-    <div class="modal-body">
-        <form [formGroup]="userRequest" clrForm [clrLayout]="'horizontal'" autocomplete="off">
-            <!--
-                <clr-select-container class="clr-col-3">
-                    <label class="clr-col-md-4">Статус:</label>
-                    <select class="clr-col-md-8" clrSelect name="options" required>
-                        <option value="one">открыта</option>
-                        <option value="two">в работе</option>
-                        <option value="three">закрыта</option>
-                    </select>
-                </clr-select-container>
-            -->
-            <div class="clr-row clr-justify-content-end request-control-section">
-                <clr-date-container class="date-form-control">
-                    <label class="date-list-label">Срок:</label>
-                    <input formControlName="deadline" class="date-list-input" type="date" clrDate />
-                </clr-date-container>
+  #userRequestModal
+  [(clrModalOpen)]="modalOpen"
+  [clrModalClosable]="true"
+  [clrModalSize]="'lg'"
+  (clrModalOpenChange)="closeNewRequest()"
+  >
+  <h5 class="modal-title">Новое обращение пользователя № {{ this.newNumber }} от {{ this.currentDate.toLocaleDateString() }} г.</h5>
+  <div class="modal-body">
+    <form [formGroup]="userRequest" clrForm [clrLayout]="'horizontal'" autocomplete="off">
+      <!--
+      <clr-select-container class="clr-col-3">
+        <label class="clr-col-md-4">Статус:</label>
+        <select class="clr-col-md-8" clrSelect name="options" required>
+          <option value="one">открыта</option>
+          <option value="two">в работе</option>
+          <option value="three">закрыта</option>
+        </select>
+      </clr-select-container>
+      -->
+      <div class="clr-row clr-justify-content-end request-control-section">
+        <clr-date-container class="date-form-control">
+          <label class="date-list-label">Срок:</label>
+          <input formControlName="deadline" class="date-list-input" type="date" clrDate />
+        </clr-date-container>
 
-                <div class="clr-form-control status-form-control">
-                    <label class="clr-control-label status-list-label">Статус:</label>
-                    <div class="clr-control-container status-list">
-                        <div class="clr-input-wrapper">
-                            <input
-                                class="clr-input"
-                                type="text"
-                                formControlName="status"
-                                [matAutocomplete]="statusList"
-                                onkeydown="return false"
-                            />
-                            <clr-icon class="status-list-icon" shape="checkbox-list" size="24"></clr-icon>
-                            <mat-autocomplete #statusList="matAutocomplete" class="status-autocomplete-panel">
-                                <ng-container>
-                                    <mat-option
-                                        (onSelectionChange)="onStatusSelected(status)"
-                                        *ngFor="let status of statusListArray$ | async"
-                                        [value]="status.name"
-                                    >
-                                        {{ status.name }}
-                                    </mat-option>
-                                </ng-container>
-                            </mat-autocomplete>
-                        </div>
-                    </div>
-                </div>
-                <div class="clr-form-control priority-form-control">
-                    <label class="clr-control-label priority-list-label">Приоритет:</label>
-                    <div class="clr-control-container priority-list">
-                        <div class="clr-input-wrapper">
-                            <input
-                                class="clr-input"
-                                type="text"
-                                formControlName="priority"
-                                [matAutocomplete]="priorityList"
-                                onkeydown="return false"
-                            />
-                            <clr-icon class="priority-list-icon" shape="sort-by" size="24"></clr-icon>
-                            <mat-autocomplete #priorityList="matAutocomplete">
-                                <ng-container>
-                                    <mat-option
-                                        (onSelectionChange)="onPrioritySelected(priority)"
-                                        *ngFor="let priority of priorityListArray$ | async"
-                                        [value]="priority.name"
-                                    >
-                                        {{ priority.name }}
-                                    </mat-option>
-                                </ng-container>
-                            </mat-autocomplete>
-                        </div>
-                    </div>
-                </div>
+        <div class="clr-form-control status-form-control">
+          <label class="clr-control-label status-list-label">Статус:</label>
+          <div class="clr-control-container status-list">
+            <div class="clr-input-wrapper">
+              <input
+                class="clr-input"
+                type="text"
+                formControlName="status"
+                [matAutocomplete]="statusList"
+                onkeydown="return false"
+                />
+              <clr-icon class="status-list-icon" shape="checkbox-list" size="24"></clr-icon>
+              <mat-autocomplete #statusList="matAutocomplete" class="status-autocomplete-panel">
+                <ng-container>
+                  @for (status of statusListArray$ | async; track status) {
+                    <mat-option
+                      (onSelectionChange)="onStatusSelected(status)"
+                      [value]="status.name"
+                      >
+                      {{ status.name }}
+                    </mat-option>
+                  }
+                </ng-container>
+              </mat-autocomplete>
             </div>
-
-            <!--
-            <clr-input-container>
-                <label>Статус:</label>
-                <input
-                    class="statusList"
-                    type="text"
-                    formControlName="status"
-                    clrInput
-                    [matAutocomplete]="statusList"
-                    onkeydown="return false"
+          </div>
+        </div>
+        <div class="clr-form-control priority-form-control">
+          <label class="clr-control-label priority-list-label">Приоритет:</label>
+          <div class="clr-control-container priority-list">
+            <div class="clr-input-wrapper">
+              <input
+                class="clr-input"
+                type="text"
+                formControlName="priority"
+                [matAutocomplete]="priorityList"
+                onkeydown="return false"
                 />
-                <clr-icon shape="search" size="24"></clr-icon>
-                <mat-autocomplete #statusList="matAutocomplete">
-                    <ng-container>
-                        <mat-option (onSelectionChange)="(null)" *ngFor="let status of statusNameList" [value]="status.name">
-                            {{ status.name }}
-                        </mat-option>
-                    </ng-container>
-                </mat-autocomplete>
-            </clr-input-container>
-        -->
-            <!--
-                <clr-select-container class="clr-col-4">
-                    <label class="clr-col-md-4">Приоритет:</label>
-                    <select class="clr-col-md-8" clrSelect name="options" required>
-                        <option value="one">стандартный</option>
-                        <option value="two">важный</option>
-                        <option value="three">критический</option>
-                    </select>
-                </clr-select-container>
-            
-            <clr-input-container>
-                <label>Приоритет:</label>
-                <input
-                    class="priorList"
-                    type="text"
-                    formControlName="status"
-                    clrInput
-                    [matAutocomplete]="statusList"
-                    onkeydown="return false"
-                />
-                <clr-icon shape="search" size="24"></clr-icon>
-                <mat-autocomplete #statusList="matAutocomplete">
-                    <ng-container>
-                        <mat-option (onSelectionChange)="(null)" *ngFor="let status of statusNameList" [value]="status.name">
-                            {{ status.name }}
-                        </mat-option>
-                    </ng-container>
-                </mat-autocomplete>
-            </clr-input-container>
-        -->
-
-            <clr-input-container>
-                <label>Инициатор:</label>
-                <input type="text" formControlName="initiator" clrInput [matAutocomplete]="initiatorList" />
-                <mat-autocomplete #initiatorList="matAutocomplete">
-                    <ng-container>
-                        <mat-option
-                            (onSelectionChange)="onInitiatorSelected(initiator)"
-                            *ngFor="let initiator of filteredInitiator"
-                            [value]="initiator.displayName"
-                        >
-                            {{ initiator.displayName }}
-                        </mat-option>
-                    </ng-container>
-                </mat-autocomplete>
-            </clr-input-container>
-            <clr-input-container>
-                <label>Подразделение:</label>
-                <input formControlName="initiatorDepartment" type="text" clrInput onkeydown="return false" />
-            </clr-input-container>
-            <clr-input-container>
-                <label>Исполнитель:</label>
-                <input formControlName="executor" type="text" clrInput [matAutocomplete]="executorList" onkeydown="return false" />
-                <mat-autocomplete #executorList="matAutocomplete">
-                    <ng-container>
-                        <mat-option
-                            (onSelectionChange)="onExecutorSelected(executor)"
-                            *ngFor="let executor of executorListArray$ | async"
-                            [value]="executor.name"
-                        >
-                            {{ executor.name }}
-                        </mat-option>
-                    </ng-container>
-                </mat-autocomplete>
-            </clr-input-container>
-            <clr-input-container>
-                <label>Услуга:</label>
-                <input type="text" formControlName="service" clrInput [matAutocomplete]="serviceList" onkeydown="return false" />
-                <mat-autocomplete #serviceList="matAutocomplete">
-                    <ng-container>
-                        <mat-option
-                            (onSelectionChange)="onServiceSelected(service)"
-                            *ngFor="let service of serviceListArray$ | async"
-                            [value]="service.name"
-                        >
-                            {{ service.name }}
-                        </mat-option>
-                    </ng-container>
-                </mat-autocomplete>
-            </clr-input-container>
-            <clr-input-container>
-                <label>Тема обращения:</label>
-                <input formControlName="topic" type="text" clrInput />
-            </clr-input-container>
-            <clr-textarea-container>
-                <label>Описание:</label>
-                <textarea formControlName="description" clrTextarea rows="5" contenteditable="true"></textarea>
-            </clr-textarea-container>
-            <label class="image-upload-btn btn btn-link btn-icon clr-col-0">
-                <clr-icon shape="attachment"></clr-icon>
-                <input
-                    multiple
-                    type="file"
-                    (change)="onAttacheFile($any($event).target.files)"
-                    placeholder="Upload file"
-                    class="button-input"
-                    accept="image/*"
-                />
-                Прикрепить файл
-            </label>
-            <div class="file-List">
-                <ul class="list-unstyled">
-                    <li *ngFor="let file of listOfFiles; let index = index">
-                        <button type="button" class="btn btn-icon btn-sm btn-link delete-file-btn" (click)="onDeleteAttachFile(index)">
-                            <clr-icon shape="trash"></clr-icon>
-                        </button>
-                        {{ file }}
-                    </li>
-                </ul>
+              <clr-icon class="priority-list-icon" shape="sort-by" size="24"></clr-icon>
+              <mat-autocomplete #priorityList="matAutocomplete">
+                <ng-container>
+                  @for (priority of priorityListArray$ | async; track priority) {
+                    <mat-option
+                      (onSelectionChange)="onPrioritySelected(priority)"
+                      [value]="priority.name"
+                      >
+                      {{ priority.name }}
+                    </mat-option>
+                  }
+                </ng-container>
+              </mat-autocomplete>
             </div>
-        </form>
-    </div>
+          </div>
+        </div>
+      </div>
 
-    <div class="modal-footer">
-        <button type="button" class="btn btn-outline btn-sm" (click)="closeNewRequest()">Отмена</button>
-        <button type="button" class="btn btn-primary btn-sm" (click)="saveNewRequest()" [disabled]="userRequest.invalid">Сохранить</button>
-    </div>
+      <!--
+      <clr-input-container>
+        <label>Статус:</label>
+        <input
+          class="statusList"
+          type="text"
+          formControlName="status"
+          clrInput
+          [matAutocomplete]="statusList"
+          onkeydown="return false"
+          />
+        <clr-icon shape="search" size="24"></clr-icon>
+        <mat-autocomplete #statusList="matAutocomplete">
+          <ng-container>
+            <mat-option (onSelectionChange)="(null)" *ngFor="let status of statusNameList" [value]="status.name">
+              {{ status.name }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </clr-input-container>
+      -->
+      <!--
+      <clr-select-container class="clr-col-4">
+        <label class="clr-col-md-4">Приоритет:</label>
+        <select class="clr-col-md-8" clrSelect name="options" required>
+          <option value="one">стандартный</option>
+          <option value="two">важный</option>
+          <option value="three">критический</option>
+        </select>
+      </clr-select-container>
+
+      <clr-input-container>
+        <label>Приоритет:</label>
+        <input
+          class="priorList"
+          type="text"
+          formControlName="status"
+          clrInput
+          [matAutocomplete]="statusList"
+          onkeydown="return false"
+          />
+        <clr-icon shape="search" size="24"></clr-icon>
+        <mat-autocomplete #statusList="matAutocomplete">
+          <ng-container>
+            <mat-option (onSelectionChange)="(null)" *ngFor="let status of statusNameList" [value]="status.name">
+              {{ status.name }}
+            </mat-option>
+          </ng-container>
+        </mat-autocomplete>
+      </clr-input-container>
+      -->
+
+      <clr-input-container>
+        <label>Инициатор:</label>
+        <input type="text" formControlName="initiator" clrInput [matAutocomplete]="initiatorList" />
+        <mat-autocomplete #initiatorList="matAutocomplete">
+          <ng-container>
+            @for (initiator of filteredInitiator; track initiator) {
+              <mat-option
+                (onSelectionChange)="onInitiatorSelected(initiator)"
+                [value]="initiator.displayName"
+                >
+                {{ initiator.displayName }}
+              </mat-option>
+            }
+          </ng-container>
+        </mat-autocomplete>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Подразделение:</label>
+        <input formControlName="initiatorDepartment" type="text" clrInput onkeydown="return false" />
+      </clr-input-container>
+      <clr-input-container>
+        <label>Исполнитель:</label>
+        <input formControlName="executor" type="text" clrInput [matAutocomplete]="executorList" onkeydown="return false" />
+        <mat-autocomplete #executorList="matAutocomplete">
+          <ng-container>
+            @for (executor of executorListArray$ | async; track executor) {
+              <mat-option
+                (onSelectionChange)="onExecutorSelected(executor)"
+                [value]="executor.name"
+                >
+                {{ executor.name }}
+              </mat-option>
+            }
+          </ng-container>
+        </mat-autocomplete>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Услуга:</label>
+        <input type="text" formControlName="service" clrInput [matAutocomplete]="serviceList" onkeydown="return false" />
+        <mat-autocomplete #serviceList="matAutocomplete">
+          <ng-container>
+            @for (service of serviceListArray$ | async; track service) {
+              <mat-option
+                (onSelectionChange)="onServiceSelected(service)"
+                [value]="service.name"
+                >
+                {{ service.name }}
+              </mat-option>
+            }
+          </ng-container>
+        </mat-autocomplete>
+      </clr-input-container>
+      <clr-input-container>
+        <label>Тема обращения:</label>
+        <input formControlName="topic" type="text" clrInput />
+      </clr-input-container>
+      <clr-textarea-container>
+        <label>Описание:</label>
+        <textarea formControlName="description" clrTextarea rows="5" contenteditable="true"></textarea>
+      </clr-textarea-container>
+      <label class="image-upload-btn btn btn-link btn-icon clr-col-0">
+        <clr-icon shape="attachment"></clr-icon>
+        <input
+          multiple
+          type="file"
+          (change)="onAttacheFile($any($event).target.files)"
+          placeholder="Upload file"
+          class="button-input"
+          accept="image/*"
+          />
+        Прикрепить файл
+      </label>
+      <div class="file-List">
+        <ul class="list-unstyled">
+          @for (file of listOfFiles; track file; let index = $index) {
+            <li>
+              <button type="button" class="btn btn-icon btn-sm btn-link delete-file-btn" (click)="onDeleteAttachFile(index)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+              {{ file }}
+            </li>
+          }
+        </ul>
+      </div>
+    </form>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline btn-sm" (click)="closeNewRequest()">Отмена</button>
+    <button type="button" class="btn btn-primary btn-sm" (click)="saveNewRequest()" [disabled]="userRequest.invalid">Сохранить</button>
+  </div>
 </clr-modal>

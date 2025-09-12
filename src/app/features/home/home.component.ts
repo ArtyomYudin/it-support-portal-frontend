@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/internal/Subject';
 import {distinctUntilChanged, share, takeUntil, tap} from 'rxjs/operators';
 import { ClarityModule } from '@clr/angular';
 import { Chart, registerables } from 'chart.js';
-import { NgFor, NgIf, AsyncPipe } from '@angular/common';
+import { AsyncPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DynamicScriptLoaderService } from '@service/dynamic.script.loader.service';
 import { WebsocketService } from '@service/websocket.service';
@@ -24,16 +24,14 @@ Chart.register(...registerables);
 @Component({
     selector: 'fe-home',
     imports: [
-        ClarityModule,
-        RouterModule,
-        NgFor,
-        NgIf,
-        AsyncPipe,
-        ProviderChartComponent,
-        AvayaE1ChartComponent,
-        HardwareChartComponent,
-        AvayaE1DailyChartComponent,
-    ],
+    ClarityModule,
+    RouterModule,
+    AsyncPipe,
+    ProviderChartComponent,
+    AvayaE1ChartComponent,
+    HardwareChartComponent,
+    AvayaE1DailyChartComponent
+],
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

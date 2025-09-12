@@ -6,7 +6,7 @@ import { WebsocketService } from '@service/websocket.service';
 import {debounceTime, distinctUntilChanged, filter, first, share, switchMap, takeUntil, tap} from 'rxjs/operators';
 import { ClarityModule } from '@clr/angular';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NgFor, DatePipe } from '@angular/common';
+import { DatePipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Event } from '@service/websocket.service.event';
@@ -19,16 +19,15 @@ import { GuestComponent } from './guest/guest.component';
 @Component({
     selector: 'fe-pacs',
     imports: [
-        ClarityModule,
-        ReactiveFormsModule,
-        MatAutocompleteModule,
-        NgFor,
-        DatePipe,
-        EmployeeNamePipe,
-        GuestComponent,
-        EmployeeComponent,
-        DepartmentComponent,
-    ],
+    ClarityModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule,
+    DatePipe,
+    EmployeeNamePipe,
+    GuestComponent,
+    EmployeeComponent,
+    DepartmentComponent
+],
     templateUrl: './pacs.component.html',
     styleUrls: ['./pacs.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

@@ -4,7 +4,7 @@ import { distinctUntilChanged, first, takeUntil } from 'rxjs/operators';
 import { Observable } from 'rxjs/internal/Observable';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ClarityModule } from '@clr/angular';
-import { AsyncPipe, DatePipe, NgIf, NgFor } from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { WebsocketService } from '@service/websocket.service';
 import { Event } from '@service/websocket.service.event';
@@ -19,7 +19,7 @@ import { EmployeeNamePipe } from '@pipe/employeename.pipe';
 
 @Component({
     selector: 'fe-user-request-card',
-    imports: [ClarityModule, NgFor, NgIf, DatePipe, AsyncPipe, MatAutocompleteModule, ReactiveFormsModule, EmployeeNamePipe],
+    imports: [ClarityModule, DatePipe, AsyncPipe, MatAutocompleteModule, ReactiveFormsModule, EmployeeNamePipe],
     templateUrl: './request-card.component.html',
     styleUrls: ['./request-card.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

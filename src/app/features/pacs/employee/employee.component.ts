@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
-import {AsyncPipe, DatePipe, NgForOf} from '@angular/common';
+import { AsyncPipe, DatePipe } from '@angular/common';
 import { ClarityModule, ClrCommonStringsService } from '@clr/angular';
 import { Observable } from 'rxjs/internal/Observable';
 import {distinctUntilChanged, share, takeUntil, tap, scan} from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { russionLocale } from '@translation/russion';
 
 @Component({
     selector: 'fe-pacs-employee',
-    imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe, NgForOf],
+    imports: [ClarityModule, AsyncPipe, DatePipe, EmployeeNamePipe],
     templateUrl: './employee.component.html',
     styleUrls: ['./employee.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
