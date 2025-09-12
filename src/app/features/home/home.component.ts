@@ -38,7 +38,8 @@ Chart.register(...registerables);
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers:[WebsocketService, {provide: 'ws_path', useValue: 'ws/pacs/'}]
+  // providers:[WebsocketService]
+  // providers:[WebsocketService, {provide: 'ws_path', useValue: 'ws'}]
 })
 
 export default class HomeComponent implements OnInit, OnDestroy {
@@ -91,7 +92,7 @@ export default class HomeComponent implements OnInit, OnDestroy {
     this.mainCamPlayer.destroy();
     this.room1CamPlayer.destroy();
     this.room2CamPlayer.destroy();
-    this.wsService.disconnect()
+    // this.wsService.disconnect()
   }
 
   private loadScripts() {

@@ -33,11 +33,11 @@ export interface IwsMessage<T> {
   data: T;
 }
 
-//@Injectable({
-//  providedIn: 'root',
-//})
+@Injectable({
+ providedIn: 'root',
+})
 
-@Injectable()
+// @Injectable()
 
 export class WebsocketService implements IWebsocketService, OnDestroy {
 
@@ -63,15 +63,17 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
 
   private isConnected: boolean;
 
+  token = JSON.parse(localStorage.getItem('currentUser')).token;
+
   // @Inject('isCreated') private isCreated: boolean
-  constructor( @Inject('ws_path') private ws_path: string) {
+  constructor() {
     this.wsMessages$ = new Subject<IwsMessage<any>>();
 
     this.reconnectInterval = 5000; // pause between connections
     this.reconnectAttempts = 200; // number of connection attempts
-
     this.config = {
-      url: `ws://${environment.apiHost}:${environment.apiPort}/${this.ws_path}`,
+
+      url: `ws://${environment.apiHost}:${environment.apiPort}/${environment.WebSocketPath}?token=${(this.token)}`,
       closeObserver: {
         next: (event: CloseEvent) => {
           this.websocket$ = null;

@@ -6,10 +6,11 @@ export const environment = {
   production: false,
   apiHost: '127.0.0.1',
   apiPort: 8000,
-  apiTestURL: 'ws/pacs/',
-  apiUrl: 'http://localhost:8000/api',
-  jwtLogin: 'token/',
-  jwtRefresh: 'token/refresh/',
+  apiTestURL: 'ws/',
+  apiUrl: 'http://127.0.0.1:8000/api',
+  jwtLogin: 'token',
+  jwtRefresh: 'token/refresh',
+  WebSocketPath: 'api/ws'
 };
 
 /*

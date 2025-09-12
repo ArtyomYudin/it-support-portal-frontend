@@ -1,4 +1,3 @@
-
 <div class="limit-height pacs-employee">
     <clr-datagrid class="datagrid-compact pacs-employee-event-datagrid" [clrDgLoading]="loading">
         <clr-dg-column class="date-column">Время</clr-dg-column>
@@ -7,8 +6,8 @@
 
         <clr-dg-placeholder>Нет событий!</clr-dg-placeholder>
 
-        <!--<clr-dg-row *clrDgItems="let pacsEvent of (pacsEventArray$ | async)?.results" [clrDgItem]="pacsEvent">-->
-        <clr-dg-row *clrDgItems="let pacsEvent of eventArray" [clrDgItem]="pacsEvent">
+        <clr-dg-row *clrDgItems="let pacsEvent of (pacsEventArray$ | async)?.results" [clrDgItem]="pacsEvent">
+        <!--<clr-dg-row *clrDgItems="let pacsEvent of eventArray" [clrDgItem]="pacsEvent">-->
             <clr-dg-cell class="date-column">{{ pacsEvent.eventDate | date : 'HH:mm:ss' }}</clr-dg-cell>
             <clr-dg-cell>{{ pacsEvent.displayName ? (pacsEvent.displayName | employeeName) : pacsEvent.pacsDisplayName }}</clr-dg-cell>
             <clr-dg-cell>{{ pacsEvent.accessPoint }}</clr-dg-cell>

@@ -14,6 +14,8 @@ export class Employee {
   public directionManagerName?: string;
 
   public thumbnailPhoto?: string;
+
+  public pacsCardId?: number;
 }
 export interface IEmployee {
   total: number;

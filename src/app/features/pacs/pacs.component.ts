@@ -33,7 +33,7 @@ import { GuestComponent } from './guest/guest.component';
   templateUrl: './pacs.component.html',
   styleUrls: ['./pacs.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [MatSnackBar, DatePipe, EmployeeNamePipe, WebsocketService, {provide: 'ws_path', useValue: 'ws/pacs/'}],
+  providers: [MatSnackBar, DatePipe, EmployeeNamePipe],
 })
 export default class PacsComponent implements OnInit, OnDestroy {
   public departmentStructureArray$: Observable<any>;
@@ -72,11 +72,11 @@ export default class PacsComponent implements OnInit, OnDestroy {
       employeeName: '',
     });
      this.wsService.status.pipe(share(), distinctUntilChanged(), takeUntil(this.ngUnsubscribe$)).subscribe(isConnected => {
-        this.wsService.send('getPacsInitValue');
         this.wsService.send(
             'getDepartmentStructureByUPN',
               localStorage.getItem('IT-Support-Portal') ? JSON.parse(localStorage.getItem('IT-Support-Portal')).id : null,
         );
+        this.wsService.send('getPacsInitValue');
     });
     this.departmentStructureSubscription = this.departmentStructureArray$.subscribe(date => {
       this.departmentStructure = date;
@@ -111,7 +111,7 @@ export default class PacsComponent implements OnInit, OnDestroy {
     this.ngUnsubscribe$.next(null);
     this.ngUnsubscribe$.complete();
     this.departmentStructureSubscription.unsubscribe();
-    this.wsService.disconnect()
+    // this.wsService.disconnect()
   }
 
   private openNotifyBar(e: any) {
@@ -123,12 +123,12 @@ export default class PacsComponent implements OnInit, OnDestroy {
   }
 
   public onEmployeeSelected(employee: any): void {
-    this.wsService.send('getPacsEmployeeLastEvent', employee.userPrincipalName);
+    this.wsService.send('getPacsEmployeeLastEvent', employee.pacsCardId);
     this.employeeLastEventArray$.subscribe(event => {
       this.openNotifyBar(
-        `СКУД\n${this.datePipe.transform(event[0].eventDate, 'dd MMMM HH:mm:ss')}  ${this.employeeNamePipe.transform(
-          event[0].displayName,
-        )}  ${event[0].accessPoint}`,
+        `СКУД\n${this.datePipe.transform(event.results[0].eventDate, 'dd MMMM HH:mm:ss')}  ${this.employeeNamePipe.transform(
+          event.results[0].displayName,
+        )}  ${event.results[0].accessPoint}`,
       );
       this.employeeSearch.controls.employeeName.setValue('');
     });

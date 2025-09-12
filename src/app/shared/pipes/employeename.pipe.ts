@@ -11,7 +11,7 @@ export class EmployeeNamePipe implements PipeTransform {
       if (array.length === 1) {
         return `${array[0]}`;
       }
-      return `${array[0]} ${array[1][0]}. ${array[2][0]}.`;
+      return `${array[0]} ${array[1]?array[1].charAt(0)+".":""} ${array[2]?array[2].charAt(0)+".":""}`;
     }
     return '';
   }
