@@ -27,7 +27,7 @@ platformBrowserDynamic()
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { importProvidersFrom, LOCALE_ID } from '@angular/core';
-import { HttpClientModule,  HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { PreloadAllModules, RouteReuseStrategy, RouterModule } from '@angular/router';
 import { CustomReuseStrategy } from '@core/custom-reuse-strategy';
 import { routes } from '@core/app-routing.module';
