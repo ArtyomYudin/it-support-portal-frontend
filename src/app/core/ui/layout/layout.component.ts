@@ -24,10 +24,10 @@ export class LayoutComponent implements OnDestroy {
   private ngUnsubscribe$: Subject<any> = new Subject();
 
   //constructor(private wsService: WebsocketService, private authenticationService: AuthenticationService) {
-  constructor(private authenticationService: AuthenticationService) {
-    //this.wsService.status.pipe(share(), distinctUntilChanged(), takeUntil(this.ngUnsubscribe$)).subscribe(isConnected => {
-    //  this.isConnected = isConnected;
-    //});
+  constructor(private wsService: WebsocketService, private authenticationService: AuthenticationService) {
+    this.wsService.status.pipe(share(), distinctUntilChanged(), takeUntil(this.ngUnsubscribe$)).subscribe(isConnected => {
+      this.isConnected = isConnected;
+    });
     this.authenticationService.currentUser$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe(x => {
       this.currentUser = x;
     });

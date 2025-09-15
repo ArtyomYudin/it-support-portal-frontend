@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { SubscriptionLike } from 'rxjs/internal/types';
@@ -10,6 +19,7 @@ import { ClarityModule } from '@clr/angular';
 
 import { WebsocketService } from '@service/websocket.service';
 import { Event } from '@service/websocket.service.event';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 Chart.register(...registerables);
 
@@ -25,7 +35,7 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
 
   public providerListArray$: Observable<any>;
 
-  public providerInfoSubscription: SubscriptionLike;
+  // public providerInfoSubscription: SubscriptionLike;
 
   private providerSpeedChart: any;
 
@@ -33,27 +43,33 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
 
   private outSpeedInfo: any = [];
 
-  private ngUnsubscribe$: Subject<any> = new Subject();
+  // private ngUnsubscribe$: Subject<any> = new Subject();
+  private destroyRef = inject(DestroyRef);
 
   constructor(private wsService: WebsocketService) {
-    this.providerListArray$ = this.wsService.on<any>(Event.EV_PROVIDER_INFO).pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe$));
+    this.providerListArray$ = this.wsService.on<any>(Event.EV_PROVIDER_INFO).pipe(
+      distinctUntilChanged(),
+      takeUntilDestroyed(this.destroyRef)
+    );
   }
 
   ngOnInit(): void {
-    this.providerInfoSubscription = this.providerListArray$.subscribe(value => {
+    this.providerListArray$.subscribe(value => {
       this.inSpeedInfo.length = 0;
       this.outSpeedInfo.length = 0;
-      this.inSpeedInfo.push(value.inSpeedOrange, value.inSpeedTelros, value.inSpeedFilanco);
-      this.outSpeedInfo.push(value.outSpeedOrange, value.outSpeedTelros, value.outSpeedFilanco);
+      this.inSpeedInfo.push(value.results.inSpeedFilanco, value.results.inSpeedErTelecom100, value.results.inSpeedErTelecom200);
+      this.outSpeedInfo.push(value.results.outSpeedFilanco, value.results.outSpeedErTelecom100, value.results.outSpeedErTelecom200);
       this.providerSpeedChart.update('none');
+      // console.log(this.inSpeedInfo);
+      // console.log(this.outSpeedInfo);
     });
     this.createProviderSpeedChart();
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe$.next(null);
-    this.ngUnsubscribe$.complete();
-    this.providerInfoSubscription.unsubscribe();
+    // this.ngUnsubscribe$.next(null);
+    // this.ngUnsubscribe$.complete();
+    // this.providerInfoSubscription.unsubscribe();
     this.providerSpeedChart.destroy();
   }
 
@@ -64,7 +80,7 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
       type: 'bar',
       data: {
         // values on X-Axis
-        labels: ['Orange', 'Телрос', 'Филанко'],
+        labels: ['Филанко', 'Эр-Телеком 100', 'Эр-Телеком 200'],
         datasets: [
           {
             label: 'Входящий траффик',

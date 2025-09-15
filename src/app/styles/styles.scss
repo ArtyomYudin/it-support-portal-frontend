@@ -2,7 +2,7 @@
 //@import '~@clr/ui/clr-ui-dark.min.css';
 // @import '~@cds/core/styles/theme.dark.min.css';
 
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import 'node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 /*
 body {
@@ -60,6 +60,7 @@ body {
   }
   .clr-vertical-nav .nav-trigger + .nav-content {
     border-top-width: 0rem !important;
+    padding-top: .6rem !important;
   }
   .content-area {
     //margin-left: 2rem;
