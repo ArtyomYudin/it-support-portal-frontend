@@ -25,7 +25,7 @@ platformBrowserDynamic()
 */
 
 import { bootstrapApplication } from '@angular/platform-browser';
-// import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { importProvidersFrom, LOCALE_ID } from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { PreloadAllModules, RouteReuseStrategy, RouterModule } from '@angular/router';
@@ -36,6 +36,9 @@ import { JwtInterceptor } from '@service/jwt.interceptor';
 import localeRu from '@angular/common/locales/ru';
 //import { JwtModule } from '@auth0/angular-jwt';
 import { AppComponent } from '@app/app.component';
+
+// Импортируем Clarity
+import { ClarityModule } from '@clr/angular';
 
 registerLocaleData(localeRu, 'ru');
 
@@ -49,7 +52,7 @@ bootstrapApplication(AppComponent, {
     { provide: LOCALE_ID, useValue: 'ru' },
     { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    // provideAnimationsAsync(),
+    provideAnimations(),
     // provideHttpClient(withInterceptorsFromDi()),
     importProvidersFrom(HttpClientModule),
     //importProvidersFrom(JwtModule),
@@ -61,6 +64,10 @@ bootstrapApplication(AppComponent, {
      // }),
     //),
     importProvidersFrom(RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })),
+    // Подключаем ClarityModule
+    // importProvidersFrom(
+    //   ClarityModule.forRoot()
+    // ),
   ],
 })
   .then(ref => {

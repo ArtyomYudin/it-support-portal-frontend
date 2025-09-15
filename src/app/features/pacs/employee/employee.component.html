@@ -13,6 +13,6 @@
             <clr-dg-cell>{{ pacsEvent.accessPoint }}</clr-dg-cell>
         </clr-dg-row>
 
-        <clr-dg-footer> {{ (this.pacsEventArray$ | async)?.total }} событий </clr-dg-footer>
+        <clr-dg-footer> {{ (pacsEventArray$ | async)?.total || 0}} событий </clr-dg-footer>
     </clr-datagrid>
 </div>

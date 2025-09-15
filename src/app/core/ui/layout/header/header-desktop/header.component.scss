@@ -17,6 +17,8 @@
     & .title {
       color: #565656;
       font-size: 1rem;
+      line-height: 3rem;
+      letter-spacing: .01em;
     }
   }
   & .settings {
@@ -113,6 +115,10 @@
   color: #0072a3;
 }
 */
+  .nav .nav-link {
+    display: none;
+    color: #fafafa;
+  }
 
   & .notify-signpost {
     position: relative;

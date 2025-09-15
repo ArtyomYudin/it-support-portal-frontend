@@ -7,6 +7,13 @@
   margin-top: 0rem;
 }
 
+::ng-deep .clr-input-group {
+  width: 100%;
+  .clr-input {
+    min-width: 100%;
+  }
+}
+
 .employee-search-form {
   & .clr-control-container {
     //max-width: fit-content !important;

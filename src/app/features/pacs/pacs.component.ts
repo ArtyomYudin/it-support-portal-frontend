@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, AfterViewInit, ElementRef, ViewChild} from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { SubscriptionLike } from 'rxjs/internal/types';
@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatOptionModule } from '@angular/material/core';
 import { Event } from '@service/websocket.service.event';
 import { Employee } from '@model/employee.model';
 import { EmployeeNamePipe } from '@pipe/employeename.pipe';
@@ -19,15 +20,16 @@ import { GuestComponent } from './guest/guest.component';
 @Component({
     selector: 'fe-pacs',
     imports: [
-    ClarityModule,
-    ReactiveFormsModule,
-    MatAutocompleteModule,
+      ClarityModule,
+      ReactiveFormsModule,
+      MatAutocompleteModule,
+      MatOptionModule,
     // DatePipe,
     // EmployeeNamePipe,
-    GuestComponent,
-    EmployeeComponent,
-    DepartmentComponent
-],
+      GuestComponent,
+      EmployeeComponent,
+      DepartmentComponent
+    ],
     templateUrl: './pacs.component.html',
     styleUrls: ['./pacs.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,

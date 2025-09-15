@@ -1,14 +1,14 @@
-import {ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject} from '@angular/core';
 import { AsyncPipe, DatePipe } from '@angular/common';
 import { ClarityModule, ClrCommonStringsService } from '@clr/angular';
 import { Observable } from 'rxjs/internal/Observable';
-import {distinctUntilChanged, share, takeUntil, tap, scan} from 'rxjs/operators';
+import {distinctUntilChanged, tap, scan} from 'rxjs/operators';
 import { IPacsEvent } from '@model/pacs-event.model';
 import { WebsocketService } from '@service/websocket.service';
-import { Subject } from 'rxjs/internal/Subject';
 import { Event } from '@service/websocket.service.event';
 import { EmployeeNamePipe } from '@pipe/employeename.pipe';
 import { russionLocale } from '@translation/russion';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
     selector: 'fe-pacs-employee',
@@ -17,44 +17,27 @@ import { russionLocale } from '@translation/russion';
     styleUrls: ['./employee.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmployeeComponent implements OnDestroy, OnInit {
+export class EmployeeComponent {
   public loading = true;
-
-  // public eventArray: any[] = []
-
   public pacsEventArray$: Observable<IPacsEvent>;
 
-  // public pacsLastEventArray$: Observable<IPacsEvent>;
-
-  private ngUnsubscribe$: Subject<any> = new Subject();
-
+  private destroyRef = inject(DestroyRef);
 
   constructor(private wsService: WebsocketService, private commonStrings: ClrCommonStringsService) {
+    // локализация
     commonStrings.localize(russionLocale);
+
+   // поток событий
     this.pacsEventArray$ = this.wsService.on<IPacsEvent>(Event.EV_PACS_ENTRY_EXIT).pipe(
       distinctUntilChanged(),
-      // добавляем новое событие в начало массива
       scan((acc: IPacsEvent, curr: IPacsEvent) => {
         return {
           total: (acc?.total || 0) + (curr?.results?.length || 0),
           results: [...(curr?.results || []), ...(acc?.results || [])], // prepend новые события
         };
       }, { total: 0, results: [] } as IPacsEvent),
-      takeUntil(this.ngUnsubscribe$),
-      tap(() => {
-        this.loading = false;
-      }),
-    )
-  }
-
-  public ngOnInit(): void {
-    // this.pacsEventArray$.subscribe(data => {
-    //   this.eventArray.unshift(data.results[0])
-    // })
-  }
-
-  public ngOnDestroy(): void {
-    this.ngUnsubscribe$.next(null);
-    this.ngUnsubscribe$.complete();
+      tap(() => this.loading = false),
+      takeUntilDestroyed(this.destroyRef)
+    );
   }
 }
