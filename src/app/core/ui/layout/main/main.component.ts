@@ -24,10 +24,11 @@ loadCommerceIconSet();
 
 
 import { HeaderDesktopComponent } from '@core/ui/layout/header/header-desktop/header.component';
+import {ChatBotComponent} from "@feature/chat-bot/chat-bot.component";
 
 @Component({
     selector: 'fe-main',
-    imports: [RouterModule, ClarityModule, HeaderDesktopComponent],
+  imports: [RouterModule, ClarityModule, HeaderDesktopComponent, ChatBotComponent],
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

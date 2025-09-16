@@ -9,12 +9,10 @@ import {
   ViewChild
 } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subject } from 'rxjs/internal/Subject';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Chart, registerables } from 'chart.js';
 import { WebsocketService } from '@service/websocket.service';
 import { Event } from '@service/websocket.service.event';
-import { SubscriptionLike } from 'rxjs/internal/types';
 
 import { ClarityModule } from '@clr/angular';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -32,8 +30,6 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
   @ViewChild('hwAlarmChart', { static: true }) public refHWAlarmChart: ElementRef;
 
   public hwGroupAlarmListArray$: Observable<any>;
-
-  public hwGroupAlarmSubscription: SubscriptionLike;
 
   private hwAlarmChart: any;
 
@@ -69,7 +65,6 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.hwGroupAlarmSubscription.unsubscribe();
     this.hwAlarmChart.destroy();
   }
 
