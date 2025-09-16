@@ -1,3 +1,5 @@
+//TODO delete divided in header !!!!!!!
+
 .header-desktop {
   background-color: #fafafa;
   //border-bottom: 0.05rem solid #565656;
@@ -13,7 +15,7 @@
   }
 
   & .branding {
-    padding-left: 0rem;
+    padding-left: 0;
     & .title {
       color: #565656;
       font-size: 1rem;
@@ -121,7 +123,7 @@
   }
 
   & .notify-signpost {
-    position: relative;
+    position: inherit;
     display: inline-block;
     text-align: center;
     //padding: 0.9rem 1.2rem;

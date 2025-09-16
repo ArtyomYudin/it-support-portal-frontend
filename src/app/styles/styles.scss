@@ -59,12 +59,12 @@ body {
     // z-index: 1000;
   }
   .clr-vertical-nav .nav-trigger + .nav-content {
-    border-top-width: 0rem !important;
+    border-top-width: 0 !important;
     padding-top: .6rem !important;
   }
   .content-area {
     //margin-left: 2rem;
-    padding-top: 0rem !important;
+    padding-top: 0 !important;
   }
 
   .header-mobile {
@@ -209,6 +209,6 @@ button.datagrid-column-title {
 .module-title {
   font-size: 0.8rem;
   color: #565656;
-  padding-top: 0rem;
+  padding-top: 0;
   padding-bottom: 0.5rem;
 }

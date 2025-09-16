@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -8,6 +17,7 @@ import { Event } from '@service/websocket.service.event';
 import { SubscriptionLike } from 'rxjs/internal/types';
 
 import { ClarityModule } from '@clr/angular';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 Chart.register(...registerables);
 
@@ -31,20 +41,21 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
 
   private hwAlarmValue: any = [0];
 
-  private ngUnsubscribe$: Subject<any> = new Subject();
+  private destroyRef = inject(DestroyRef);
+
 
   constructor(private wsService: WebsocketService) {
     this.hwGroupAlarmListArray$ = this.wsService
       .on<any>(Event.EV_HARDWARE_GROUP_ALARM)
-      .pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe$));
+      .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef));
   }
 
   ngOnInit(): void {
     this.createHWAlarmChart();
-    this.hwGroupAlarmSubscription = this.hwGroupAlarmListArray$.subscribe(groupAlarm => {
+    this.hwGroupAlarmListArray$.subscribe(groupAlarm => {
       this.hwAlarmLabel.length = 0;
       this.hwAlarmValue.length = 0;
-      groupAlarm.forEach((group: { group: any; count: any }) => {
+      groupAlarm.results.forEach((group: { group: any; count: any }) => {
         if (group.count !== 0) {
           this.hwAlarmLabel.push(group.group);
           this.hwAlarmValue.push(group.count);
@@ -58,8 +69,6 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe$.next(null);
-    this.ngUnsubscribe$.complete();
     this.hwGroupAlarmSubscription.unsubscribe();
     this.hwAlarmChart.destroy();
   }
