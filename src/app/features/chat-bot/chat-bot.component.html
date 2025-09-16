@@ -1,0 +1,48 @@
+<div class="chat-bot-container">
+  <!-- Кнопка вызова чата -->
+  <button
+    class="chat-toggle-btn"
+    (click)="toggleChat()"
+    [attr.aria-expanded]="isOpen()"
+    aria-label="Открыть чат"
+  >
+    💬
+  </button>
+
+  <!-- Окно чата -->
+  <div *ngIf="isOpen()" class="chat-window">
+    <div class="chat-header">
+      <h3>Чат с ботом</h3>
+      <button (click)="toggleChat()" aria-label="Закрыть чат">×</button>
+    </div>
+
+    <div class="chat-body" #chatBody>
+      <div
+        *ngFor="let msg of messages()"
+        class="message-row"
+        [class.user]="msg.from === 'user'"
+        [class.bot]="msg.from === 'bot'"
+      >
+        <div class="avatar" *ngIf="msg.from === 'bot'">🤖</div>
+        <div class="message">{{ msg.text }}</div>
+        <div class="avatar" *ngIf="msg.from === 'user'">🙂</div>
+      </div>
+
+      <!-- Индикатор печати -->
+      <div class="typing-indicator" *ngIf="isTyping()">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+      </div>
+    </div>
+
+    <div class="chat-footer">
+      <input
+        #input
+        type="text"
+        (keyup.enter)="sendMessage(input.value); input.value=''"
+        placeholder="Введите сообщение..."
+      />
+    </div>
+  </div>
+</div>
