@@ -26,7 +26,6 @@ export class AvayaCDRFilterComponent implements OnInit, OnDestroy {
     // { name: '90 дней', value: 2160 },
     // { name: '180 дней', value: 4320 },
   ];
-
   public avayaFilter: FormGroup;
 
   public avayaFilterCriteria: any;
@@ -42,9 +41,9 @@ export class AvayaCDRFilterComponent implements OnInit, OnDestroy {
     this.avayaFilter = this.formBuilder.group({
       avayaViewPeriod: [{ name: '6 часов', value: 6 }],
     });
-    this.avayaFilterCriteria = { period: 6 };
-    this.wsService.send('getAvayaCDR', 6);
-    this.avayaCDRService.sendStatus(true);
+    // this.avayaFilterCriteria = { period: 6 };
+    // this.wsService.send('getAvayaCDR', 6);
+    // this.avayaCDRService.sendStatus(true);
     this.wsService.send('getAvayaCDR', this.avayaFilter.controls.avayaViewPeriod.value.value);
     this.reloadAvayaCDR = setInterval(() => {
       this.wsService.send('getAvayaCDR', this.avayaFilter.controls.avayaViewPeriod.value.value);

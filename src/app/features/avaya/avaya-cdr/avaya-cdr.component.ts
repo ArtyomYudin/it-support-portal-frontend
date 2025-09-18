@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
 import { Subject } from 'rxjs/internal/Subject';
 import { Observable } from 'rxjs/internal/Observable';
 import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { AvayaDurationConvertPipe } from '@pipe/avayadurationconvert.pipe';
 import { AvayaCallCodeConvertPipe } from '@pipe/avayacallcodeconvert.pipe';
 import { russionLocale } from '@translation/russion';
 import { AvayaCDRFilterComponent } from '../avaya-cdr-filter/avaya-cdr-filter.component';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
     selector: 'fe-avaya-cdr',
@@ -29,13 +30,14 @@ import { AvayaCDRFilterComponent } from '../avaya-cdr-filter/avaya-cdr-filter.co
     styleUrls: ['./avaya-cdr.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AvayaCDRComponent implements OnInit, OnDestroy {
+export class AvayaCDRComponent implements OnInit {
   // public loading = true;
   public loading: boolean;
 
   public eventAvayaCDRArray$: Observable<IAvayaCDR>;
 
   private ngUnsubscribe$: Subject<any> = new Subject();
+  private destroyRef = inject(DestroyRef);
 
   constructor(
     private wsService: WebsocketService,
@@ -45,10 +47,10 @@ export class AvayaCDRComponent implements OnInit, OnDestroy {
     commonStrings.localize(russionLocale);
     this.eventAvayaCDRArray$ = this.wsService.on<IAvayaCDR>(Event.EV_AVAYA_CDR).pipe(
       distinctUntilChanged(),
-      takeUntil(this.ngUnsubscribe$),
       tap(() => {
         this.loading = false;
       }),
+      takeUntilDestroyed(this.destroyRef)
     );
   }
 
@@ -58,8 +60,8 @@ export class AvayaCDRComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.ngUnsubscribe$.next(null);
-    this.ngUnsubscribe$.complete();
-  }
+  // ngOnDestroy(): void {
+  //   this.ngUnsubscribe$.next(null);
+  //   this.ngUnsubscribe$.complete();
+  // }
 }
