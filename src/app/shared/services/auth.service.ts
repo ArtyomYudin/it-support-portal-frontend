@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
-//import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtHelperService } from '@auth0/angular-jwt';
 import { jwtDecode } from 'jwt-decode';
 import { AuthUser } from '@model/auth-user.model';
 import { environment } from 'src/environments/environment';
@@ -16,9 +16,9 @@ export class AuthenticationService {
   private currentUserSubject$: BehaviorSubject<AuthUser>;
 
   //constructor(private http: HttpClient, private jwtHelper: JwtHelperService)
-  constructor(private http: HttpClient) {
-    //this.currentUserSubject$ = new BehaviorSubject<AuthUser>(JSON.parse(localStorage.getItem('IT-Support-Portal')));
-    this.currentUserSubject$ = new BehaviorSubject<AuthUser>(JSON.parse(localStorage.getItem('currentUser')));
+  constructor(private http: HttpClient, private jwtHelper: JwtHelperService) {
+    this.currentUserSubject$ = new BehaviorSubject<AuthUser>(JSON.parse(localStorage.getItem('IT-Support-Portal')));
+    // this.currentUserSubject$ = new BehaviorSubject<AuthUser>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser$ = this.currentUserSubject$.asObservable();
   }
 
@@ -67,7 +67,7 @@ export class AuthenticationService {
                   currentUser = jwtDecode(response.access)
                   currentUser.token = response.access
                   currentUser.refreshToken = response.refresh
-                  localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                  localStorage.setItem('IT-Support-Portal', JSON.stringify(currentUser));
                   this.currentUserSubject$.next(currentUser);
               }
               console.log(currentUser)
@@ -93,7 +93,7 @@ export class AuthenticationService {
                         currentUser = jwtDecode(response.access)
                         currentUser.token = response.access
                         currentUser.refreshToken = response.refresh
-                        localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                        localStorage.setItem('IT-Support-Portal', JSON.stringify(currentUser));
                         this.currentUserSubject$.next(currentUser);
                     }
                     return currentUser;
@@ -109,7 +109,7 @@ export class AuthenticationService {
     this.currentUserSubject$.next(null);
   }
 
-  /*
+
   public isAuthenticated(): boolean {
     if (localStorage.getItem('IT-Support-Portal')) {
       const { token } = JSON.parse(localStorage.getItem('IT-Support-Portal'));
@@ -118,5 +118,4 @@ export class AuthenticationService {
     }
     return false;
   }
-   */
 }

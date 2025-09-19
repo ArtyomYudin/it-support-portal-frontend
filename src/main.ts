@@ -34,7 +34,7 @@ import { routes } from '@core/app-routing.module';
 import { registerLocaleData } from '@angular/common';
 import { JwtInterceptor } from '@service/jwt.interceptor';
 import localeRu from '@angular/common/locales/ru';
-//import { JwtModule } from '@auth0/angular-jwt';
+import { JwtModule } from '@auth0/angular-jwt';
 import { AppComponent } from '@app/app.component';
 
 // Импортируем Clarity
@@ -43,8 +43,8 @@ import { ClarityModule } from '@clr/angular';
 registerLocaleData(localeRu, 'ru');
 
 export function jwtTokenGetter(): string {
-  //return localStorage.getItem('IT-Support-Portal') ? JSON.parse(localStorage.getItem('IT-Support-Portal')).token : null;
-  return localStorage.getItem('CurrentUser') ? JSON.parse(localStorage.getItem('CurrentUser')).token : null;
+  return localStorage.getItem('IT-Support-Portal') ? JSON.parse(localStorage.getItem('IT-Support-Portal')).token : null;
+  // return localStorage.getItem('CurrentUser') ? JSON.parse(localStorage.getItem('CurrentUser')).token : null;
 }
 
 bootstrapApplication(AppComponent, {
@@ -55,14 +55,14 @@ bootstrapApplication(AppComponent, {
     provideAnimations(),
     // provideHttpClient(withInterceptorsFromDi()),
     importProvidersFrom(HttpClientModule),
-    //importProvidersFrom(JwtModule),
-    //importProvidersFrom(
-    //  JwtModule.forRoot({
-    //    config: {
-    //      tokenGetter: jwtTokenGetter,
-    //    },
-     // }),
-    //),
+    importProvidersFrom(JwtModule),
+    importProvidersFrom(
+     JwtModule.forRoot({
+       config: {
+         tokenGetter: jwtTokenGetter,
+       },
+     }),
+    ),
     importProvidersFrom(RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })),
     // Подключаем ClarityModule
     // importProvidersFrom(
