@@ -7,77 +7,71 @@ import { catchError, switchMap, filter, take } from 'rxjs/operators'
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private authenticationService: AuthenticationService) { }
+  private isRefreshing = false;
+  private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
 
-    intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        // add auth header with jwt if user is logged in and request is to api url
-        const currentUser = this.authenticationService.currentUserValue;
-        const isLoggedIn = currentUser && currentUser.token;
-        const isApiUrl = request.url.startsWith(environment.apiUrl);
-        // console.log(request)
-        if (isLoggedIn
-            && isApiUrl
-            && currentUser
-            && request.url != `${environment.apiUrl}/${environment.jwtRefresh}`
-            && request.url != `${environment.apiUrl}/${environment.jwtLogin}`
-            ) {
-            request = request.clone({
-                setHeaders: {
-                    Authorization: `Bearer ${currentUser.token}`
-                }
-            });
-        }
+  constructor(private authenticationService: AuthenticationService) {}
 
-        return next.handle(request).pipe(catchError(error => {
-            if ( error instanceof HttpErrorResponse && (error.status === 401 || error.status === 403)
-              && request.url === `${environment.apiUrl}/${environment.jwtRefresh}`) {
-              // We do another check to see if refresh token failed
-              // In this case we want to logout user and to redirect it to login page
-              // console.log('on your way out')
-              this.authenticationService.logout();
-              return throwError(error);
-            }
-            else if (error instanceof HttpErrorResponse && error.status === 403) {
-                return this.handle403Error(request, next);
-            } else {
-                return throwError(error);
-            }
-          }));
-        // return next.handle(request);
+  intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    const currentUser = this.authenticationService.currentUserValue;
+    const token = currentUser?.token || null;
+    const isLoggedIn = !!token;
+    const isApiUrl = request.url.startsWith(environment.apiUrl);
+
+    if (
+      isLoggedIn &&
+      isApiUrl &&
+      request.url !== `${environment.apiUrl}/${environment.jwtRefresh}` &&
+      request.url !== `${environment.apiUrl}/${environment.jwtLogin}`
+    ) {
+      request = this.addToken(request, token!);
     }
 
-    private isRefreshing = false;
-    private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
-    private handle403Error(request: HttpRequest<any>, next: HttpHandler) {
-        // console.log('handling 403')
-        if (!this.isRefreshing) {
-          this.isRefreshing = true;
-          this.refreshTokenSubject.next(null);
-
-          return this.authenticationService.refreshToken().pipe(
-            switchMap((token: any) => {
-              this.isRefreshing = false;
-              this.refreshTokenSubject.next(token.jwt);
-              return next.handle(this.addToken(request, token.jwt));
-            }));
-
+    return next.handle(request).pipe(
+      catchError(error => {
+        if (
+          error instanceof HttpErrorResponse &&
+          (error.status === 401 || error.status === 403) &&
+          request.url === `${environment.apiUrl}/${environment.jwtRefresh}`
+        ) {
+          this.authenticationService.logout();
+          return throwError(() => error);
+        } else if (error instanceof HttpErrorResponse && error.status === 403) {
+          return this.handle403Error(request, next);
         } else {
-          return this.refreshTokenSubject.pipe(
-            filter(token => token != null),
-            take(1),
-            switchMap(jwt => {
-              return next.handle(this.addToken(request, jwt));
-            }));
+          return throwError(() => error);
         }
-      }
+      })
+    );
+  }
 
-      private addToken(request: HttpRequest<any>, token: string) {
-        const currentUser = this.authenticationService.currentUserValue;
-        return request.clone({
-          setHeaders: {
-            'Authorization': `Bearer  ${currentUser.token}`
-          }
-        });
+  private handle403Error(request: HttpRequest<any>, next: HttpHandler) {
+    if (!this.isRefreshing) {
+      this.isRefreshing = true;
+      this.refreshTokenSubject.next(null);
+
+      return this.authenticationService.refreshToken().pipe(
+        switchMap((user: any) => {
+          this.isRefreshing = false;
+          const newToken = user?.token;
+          this.refreshTokenSubject.next(newToken);
+          return next.handle(this.addToken(request, newToken));
+        })
+      );
+    } else {
+      return this.refreshTokenSubject.pipe(
+        filter(token => token != null),
+        take(1),
+        switchMap(jwt => next.handle(this.addToken(request, jwt!)))
+      );
+    }
+  }
+
+  private addToken(request: HttpRequest<any>, token: string) {
+    return request.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
       }
+    });
+  }
 }

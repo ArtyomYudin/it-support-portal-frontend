@@ -1,4 +1,4 @@
-import {Inject, Injectable, Input, OnDestroy} from '@angular/core';
+import {inject, Injectable, Input, OnDestroy} from '@angular/core';
 // import { Observable } from 'rxjs/internal/Observable';
 import { Observable, Subject, interval, ReplaySubject } from 'rxjs';
 import { SubscriptionLike, Observer } from 'rxjs/internal/types';
@@ -13,6 +13,22 @@ import { share, filter, map, takeWhile, distinctUntilChanged } from 'rxjs/operat
 
 import { WebSocketSubject, WebSocketSubjectConfig } from 'rxjs/webSocket';
 import { environment } from 'src/environments/environment';
+import {AuthenticationService} from "@service/auth.service";
+
+export function websocketInitializer() {
+  const authService = inject(AuthenticationService);
+  const wsService = inject(WebsocketService);
+
+  return () => {
+    const currentUser = authService.currentUserValue;
+    if (currentUser && currentUser.token) {
+      console.log('WebSocket: пользователь уже залогинен — инициализируем соединение...');
+      wsService.init(currentUser.token);
+    } else {
+      console.log('WebSocket: пользователь не залогинен — пропускаем инициализацию.');
+    }
+  };
+}
 
 export interface IWebsocketService {
   status: Observable<boolean>;
@@ -46,34 +62,61 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
   private config: WebSocketSubjectConfig<IwsMessage<any>>;
 
   private websocketSub: SubscriptionLike;
-
   private statusSub: SubscriptionLike;
 
   private reconnection$: Observable<number>;
-
   private websocket$: WebSocketSubject<IwsMessage<any>>;
-
   private connection$: Observer<boolean>;
-
   private wsMessages$: Subject<IwsMessage<any>>;
 
-  private reconnectInterval: number;
+  private reconnectInterval: number = 5000;
+  private reconnectAttempts: number = 200;
 
-  private reconnectAttempts: number;
+  private isConnected: boolean = false;
+  private isInitialized: boolean = false; // ← новый флаг
 
-  private isConnected: boolean;
-
-  token = JSON.parse(localStorage.getItem('currentUser')).token;
-
-  // @Inject('isCreated') private isCreated: boolean
   constructor() {
+    // Только базовая инициализация без token
     this.wsMessages$ = new Subject<IwsMessage<any>>();
 
-    this.reconnectInterval = 5000; // pause between connections
-    this.reconnectAttempts = 200; // number of connection attempts
-    this.config = {
+    // connection status observable
+    this.status = new Observable<boolean>(observer => {
+      this.connection$ = observer;
+    }).pipe(
+      share({
+        connector: () => new ReplaySubject(1),
+        resetOnError: false,
+        resetOnComplete: false,
+        resetOnRefCountZero: false,
+      }),
+      distinctUntilChanged(),
+    );
 
-      url: `ws://${environment.apiHost}:${environment.apiPort}/${environment.WebSocketPath}?token=${(this.token)}`,
+    // Подписка на статус для реконнекта
+    this.statusSub = this.status.subscribe(isConnected => {
+      this.isConnected = isConnected;
+      if (!this.reconnection$ && !isConnected) {
+        this.reconnect();
+      }
+    });
+
+    // Подписка на сообщения (логирование ошибок)
+    this.websocketSub = this.wsMessages$.subscribe({
+      error: (error: ErrorEvent) => console.log('WebSocket error!', error)
+    });
+  }
+
+  public init(token: string): void {
+    if (this.isInitialized) {
+      console.warn('WebSocketService уже инициализирован');
+      return;
+    }
+
+    this.isInitialized = true;
+
+    // Формируем URL с токеном
+    this.config = {
+      url: `ws://${environment.apiHost}:${environment.apiPort}/${environment.WebSocketPath}?token=${token}`,
       closeObserver: {
         next: (event: CloseEvent) => {
           this.websocket$ = null;
@@ -88,66 +131,42 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
       },
     };
 
-    // connection status
-    this.status = new Observable<boolean>(observer => {
-      this.connection$ = observer;
-    }).pipe(
-      share({
-        connector: () => new ReplaySubject(1),
-        resetOnError: false,
-        resetOnComplete: false,
-        resetOnRefCountZero: false,
-      }),
-      distinctUntilChanged(),
-    );
-
-    // run reconnect if not connection
-    this.statusSub = this.status.subscribe(isConnected => {
-      this.isConnected = isConnected;
-
-      if (!this.reconnection$ && typeof isConnected === 'boolean' && !isConnected) {
-        this.reconnect();
-      }
-    });
-
-    this.websocketSub = this.wsMessages$.subscribe(null, (error: ErrorEvent) => console.log('WebSocket error!', error));
-
+    // Запускаем первое подключение
     this.connect();
   }
 
   public ngOnDestroy(): void {
-    this.websocketSub.unsubscribe();
-    this.statusSub.unsubscribe();
+    this.disconnect();
   }
 
-  /*
-   * on message event
-   * */
+  public disconnect(): void {
+    if (this.websocket$) {
+      this.websocket$.complete();
+    }
+    if (this.websocketSub) {
+      this.websocketSub.unsubscribe();
+    }
+    if (this.statusSub) {
+      this.statusSub.unsubscribe();
+    }
+  }
+
   public on<T>(event: string): Observable<T> {
-    if (event) {
-      return this.wsMessages$.pipe(
-        filter((message: IwsMessage<T>) => message.event === event),
-        map((message: IwsMessage<T>) => message.data),
-      );
-    }
-    return null;
+    if (!event) return null;
+    return this.wsMessages$.pipe(
+      filter((message: IwsMessage<T>) => message.event === event),
+      map((message: IwsMessage<T>) => message.data),
+    );
   }
 
-  /*
-   * on message to server
-   * */
   public send(event: string, data: any = {}): void {
-    if (event && this.isConnected) {
-      // this.websocket$.next(JSON.stringify({ event, data }) as any);
-      this.websocket$.next({ event, data } as any);
-    } else {
-      console.log('Send error!');
+    if (!event || !this.isConnected || !this.websocket$) {
+      console.warn('WebSocket не подключен — сообщение не отправлено:', {event, data});
+      return;
     }
+    this.websocket$.next({event, data} as any);
   }
 
-  /*
-   * connect to WebSocked
-   * */
   private connect(): void {
     this.websocket$ = new WebSocketSubject(this.config);
 
@@ -155,39 +174,29 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
       next: message => this.wsMessages$.next(message),
       error: () => {
         if (!this.websocket$) {
-          // run reconnect if errors
           this.reconnect();
         }
       },
-      complete: null,
+      complete: () => {
+        // ничего не делаем — переподключение через reconnect()
+      }
     });
   }
 
-  public disconnect(): void {
-    this.websocket$.complete()
-    this.websocketSub.unsubscribe();
-    this.statusSub.unsubscribe();
-  }
-
-  /*
-   * reconnect if not connecting or errors
-   * */
   private reconnect(): void {
-    this.reconnection$ = interval(this.reconnectInterval)
-      .pipe(takeWhile((v, index) => index < this.reconnectAttempts && !this.websocket$));
+    this.reconnection$ = interval(this.reconnectInterval).pipe(
+      takeWhile((v, index) => index < this.reconnectAttempts && !this.websocket$)
+    );
 
     this.reconnection$.subscribe({
       next: () => this.connect(),
-      error: null,
       complete: () => {
-        // Subject complete if reconnect attemts ending
         this.reconnection$ = null;
-
         if (!this.websocket$) {
           this.wsMessages$.complete();
           this.connection$.complete();
         }
-      },
+      }
     });
   }
 }
