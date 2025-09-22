@@ -24,7 +24,7 @@
         [class.bot]="msg.from === 'bot'"
       >
         <div class="avatar" *ngIf="msg.from === 'bot'">🤖</div>
-        <div class="message">{{ msg.text }}</div>
+        <markdown class="message" [data]="msg.text"></markdown>
         <div class="avatar" *ngIf="msg.from === 'user'">🙂</div>
       </div>
 

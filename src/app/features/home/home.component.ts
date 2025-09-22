@@ -1,10 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
-import {distinctUntilChanged, share, takeUntil, tap} from 'rxjs/operators';
+import {distinctUntilChanged, map, share, takeUntil, tap} from 'rxjs/operators';
 import { ClarityModule } from '@clr/angular';
 import { Chart, registerables } from 'chart.js';
-import { AsyncPipe } from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { DynamicScriptLoaderService } from '@service/dynamic.script.loader.service';
 import { WebsocketService } from '@service/websocket.service';
@@ -14,6 +14,7 @@ import { ProviderChartComponent } from './chart/provider/provider.component';
 import { AvayaE1ChartComponent } from './chart/avaya-e1/avaya-e1.component';
 import { HardwareChartComponent } from './chart/hardware/hardware.component';
 import { AvayaE1DailyChartComponent } from './chart/avaya-e1-daily/avaya-e1-daily.component';
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 declare let streamCam: any;
 declare let streamCamRoom1: any;
@@ -23,15 +24,16 @@ Chart.register(...registerables);
 
 @Component({
     selector: 'fe-home',
-    imports: [
+  imports: [
     ClarityModule,
     RouterModule,
     AsyncPipe,
     ProviderChartComponent,
     AvayaE1ChartComponent,
     HardwareChartComponent,
-    AvayaE1DailyChartComponent
-],
+    AvayaE1DailyChartComponent,
+    DatePipe
+  ],
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
@@ -45,9 +47,9 @@ export default class HomeComponent implements OnInit, OnDestroy {
 
   public vpnActiveSessionCountArray$: Observable<any>;
 
-  public dhcpInfoArray$: Observable<any>;
+  public vpnSessionsByHost$: Observable<any>;
 
-  private ngUnsubscribe$: Subject<any> = new Subject();
+  public dhcpInfoArray$: Observable<any>;
 
   private mainCamPlayer: any;
 
@@ -57,33 +59,51 @@ export default class HomeComponent implements OnInit, OnDestroy {
 
   private isConnected: boolean;
 
+  private destroyRef = inject(DestroyRef);
+
   constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private wsService: WebsocketService) {
     this.vpnActiveSessionCountArray$ = this.wsService.on<any>(Event.EV_VPN_ACTIVE_SESSION_COUNT).pipe(
       distinctUntilChanged(),
-      takeUntil(this.ngUnsubscribe$),
       tap(() => {
         this.vpnLoading = false;
       }),
+      takeUntilDestroyed(this.destroyRef)
     );
+    // Создаем новый Observable, который преобразует объект в массив пар [host, sessions]
+    this.vpnSessionsByHost$ = this.vpnActiveSessionCountArray$.pipe(
+      map(results => {
+        if (!results.results || typeof results.results !== 'object') return [];
+        return Object.entries(results.results).map(([host, sessions]) => ({
+          host,
+          sessions
+        }));
+      })
+    );
+    // this.vpnSessionsByHost$.subscribe(data => {
+    //   console.log('vpnSessionsByHost$ emits:', data);
+    //   console.log('Type:', Array.isArray(data) ? '✅ Массив' : '❌ НЕ массив!');
+    // });
     this.dhcpInfoArray$ = this.wsService.on<any>(Event.EV_DHCP_INFO).pipe(
       distinctUntilChanged(),
-      takeUntil(this.ngUnsubscribe$),
       tap(() => {
         this.dhcpLoading = false;
       }),
+      takeUntilDestroyed(this.destroyRef)
     );
   }
 
   public ngOnInit(): void {
-    this.wsService.status.pipe(share(), distinctUntilChanged(), takeUntil(this.ngUnsubscribe$)).subscribe(isConnected => {
+    this.wsService.status.pipe(
+      share(),
+      distinctUntilChanged(),
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(isConnected => {
       this.wsService.send('getDashboardEvent', null);
     });
     this.loadScripts();
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe$.next(null);
-    this.ngUnsubscribe$.complete();
     this.mainCamPlayer.destroy();
     this.room1CamPlayer.destroy();
     this.room2CamPlayer.destroy();

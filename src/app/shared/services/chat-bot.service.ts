@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
 
 export interface ChatMessage {
   role: 'user' | 'assistant';
@@ -11,16 +10,113 @@ export interface ChatMessage {
   providedIn: 'root'
 })
 export class ChatService {
-  private apiUrl = 'http://127.0.0.1:8080/ask/stream'; //  эндпоинт
+  private streamUrl = 'http://172.20.4.50:8008/ask/stream';
+  private sseUrl = 'http://172.20.4.50:8008/ask/sse';
 
   constructor(private http: HttpClient) {}
 
-  async sendMessage(messages: ChatMessage[]): Promise<string> {
-    // POST запрос к твоему API
-    const response = await firstValueFrom(
-      this.http.post<{ reply: string }>(this.apiUrl, { messages })
-    );
+  /**
+   * Отправка вопроса и получение полного ответа (без стрима)
+   * ⚠️ Работает только если сервер вернёт цельный JSON, а у тебя — StreamingResponse,
+   * поэтому этот метод может не подойти.
+   */
+  async askOnce(question: string, sessionId = 'api'): Promise<string> {
+    const res = await fetch(this.streamUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, session_id: sessionId }),
+    });
 
-    return response.reply; // предполагаем, что бэкенд возвращает { reply: '...' }
+    return await res.text(); // весь ответ скопом
+  }
+
+  /**
+   * Streaming-метод: onChunk вызывается на каждый кусочек ответа
+   */
+  async askStream(
+    question: string,
+    sessionId = 'api',
+    onChunk: (chunk: string) => void,
+    onFinish?: () => void,
+  ): Promise<void> {
+    try {
+    const res = await fetch(this.streamUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question, session_id: sessionId }),
+    });
+
+    if (!res.body) {
+      throw new Error('Response body is null');
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder('utf-8');
+
+    let buffer = ''; // буфер для сборки частичных UTF-8 последовательностей
+
+    while (true) {
+      const { done, value } = await reader.read();
+
+      if (done) {
+        if (buffer) {
+          onChunk(buffer); // скидываем остаток
+        }
+        onFinish?.();
+        break;
+      }
+
+      // Декодируем с поддержкой потока (stream: true)
+      buffer += decoder.decode(value, { stream: true });
+
+      // Опционально: если хочешь отдавать по предложениям — раскомментируй:
+      /*
+      const sentences = buffer.split(/(?<=[.!?])\s+/);
+      buffer = sentences.pop() || ''; // оставляем незавершённое предложение в буфере
+
+      for (const sentence of sentences) {
+        onChunk(sentence + ' ');
+      }
+      */
+
+      // Отправляем всё, что есть — без задержки
+      if (buffer) {
+        onChunk(buffer);
+        buffer = ''; // очищаем, если отправили всё
+      }
+    }
+  } catch (error) {
+    console.error('Ошибка при стриминге:', error);
+    onChunk('[Ошибка при получении ответа]');
+  }
+  }
+
+  /**
+   * SSE-вариант (GET /ask/sse)
+   */
+  startSSE(
+    question: string,
+    sessionId = 'api-sse',
+    onToken: (token: string) => void,
+    onDone?: () => void,
+  ): EventSource {
+    const url = `${this.sseUrl}?question=${encodeURIComponent(question)}&session_id=${encodeURIComponent(sessionId)}`;
+    const es = new EventSource(url);
+
+    es.addEventListener('token', (event: MessageEvent) => {
+      onToken(event.data);
+    });
+
+    es.addEventListener('done', () => {
+      onDone?.();
+      es.close();
+    });
+
+    es.onerror = (err) => {
+      console.error('SSE error', err);
+      es.close();
+    };
+
+    return es;
   }
 }
