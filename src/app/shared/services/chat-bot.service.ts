@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+
+export type MessageType = 'status' | 'response' | 'error' | 'info';
+export type MessageFrom = 'user' | 'bot';
+
 export interface ChatMessage {
-  role: 'user' | 'assistant';
-  content: string;
+  type: MessageType;
+  from: MessageFrom;
+  text: string;
 }
 
 @Injectable({
@@ -94,17 +99,23 @@ export class ChatService {
   /**
    * SSE-вариант (GET /ask/sse)
    */
-  startSSE(
+  askSSE(
     question: string,
     sessionId = 'api-sse',
-    onToken: (token: string) => void,
+    onToken: (token: { type: string; text: string }) => void,
     onDone?: () => void,
   ): EventSource {
     const url = `${this.sseUrl}?question=${encodeURIComponent(question)}&session_id=${encodeURIComponent(sessionId)}`;
     const es = new EventSource(url);
 
     es.addEventListener('token', (event: MessageEvent) => {
-      onToken(event.data);
+      try {
+        const parsed = JSON.parse(event.data) as { type: string; text: string };
+        onToken(parsed);
+      } catch (err) {
+        console.error("Ошибка парсинга SSE data", err, event.data);
+      }
+      // onToken(event.data);
     });
 
     es.addEventListener('done', () => {

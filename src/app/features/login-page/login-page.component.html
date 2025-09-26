@@ -1,33 +1,35 @@
 <div class="login-wrapper">
   <form [formGroup]="loginForm" class="login" (ngSubmit)="onSubmit()" autocomplete="off">
-    <section class="title">
-      <h3 class="welcome">Добро пожаловать на</h3>
-      Портал информационно-технического обеспечения
-      <h5 class="hint">Используйте свои учетные данные для входа в систему</h5>
-    </section>
-    <div class="login-group">
-      <!--<clr-select-container>
-      <select clrSelect name="type" class="clr-select">
-        <option value="local">Пользователь</option>
-        <option value="admin">Администратор</option>
-      </select>
-    </clr-select-container>-->
-    <clr-input-container>
-      <input
-        type="text"
-        formControlName="userPrincipalName"
-        clrInput
-        placeholder="Доменное имя формата i.ivanov@center-inform.ru"
-        required
-        />
-    </clr-input-container>
-    <clr-password-container>
-      <input type="password" formControlName="password" clrPassword placeholder="Пароль" required />
-    </clr-password-container>
-    @if (error) {
-      <div class="error active">Неправильные учетные данные</div>
-    }
-    <button type="submit" class="btn btn-primary">Войти</button>
-  </div>
-</form>
+    <div class="login-body">
+      <section class="title">
+        <h3 class="welcome">Добро пожаловать на</h3>
+        Портал информационно-технического обеспечения
+        <h5 class="hint">Используйте свои учетные данные для входа в систему</h5>
+      </section>
+      <div class="login-group">
+        <!--<clr-select-container>
+        <select clrSelect name="type" class="clr-select">
+          <option value="local">Пользователь</option>
+          <option value="admin">Администратор</option>
+        </select>
+        </clr-select-container>-->
+        <clr-input-container>
+          <input
+            type="text"
+            formControlName="userPrincipalName"
+            clrInput
+            placeholder="Доменное имя формата i.ivanov@center-inform.ru"
+            required
+            />
+        </clr-input-container>
+        <clr-password-container>
+          <input type="password" formControlName="password" clrPassword placeholder="Пароль" required />
+        </clr-password-container>
+        @if (error) {
+          <div class="error active">Неправильные учетные данные</div>
+        }
+        <button type="submit" class="btn btn-primary">Войти</button>
+      </div>
+    </div>
+  </form>
 </div>

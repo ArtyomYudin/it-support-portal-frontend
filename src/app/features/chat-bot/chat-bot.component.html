@@ -6,34 +6,51 @@
     [attr.aria-expanded]="isOpen()"
     aria-label="Открыть чат"
   >
-    💬
+    <cds-icon shape="chat-bubble" size="lg"></cds-icon>
   </button>
 
   <!-- Окно чата -->
-  <div *ngIf="isOpen()" class="chat-window">
+  @if (isOpen()) {
+    <div class="chat-window">
     <div class="chat-header">
       <h3>Чат с ботом</h3>
       <button (click)="toggleChat()" aria-label="Закрыть чат">×</button>
     </div>
 
     <div class="chat-body" #chatBody>
-      <div
-        *ngFor="let msg of messages()"
+      @for (msg of messages(); track msg.from) {
+        <div
         class="message-row"
         [class.user]="msg.from === 'user'"
         [class.bot]="msg.from === 'bot'"
-      >
-        <div class="avatar" *ngIf="msg.from === 'bot'">🤖</div>
-        <markdown class="message" [data]="msg.text"></markdown>
-        <div class="avatar" *ngIf="msg.from === 'user'">🙂</div>
-      </div>
+        >
+          @if (msg.from === 'bot') {
+<!--            <div class="avatar">🤖</div>-->
+            <div class="avatar" ><cds-icon shape="administrator" size="lg"></cds-icon></div>
+          }
+          <div class="message markdown-body">
+            @if (msg.type === 'status') {
+              <div class="status-message">{{ msg.text }}</div>
+            }
+            @if (msg.type === 'response') {
+              <markdown [data]="msg.text"></markdown>
+            }
+          </div>
+          @if (msg.from === 'user') {
+<!--            <div class="avatar">🙂</div>-->
+            <div class="avatar" ><cds-icon shape="user" size="lg"></cds-icon></div>
+          }
+        </div>
+      }
 
       <!-- Индикатор печати -->
-      <div class="typing-indicator" *ngIf="isTyping()">
-        <div class="dot"></div>
-        <div class="dot"></div>
-        <div class="dot"></div>
-      </div>
+      @if (isTyping()) {
+        <div class="typing-indicator">
+          <div class="dot"></div>
+          <div class="dot"></div>
+          <div class="dot"></div>
+        </div>
+      }
     </div>
 
     <div class="chat-footer">
@@ -44,5 +61,6 @@
         placeholder="Введите сообщение..."
       />
     </div>
-  </div>
+    </div>
+  }
 </div>

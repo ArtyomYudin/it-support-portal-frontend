@@ -15,6 +15,7 @@ import { AvayaE1ChartComponent } from './chart/avaya-e1/avaya-e1.component';
 import { HardwareChartComponent } from './chart/hardware/hardware.component';
 import { AvayaE1DailyChartComponent } from './chart/avaya-e1-daily/avaya-e1-daily.component';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import {EmployeeNamePipe} from "@pipe/employeename.pipe";
 
 declare let streamCam: any;
 declare let streamCamRoom1: any;
@@ -32,7 +33,8 @@ Chart.register(...registerables);
     AvayaE1ChartComponent,
     HardwareChartComponent,
     AvayaE1DailyChartComponent,
-    DatePipe
+    DatePipe,
+    EmployeeNamePipe
   ],
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
@@ -98,6 +100,7 @@ export default class HomeComponent implements OnInit, OnDestroy {
       distinctUntilChanged(),
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(isConnected => {
+      console.log("Send getDashboardEvent");
       this.wsService.send('getDashboardEvent', null);
     });
     this.loadScripts();

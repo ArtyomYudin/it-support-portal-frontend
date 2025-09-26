@@ -33,6 +33,7 @@ import { CustomReuseStrategy } from '@core/custom-reuse-strategy';
 import { routes } from '@core/app-routing.module';
 import { registerLocaleData } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
+import { provideHighlightOptions } from 'ngx-highlightjs';
 import { JwtInterceptor } from '@service/jwt.interceptor';
 import localeRu from '@angular/common/locales/ru';
 // import { JwtModule } from '@auth0/angular-jwt';
@@ -48,6 +49,7 @@ registerLocaleData(localeRu, 'ru');
 //   return localStorage.getItem('IT-Support-Portal') ? JSON.parse(localStorage.getItem('IT-Support-Portal')).token : null;
 //   // return localStorage.getItem('CurrentUser') ? JSON.parse(localStorage.getItem('CurrentUser')).token : null;
 // }
+
 
 bootstrapApplication(AppComponent, {
   providers: [
@@ -70,7 +72,10 @@ bootstrapApplication(AppComponent, {
     //    },
     //  }),
     // ),
-    importProvidersFrom(MarkdownModule.forRoot()),
+    provideHighlightOptions({
+      fullLibraryLoader: () => import('highlight.js')
+    }),
+    importProvidersFrom(MarkdownModule.forRoot({})),
     importProvidersFrom(RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })),
     // Подключаем ClarityModule
     // importProvidersFrom(

@@ -7,13 +7,14 @@ import { jwtDecode } from 'jwt-decode';
 import { AuthUser } from '@model/auth-user.model';
 import { environment } from 'src/environments/environment';
 import { WebsocketService } from '@service/websocket.service';
+import {SessionService} from "@service/session.service";
 
 @Injectable({ providedIn: 'root' })
 export class AuthenticationService {
   public currentUser$: Observable<AuthUser>;
   private currentUserSubject$: BehaviorSubject<AuthUser | null>;
 
-  constructor(private http: HttpClient, private wsService: WebsocketService) {
+  constructor(private http: HttpClient, private wsService: WebsocketService, private sessionService: SessionService ) {
     const savedUser = localStorage.getItem('IT-Support-Portal');
     this.currentUserSubject$ = new BehaviorSubject<AuthUser | null>(
       savedUser ? JSON.parse(savedUser) : null
@@ -39,7 +40,7 @@ export class AuthenticationService {
         httpOptions
       )
       .pipe(
-        map(response => {
+        map(async response => {
           if (response.access) {
             const currentUser: AuthUser = jwtDecode(response.access);
             currentUser.token = response.access;
@@ -47,6 +48,13 @@ export class AuthenticationService {
 
             localStorage.setItem('IT-Support-Portal', JSON.stringify(currentUser));
             this.currentUserSubject$.next(currentUser);
+            // вызываем merge истоии чата после логина
+            try {
+              await this.sessionService.mergeAfterLogin(currentUser.token);
+              console.log('История чата перенесена в персональную сессию');
+            } catch (e) {
+              console.warn('Ошибка при merge истории чата', e);
+            }
              // Инициализируем WebSocket после логина
             this.wsService.init(response.access);
             return currentUser;

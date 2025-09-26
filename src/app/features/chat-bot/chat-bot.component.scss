@@ -27,9 +27,9 @@
   position: absolute;
   bottom: 60px;
   right: 0;
-  width: 480px;
-  max-height: 420px;
-  min-height: 360px;
+  width: 640px;
+  max-height: 480px;
+  min-height: 480px;
   display: flex;
   flex-direction: column;
   background: #fff;
@@ -92,50 +92,53 @@
 }
 
 .avatar {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 16px;
-  background: #e5e5e5;
+  //background: #e5e5e5;
   flex-shrink: 0;
 }
 
 .message {
-  padding: 8px 12px;
-  border-radius: 12px;
+  //padding: 8px 12px;
+  //border-radius: 12px;
   max-width: 70%;
   word-wrap: break-word;
-  font-size: 12px;
+  //font-size: 12px;
   line-height: 1.4;
 }
 
-.message-row.bot .message {
-  background: #f1f1f1;
-  color: #333;
-  border-bottom-left-radius: 2px;
-}
-
-.message-row.user .message {
-  background: #e6f4ff;
-  color: #004f86;
-  border-bottom-right-radius: 2px;
-}
+//.message-row.bot .message {
+//  background: #f1f1f1;
+//  color: #333;
+//  border-bottom-left-radius: 2px;
+//}
+//
+//.message-row.user .message {
+//  background: #e6f4ff;
+//  color: #004f86;
+//  border-bottom-right-radius: 2px;
+//}
 
 /* Индикатор печати */
 .typing-indicator {
   display: flex;
-  gap: 4px;
-  margin: 4px 0;
   align-items: center;
+  gap: 4px;
+  background: #f1f1f1;
+  border-radius: 12px;
+  padding: 8px 12px;
+  max-width: fit-content;
 }
 
 .typing-indicator .dot {
-  width: 6px;
-  height: 6px;
-  background: #aaa;
+  width: 3px;
+  height: 3px;
+  background: #666;
   border-radius: 50%;
   animation: blink 1.4s infinite both;
 }
@@ -143,7 +146,6 @@
 .typing-indicator .dot:nth-child(2) {
   animation-delay: 0.2s;
 }
-
 .typing-indicator .dot:nth-child(3) {
   animation-delay: 0.4s;
 }
@@ -169,6 +171,111 @@
       outline: none;
       border-color: #0065a9;
       box-shadow: 0 0 0 2px rgba(0, 101, 169, 0.2);
+    }
+  }
+}
+
+.status-message {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+::ng-deep .message.markdown-body {
+  font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 13px;
+  line-height: 1.5;
+  background: #f8f9fa; // фон карточки Clarity
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  padding: 6px 12px;  /* padding контейнера, без внутренних «лишних» верхних/нижних отступов */
+  overflow-x: auto;
+  color: #202428;
+
+  /* убираем лишние отступы сверху и снизу */
+  > *:first-child {
+    margin-top: 0 !important;
+  }
+  > *:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  h1, h2, h3 {
+    font-size: 0.95rem;  // меньше, чем в документации
+    margin: 4px 0 2px;   // компактно
+    font-weight: 600;
+    color: #0f62a5;      // Clarity-синий
+  }
+
+  p {
+    font-size: 14px;
+    margin: 2px 0;       // абзацы компактные
+  }
+
+  ul, ol {
+    padding-left: 16px;  // чуть меньше отступ
+    margin: 2px 0;
+  }
+
+  li {
+    margin: 1px 0;
+  }
+
+  a {
+    color: #0065a9;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  code {
+    background: #eef1f4;
+    border-radius: 3px;
+    padding: 1px 3px;
+    font-family: 'Fira Code', 'Metropolis', monospace;
+    font-size: 12px;
+    color: #c7254e;
+  }
+
+  pre code {
+    display: block;
+    padding: 8px;
+    border-radius: 6px;
+    background: #1e1e1e; // VS Code стиль
+    color: #f8f8f2;
+    overflow-x: auto;
+    font-size: 12px;
+    line-height: 1.4;
+    margin: 4px 0;       // компактный отступ
+  }
+
+  blockquote {
+    border-left: 3px solid #0065a9;
+    margin: 4px 0;
+    padding-left: 8px;
+    color: #555;
+    font-style: italic;
+    background: #f5f7fa;
+  }
+
+  table {
+    border-collapse: collapse;
+    margin: 4px 0;
+    font-size: 12px;
+
+    th, td {
+      border: 1px solid #d6d6d6;
+      padding: 4px 8px;
+    }
+
+    th {
+      background: #f1f1f1;
+      font-weight: 600;
     }
   }
 }

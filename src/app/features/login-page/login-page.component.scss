@@ -1,10 +1,45 @@
 .login-wrapper {
   background: none;
-}
-
-.login-wrapper {
   //padding: 0rem 1rem 1rem 1rem;
   margin: -1.2rem -1.2rem 0rem -1.2rem;
   height: -webkit-fill-available;
   //padding-bottom: 0;
+  font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+}
+.login-wrapper .login .login-body {
+  width: unset;
+}
+
+.login-wrapper .login {
+  //background: #fafafa;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1.2rem 3rem;
+  height: auto;
+  min-height: 100vh;
+  width: 25.2rem;
+}
+
+.login-wrapper .login .login-group .btn {
+    margin: 3.6rem 0 0 0;
+    max-width: none;
+}
+
+.login-wrapper .login .title {
+    font-size: 1.6rem;
+    letter-spacing: normal;
+    line-height: 1.8rem;
+    font-weight: 200;
+}
+
+.login-wrapper .login .title .welcome {
+    line-height: 1.8rem;
+    font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+}
+
+.login-wrapper .login .title .hint {
+    margin-top: 1.5rem;
+    font-size: .7rem;
 }
