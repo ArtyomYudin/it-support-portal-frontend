@@ -24,6 +24,8 @@ RUN echo "export PATH=/opt/bitnami/python/bin:/opt/bitnami/node/bin:${PATH}" >> 
 
 WORKDIR /app
 
+RUN npm install -g @angular/cli
+
 # Install Node dependencies
 COPY package*.json ./
 RUN npm install --force
