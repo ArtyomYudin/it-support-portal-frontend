@@ -36,7 +36,7 @@ RUN npm run build --prod
 FROM nginx:alpine
 
 # Удаляем дефолтный конфиг и добавляем свой для Angular SPA
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Копируем собранное приложение
 COPY --from=build /app/dist/it-support-portal-frontend /usr/share/nginx/html
