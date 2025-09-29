@@ -26,7 +26,7 @@ WORKDIR /app
 
 # Install Node dependencies
 COPY package*.json ./
-RUN npm install
+RUN npm install --force
 
 # Copy source and build Angular app
 COPY . .
