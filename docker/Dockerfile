@@ -32,7 +32,7 @@ RUN npm install --force
 
 # Copy source and build Angular app
 COPY . .
-RUN npm run build --configuration production
+RUN ng build it-support-portal-frontend --configuration production
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
