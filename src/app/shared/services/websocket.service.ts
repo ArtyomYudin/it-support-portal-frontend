@@ -115,8 +115,10 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
     this.isInitialized = true;
 
     // Формируем URL с токеном
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     this.config = {
-      url: `ws://${environment.apiHost}:${environment.apiPort}/${environment.WebSocketPath}?token=${token}`,
+      // url: `ws://${environment.apiHost}:${environment.apiPort}/${environment.WebSocketPath}?token=${token}`,
+      url: `${protocol}://${environment.apiHost}:${environment.apiPort}/${environment.WebSocketPath}?token=${token}`,
       closeObserver: {
         next: (event: CloseEvent) => {
           this.websocket$ = null;
