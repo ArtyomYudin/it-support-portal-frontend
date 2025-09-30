@@ -279,3 +279,32 @@
     }
   }
 }
+
+// Мобильная адаптация чата
+@media (max-width: 768px) {
+  .chat-bot-container {
+    bottom: 0;
+    right: 0;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .chat-window {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100dvh; // или calc(100vh - env(...)) для старых iOS
+    max-height: none;
+    min-height: auto;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
+
+  .chat-footer input {
+    font-size: 16px; // предотвращает зум в Safari
+  }
+}
