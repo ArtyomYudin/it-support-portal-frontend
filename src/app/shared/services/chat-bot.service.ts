@@ -15,8 +15,8 @@ export interface ChatMessage {
   providedIn: 'root'
 })
 export class ChatService {
-  private streamUrl = 'http://itsupport-center-inform.ru:8008/ask/stream';
-  private sseUrl = 'http://itsupport-center-inform.ru:8008/ask/sse';
+  private streamUrl = 'https://itsupport-center-inform.ru:8008/ask/stream';
+  private sseUrl = 'https://itsupport-center-inform.ru:8008/ask/sse';
 
   constructor(private http: HttpClient) {}
 
