@@ -17,9 +17,9 @@ export interface ChatMessage {
 })
 export class ChatService {
   private streamUrl = '/ask/stream';
-  private protocol = window.location.protocol === 'https:' ? 'https' : 'http';
+  // private protocol = window.location.protocol === 'https:' ? 'https' : 'http';
   // private sseUrl  = `${this.protocol}://${environment.chatBotHost}${environment.chatBotAskSSEUrl}`;
-  private sseUrl = `${environment.chatBotAskSSEUrl}`;
+  private sseUrl = `${window.location.origin}${environment.chatBotAskSSEUrl}`;
 
   constructor(private http: HttpClient) {}
 
