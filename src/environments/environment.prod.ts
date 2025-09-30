@@ -1,9 +1,9 @@
 export const environment = {
   production: true,
-  apiHost: 'backend',
-  apiPort: 8000,
+  apiHost: 'annabelle.center-inform.ru',
+  apiPort: 8888,
   apiTestURL: 'ws/',
-  apiUrl: 'http://backend:8000/api',
+  apiUrl: 'http://annabelle.center-inform.ru:8888/api',
   jwtLogin: 'token',
   jwtRefresh: 'token/refresh',
   WebSocketPath: 'api/ws'
