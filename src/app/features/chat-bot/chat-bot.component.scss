@@ -4,6 +4,12 @@
   right: 20px;
   z-index: 9999;
   font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+
+  // На мобильных — кнопка прижата к краю, но не растягивается
+  @media (max-width: 768px) {
+    bottom: 16px;
+    right: 16px;
+  }
 }
 
 .chat-toggle-btn {
@@ -37,6 +43,22 @@
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+
+  // Полноэкранный режим ТОЛЬКО для открытого окна на мобильных
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100dvh; // или 100vh, если dvh не поддерживается
+    max-height: none;
+    min-height: auto;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+  }
 }
 
 .chat-header {
@@ -277,34 +299,5 @@
       background: #f1f1f1;
       font-weight: 600;
     }
-  }
-}
-
-// Мобильная адаптация чата
-@media (max-width: 768px) {
-  .chat-bot-container {
-    bottom: 0;
-    right: 0;
-    width: 100vw;
-    height: 100vh;
-  }
-
-  .chat-window {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 100vw;
-    height: 100dvh; // или calc(100vh - env(...)) для старых iOS
-    max-height: none;
-    min-height: auto;
-    border-radius: 0;
-    border: none;
-    box-shadow: none;
-  }
-
-  .chat-footer input {
-    font-size: 16px; // предотвращает зум в Safari
   }
 }
