@@ -60,7 +60,10 @@
               "src/app/styles/styles.scss",
               "node_modules/highlight.js/styles/github.css"
             ],
-            "scripts": ["node_modules/@webcomponents/custom-elements/custom-elements.min.js"],
+            "scripts": [
+              "node_modules/@webcomponents/custom-elements/custom-elements.min.js",
+              "node_modules/resize-observer-polyfill/dist/ResizeObserver.js"
+            ],
             "allowedCommonJsDependencies": ["file-saver", "buffer"]
           },
           "configurations": {
