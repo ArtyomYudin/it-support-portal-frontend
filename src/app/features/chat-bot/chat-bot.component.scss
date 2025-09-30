@@ -195,6 +195,11 @@
       box-shadow: 0 0 0 2px rgba(0, 101, 169, 0.2);
     }
   }
+  @media (max-width: 768px) {
+    input {
+      font-size: 16px; /* ← отключает зум */
+    }
+  }
 }
 
 .status-message {
