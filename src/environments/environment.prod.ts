@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiHost: 'itsupport-center-inform.ru',
+  apiHost: 'itsupport.center-inform.ru',
   apiPort: 8888,
   apiTestURL: 'ws/',
   apiUrl: '/api',
@@ -8,5 +8,5 @@ export const environment = {
   jwtRefresh: 'token/refresh',
   WebSocketPath: 'api/ws',
   chatBotAskSSEUrl: '/ask/sse',
-  chatBotHost: 'itsupport-center-inform.ru'
+  chatBotHost: 'itsupport.center-inform.ru'
 };
