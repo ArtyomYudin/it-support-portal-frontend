@@ -65,3 +65,4 @@ import 'zone.js'; // Included with Angular CLI.
 /** *************************************************************************************************
  * APPLICATION IMPORTS
  */
+import 'resize-observer-polyfill';
