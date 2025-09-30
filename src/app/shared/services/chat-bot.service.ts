@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from 'src/environments/environment';
 
 export type MessageType = 'status' | 'response' | 'error' | 'info';
 export type MessageFrom = 'user' | 'bot';
@@ -16,7 +17,8 @@ export interface ChatMessage {
 })
 export class ChatService {
   private streamUrl = '/ask/stream';
-  private sseUrl = '/ask/sse';
+  private protocol = window.location.protocol === 'https:' ? 'https' : 'http';
+  private sseUrl  = `${this.protocol}://${environment.chatBotHost}${environment.chatBotAskSSEUrl}`;
 
   constructor(private http: HttpClient) {}
 

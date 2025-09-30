@@ -6,5 +6,7 @@ export const environment = {
   apiUrl: '/api',
   jwtLogin: 'token',
   jwtRefresh: 'token/refresh',
-  WebSocketPath: 'api/ws'
+  WebSocketPath: 'api/ws',
+  chatBotAskSSEUrl: '/ask/sse',
+  chatBotHost: 'itsupport-center-inform.ru'
 };
