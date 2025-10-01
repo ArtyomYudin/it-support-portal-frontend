@@ -187,7 +187,7 @@
     padding: 6px 10px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    font-size: 12px;
+    font-size: 14px;
 
     &:focus {
       outline: none;
@@ -213,7 +213,7 @@
 
 ::ng-deep .message.markdown-body {
   font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   line-height: 1.5;
   background: #f8f9fa; // фон карточки Clarity
   border: 1px solid #d9d9d9;

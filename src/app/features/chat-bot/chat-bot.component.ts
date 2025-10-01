@@ -4,9 +4,8 @@ import {
   WritableSignal,
   ViewChild,
   ElementRef,
-  AfterViewChecked, AfterViewInit
+  AfterViewInit
 } from '@angular/core';
-import { NgForOf, NgIf } from '@angular/common';
 import { ChatService, ChatMessage } from '@service/chat-bot.service';
 import { MarkdownComponent, MARKED_OPTIONS, MarkedOptions } from 'ngx-markdown';
 import {ClrTimelineModule} from "@clr/angular";
@@ -16,7 +15,7 @@ import {SessionService} from "@service/session.service";
   selector: 'fe-chat-bot',
   standalone: true,
   templateUrl: './chat-bot.component.html',
-  imports: [NgForOf, NgIf, MarkdownComponent, ClrTimelineModule],
+  imports: [MarkdownComponent, ClrTimelineModule],
   styleUrls: ['./chat-bot.component.scss'],
   providers: [
     {
@@ -30,7 +29,7 @@ import {SessionService} from "@service/session.service";
   ]
 })
 
-export class ChatBotComponent implements AfterViewChecked, AfterViewInit {
+export class ChatBotComponent implements AfterViewInit {
   isOpen = signal(false);
 
   isTyping = signal(false);
@@ -38,7 +37,7 @@ export class ChatBotComponent implements AfterViewChecked, AfterViewInit {
   private userScrolledUp = false;
 
   messages: WritableSignal<ChatMessage[]> = signal([
-    { type: 'response', from: 'bot', text: 'Привет!' }
+    {type: 'response', from: 'bot', text: 'Привет!'}
   ]);
 
   @ViewChild('chatBody') chatBody!: ElementRef<HTMLDivElement>;
@@ -46,11 +45,12 @@ export class ChatBotComponent implements AfterViewChecked, AfterViewInit {
   constructor(
     private chatService: ChatService,
     private sessionService: SessionService
-  ) {}
-
-  ngAfterViewChecked() {
-    this.scrollToBottom();
+  ) {
   }
+
+  // ngAfterViewChecked() {
+  //   this.scrollToBottom();
+  // }
 
   ngAfterViewInit() {
     if (this.chatBody) {
@@ -71,7 +71,12 @@ export class ChatBotComponent implements AfterViewChecked, AfterViewInit {
     if (!text.trim()) return;
 
     // добавляем сообщение пользователя
-    this.messages.update(msgs => [...msgs, { type: 'response', from: 'user', text }]);
+    this.messages.update(msgs => [...msgs, {type: 'response', from: 'user', text}]);
+    // Скроллим вниз СРАЗУ, чтобы показать новое сообщение
+    // Используем setTimeout(0) или requestAnimationFrame, чтобы дать DOM обновиться
+    setTimeout(() => {
+      this.scrollToBottom();
+    }, 0);
 
     // добавляем пустое сообщение для бота
     // this.messages.update(msgs => [...msgs, { type: 'status', from: 'bot', text: '' }]);
@@ -80,19 +85,19 @@ export class ChatBotComponent implements AfterViewChecked, AfterViewInit {
     this.isTyping.set(true);
 
     try {
-    // await this.chatService.askStream(
-    //   text,
-    //   'api',
-    //   chunk => {
-    //     botReply += chunk;
-    //     this.messages.update(msgs => {
-    //       const updated = [...msgs];
-    //       updated[updated.length - 1] = { text: botReply, from: 'bot' };
-    //       return updated;
-    //     });
-    //   },
-    //   () => this.isTyping.set(false)
-    // );
+      // await this.chatService.askStream(
+      //   text,
+      //   'api',
+      //   chunk => {
+      //     botReply += chunk;
+      //     this.messages.update(msgs => {
+      //       const updated = [...msgs];
+      //       updated[updated.length - 1] = { text: botReply, from: 'bot' };
+      //       return updated;
+      //     });
+      //   },
+      //   () => this.isTyping.set(false)
+      // );
       const sessionId = this.sessionService.getSessionId(); // берём Session ID
 
       this.chatService.askSSE(
@@ -103,26 +108,36 @@ export class ChatBotComponent implements AfterViewChecked, AfterViewInit {
             const updated = [...msgs];
             if (msg.type === 'status') {
               // статус всегда пушим отдельным сообщением
-              updated.push({ type: 'status', from: 'bot', text: msg.text });
+              // updated.push({ type: 'status', from: 'bot', text: msg.text });
             } else if (msg.type === 'response') {
               // response накапливаем
               const last = updated[updated.length - 1];
               if (last?.type === 'response' && last.from === 'bot') {
                 updated[updated.length - 1] = {
                   ...last,
-                  text: last.text + msg.text // ✅ теперь строка + строка
-              };
+                  text: last.text + msg.text // теперь строка + строка
+                };
               } else {
-                updated.push({ type: 'response', from: 'bot', text: msg.text });
+                updated.push({type: 'response', from: 'bot', text: msg.text});
               }
             }
             return updated;
           });
-          this.scrollToBottom();
+          // После каждого чанка — скроллим вниз, НО только если пользователь не скроллил вверх
+          if (!this.userScrolledUp) {
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 0);
+          }
         },
         () => {
           this.isTyping.set(false);
-          this.scrollToBottom(true);
+          // Скроллим вниз ТОЛЬКО если пользователь не скроллил вверх
+          if (!this.userScrolledUp) {
+            setTimeout(() => {
+              this.scrollToBottom();
+            }, 0);
+          }
           // eventSource.close();
         }
       );
@@ -130,24 +145,33 @@ export class ChatBotComponent implements AfterViewChecked, AfterViewInit {
       console.error('Ошибка при стриме', err);
       this.messages.update(msgs => [
         ...msgs,
-        { type: 'error', from: 'bot', text: '⚠️ Ошибка при получении ответа от сервера' }
+        {type: 'error', from: 'bot', text: '⚠️ Ошибка при получении ответа от сервера'}
       ]);
       this.isTyping.set(false);
     }
   }
 
- private scrollToBottom(force: boolean = false) {
-    if (this.chatBody) {
-      const el = this.chatBody.nativeElement;
-      const threshold = 50;
-      const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
+  private scrollToBottom() {
+    if (!this.chatBody) return;
 
-      if (isAtBottom || force || !this.userScrolledUp) {
-        el.scrollTo({
-          top: el.scrollHeight,
-          behavior: 'smooth'
-        });
-      }
+    const el = this.chatBody.nativeElement;
+    const threshold = 50;
+    const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
+
+    // Если мы внизу — сбрасываем флаг "пользователь скроллил вверх"
+    if (isAtBottom) {
+      this.userScrolledUp = false;
+    }
+
+    // Скроллим вниз, если:
+    // - мы и так внизу, ИЛИ
+    // - пользователь НЕ скроллил вверх
+    if (!this.userScrolledUp) {
+      el.scrollTo({
+        top: el.scrollHeight,
+        behavior: 'smooth'
+      });
     }
   }
+
 }
