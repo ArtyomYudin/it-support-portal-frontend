@@ -1,4 +1,13 @@
-//TODO delete divided in header !!!!!!!
+
+// Убираем вертикальные разделители между дочерними элементами
+::ng-deep clr-header.header-desktop {
+  .header-actions > :not(.dropdown)::before,
+  .header-actions > .dropdown > .dropdown-toggle::before,
+  .settings > :not(.dropdown)::before,
+  .settings > .dropdown > .dropdown-toggle::before {
+    display: none !important;
+  }
+}
 
 .header-desktop {
   background-color: #fafafa;
@@ -117,13 +126,13 @@
   color: #0072a3;
 }
 */
-  .nav .nav-link {
-    display: none;
-    color: #fafafa;
-  }
+  //.nav .nav-link {
+  //  display: none;
+  //  color: #fafafa;
+  //}
 
   & .notify-signpost {
-    position: inherit;
+    position: relative;
     display: inline-block;
     text-align: center;
     //padding: 0.9rem 1.2rem;
