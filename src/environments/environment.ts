@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiHost: '127.0.0.1',
+  apiHost: '127.0.0.1:8000',
   apiPort: 8000,
   apiTestURL: 'ws/',
   apiUrl: 'http://127.0.0.1:8000/api',
@@ -12,7 +12,7 @@ export const environment = {
   jwtRefresh: 'token/refresh',
   WebSocketPath: 'api/ws',
   chatBotAskSSEUrl: '/ask/sse',
-  chatBotHost: '172.20.4.50'
+  chatBotHost: '172.20.4.50:8008',
 };
 
 /*

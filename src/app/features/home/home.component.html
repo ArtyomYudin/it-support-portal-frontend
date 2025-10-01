@@ -65,7 +65,7 @@
             }</div>
             <div class="card-info">
               <table class="card-info__dhcp">
-                <tr>
+<!--                <tr>-->
 <!--                  @for (session of vpnActiveSessionCountArray$ | async; track session) {-->
 <!--                    <td>-->
 <!--                      <div class="card-info__dhcp__data">-->
@@ -77,16 +77,25 @@
 <!--                    </td>-->
 <!--                  }-->
                   @for (item of vpnSessionsByHost$ | async; track item.host) {
-                    <div class="card-info__dhcp__data_title">
-                      <h3>{{ item.host }}</h3>
+                    <div class="card-info__vpn__session_title">
+                      <h4>{{ item.host }} - {{ item.sessions.length }}</h4>
                       @for (session of item.sessions; track session) {
-                        <div class="card-info__dhcp__data">
-                          <span class="card-info__dhcp__data_value">{{ session.login_time | date : 'HH:mm:ss' }} {{ session.username | employeeName}}</span>
-                        </div>
+                        <tr>
+                          <td>
+                            <div class="card-info__vpn__session">
+                              <span class="card-info__vpn__session_date">{{ session.login_time | date : 'd MMMM, HH:mm:ss' }}</span>
+                            </div>
+                          </td>
+                          <td>
+                            <div class="card-info__vpn__session">
+                              <span class="card-info__vpn__session_user">{{ session.username }}</span>
+                            </div>
+                          </td>
+                        </tr>
                       }
                     </div>
                   }
-                </tr>
+<!--                </tr>-->
               </table>
             </div>
           </div>
