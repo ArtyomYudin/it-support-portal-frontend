@@ -58,11 +58,21 @@
               "node_modules/@cds/core/styles/theme.dark.min.css",
               "node_modules/@clr/ui/clr-ui.min.css",
               "src/app/styles/styles.scss",
-              "node_modules/highlight.js/styles/github.css"
+              "node_modules/prismjs/themes/prism.css",
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.css"
             ],
             "scripts": [
               "node_modules/@webcomponents/custom-elements/custom-elements.min.js",
-              "node_modules/resize-observer-polyfill/dist/ResizeObserver.js"
+              "node_modules/resize-observer-polyfill/dist/ResizeObserver.js",
+              "node_modules/prismjs/prism.js",
+              "node_modules/prismjs/components/prism-scss.min.js",
+              "node_modules/prismjs/components/prism-typescript.min.js",
+              "node_modules/prismjs/components/prism-bash.min.js",
+              "node_modules/prismjs/components/prism-python.min.js",
+              "node_modules/prismjs/components/prism-sql.min.js",
+              "node_modules/prismjs/components/prism-javascript.min.js",
+              "node_modules/prismjs/plugins/line-numbers/prism-line-numbers.js"
+
             ],
             "allowedCommonJsDependencies": ["file-saver", "buffer"]
           },

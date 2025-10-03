@@ -8,8 +8,8 @@ import {
 } from '@angular/core';
 import { ChatService, ChatMessage } from '@service/chat-bot.service';
 import { MarkdownComponent, MARKED_OPTIONS, MarkedOptions } from 'ngx-markdown';
-import {ClrTimelineModule} from "@clr/angular";
-import {SessionService} from "@service/session.service";
+import { ClrTimelineModule } from "@clr/angular";
+import { SessionService } from "@service/session.service";
 
 @Component({
   selector: 'fe-chat-bot',

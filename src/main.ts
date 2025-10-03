@@ -33,7 +33,6 @@ import { CustomReuseStrategy } from '@core/custom-reuse-strategy';
 import { routes } from '@core/app-routing.module';
 import { registerLocaleData } from '@angular/common';
 import { MarkdownModule } from 'ngx-markdown';
-import { provideHighlightOptions } from 'ngx-highlightjs';
 import { JwtInterceptor } from '@service/jwt.interceptor';
 import localeRu from '@angular/common/locales/ru';
 // import { JwtModule } from '@auth0/angular-jwt';
@@ -72,9 +71,9 @@ bootstrapApplication(AppComponent, {
     //    },
     //  }),
     // ),
-    provideHighlightOptions({
-      fullLibraryLoader: () => import('highlight.js')
-    }),
+    // provideHighlightOptions({
+    //   fullLibraryLoader: () => import('highlight.js')
+    // }),
     importProvidersFrom(MarkdownModule.forRoot({})),
     importProvidersFrom(RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })),
     // Подключаем ClarityModule

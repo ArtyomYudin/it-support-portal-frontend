@@ -146,6 +146,21 @@
 //  border-bottom-right-radius: 2px;
 //}
 
+.message-row.bot .message {
+  background: var(--cds-alias-object-container-background, #f1f1f1);
+  color: var(--cds-alias-object-text-color-body, #333);
+  border-radius: 12px 12px 2px 12px;
+  padding: 8px 12px;
+}
+
+.message-row.user .message {
+  background: var(--cds-alias-object-status-info-background, #e6f4ff);
+  color: var(--cds-alias-object-status-info, #004f86);
+  border-radius: 12px 12px 12px 2px;
+  padding: 8px 12px;
+}
+
+
 /* Индикатор печати */
 .typing-indicator {
   display: flex;
@@ -215,12 +230,13 @@
   font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  background: #f8f9fa; // фон карточки Clarity
-  border: 1px solid #d9d9d9;
+  background: var(--cds-alias-object-container-background, #f8f9fa);
+  color: var(--cds-global-color-gray-900, #202428);
+  border: 1px solid var(--cds-alias-object-border-color, #d9d9d9);
   border-radius: 6px;
   padding: 6px 12px;  /* padding контейнера, без внутренних «лишних» верхних/нижних отступов */
   overflow-x: auto;
-  color: #202428;
+
 
   /* убираем лишние отступы сверху и снизу */
   > *:first-child {
@@ -234,7 +250,7 @@
     font-size: 0.95rem;  // меньше, чем в документации
     margin: 4px 0 2px;   // компактно
     font-weight: 600;
-    color: #0f62a5;      // Clarity-синий
+    color: var(--cds-alias-object-text-color-link, #0f62a5);      // Clarity-синий
   }
 
   p {
@@ -252,7 +268,7 @@
   }
 
   a {
-    color: #0065a9;
+    color: var(--cds-alias-object-text-color-link, #0065a9);
     text-decoration: none;
 
     &:hover {
@@ -260,25 +276,66 @@
     }
   }
 
-  code {
-    background: #eef1f4;
-    border-radius: 3px;
-    padding: 1px 3px;
-    font-family: 'Fira Code', 'Metropolis', monospace;
-    font-size: 12px;
-    color: #c7254e;
-  }
+  //pre {
+  //  background: #f8f8f8; /* фон как в GitHub */
+  //  border: 1px solid #ddd;
+  //  border-radius: 6px;
+  //  padding: 8px;
+  //  margin: 4px 0;
+  //  overflow-x: auto;
+  //  font-size: 12px;
+  //  line-height: 1.4;
+  //  /* НЕ задавайте color и background для code! */
+  //}
+  //
+  //code:not([class]) {
+  //  background: #eef1f4;
+  //  border-radius: 3px;
+  //  padding: 1px 3px;
+  //  font-family: 'Fira Code', Consolas, Monaco, monospace;
+  //  font-size: 12px;
+  //  color: #c7254e;
+  //}
 
-  pre code {
-    display: block;
-    padding: 8px;
+  //pre code {
+  //  display: block;
+  //  padding: 8px;
+  //  border-radius: 6px;
+  //  background: #1e1e1e; // VS Code стиль
+  //  color: #f8f8f2;
+  //  overflow-x: auto;
+  //  font-size: 12px;
+  //  line-height: 1.4;
+  //  margin: 4px 0;       // компактный отступ
+  //}
+
+  /* Согласованный Prism с Clarity (автоматически подстраивается под тему) */
+  pre[class*="language-"] {
+    background: var(--cds-alias-object-code-background, #f8f8f8);
+    color: var(--cds-alias-object-text-color-body, #202428);
+    border: 1px solid var(--cds-alias-object-border-color, #ddd);
     border-radius: 6px;
-    background: #1e1e1e; // VS Code стиль
-    color: #f8f8f2;
-    overflow-x: auto;
+    padding: 8px;
+    font-family: 'Fira Code', Consolas, Monaco, monospace;
     font-size: 12px;
     line-height: 1.4;
-    margin: 4px 0;       // компактный отступ
+    overflow-x: auto;
+  }
+
+  code[class*="language-"] {
+    font-size: 12px;
+    color: var(--cds-alias-object-text-color-body, #202428);
+    background: none;
+    text-shadow: none;
+  }
+
+  // Inline-код (без подсветки)
+  :not(pre) > code {
+    font-size: 12px;
+    background: var(--cds-alias-object-tag-background, #eef1f4);
+    padding: 1px 3px;
+    border-radius: 3px;
+    font-family: 'Fira Code', Consolas, Monaco, monospace;
   }
 
   blockquote {
@@ -305,4 +362,54 @@
       font-weight: 600;
     }
   }
+}
+
+
+/* Согласованный Prism с Clarity (автоматически подстраивается под тему) */
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+  color: var(--cds-global-color-gray-500, #777);
+}
+
+.token.punctuation {
+  color: var(--cds-global-color-gray-700, #555);
+}
+
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted {
+  color: var(--cds-alias-object-status-danger, #c7254e);
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+  color: var(--cds-alias-object-status-success, #28a745);
+}
+
+.token.operator,
+.token.entity,
+.token.url,
+.language-css .token.string,
+.style .token.string {
+  color: var(--cds-alias-object-status-info, #0065a9);
+}
+
+.token.atrule,
+.token.attr-value,
+.token.keyword {
+  color: var(--cds-alias-object-status-warning, #d98b00);
+}
+
+.token.function {
+  color: var(--cds-global-color-purple-700, #6f42c1);
 }
