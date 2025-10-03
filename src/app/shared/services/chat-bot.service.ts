@@ -7,6 +7,7 @@ export type MessageType = 'status' | 'response' | 'error' | 'info';
 export type MessageFrom = 'user' | 'bot';
 
 export interface ChatMessage {
+  id: string;
   type: MessageType;
   from: MessageFrom;
   text: string;

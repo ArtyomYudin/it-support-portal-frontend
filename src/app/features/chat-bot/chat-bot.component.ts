@@ -2,9 +2,11 @@ import {
   Component,
   signal,
   WritableSignal,
-  ViewChild,
   ElementRef,
-  AfterViewInit
+  NgZone,
+  DestroyRef,
+  effect,
+  viewChild
 } from '@angular/core';
 import { ChatService, ChatMessage } from '@service/chat-bot.service';
 import { MarkdownComponent, MARKED_OPTIONS, MarkedOptions } from 'ngx-markdown';
@@ -22,56 +24,87 @@ import { SessionService } from "@service/session.service";
       provide: MARKED_OPTIONS, // ← вот так правильно!
       useValue: {
         gfm: true,
-        breaks: false,
+        breaks: true,
         pedantic: false,
       } satisfies MarkedOptions // ← опционально: для type safety
     }
   ]
 })
 
-export class ChatBotComponent implements AfterViewInit {
+export class ChatBotComponent {
   isOpen = signal(false);
 
   isTyping = signal(false);
 
-  private userScrolledUp = false;
+  userScrolledUp = signal(false);
 
   messages: WritableSignal<ChatMessage[]> = signal([
-    {type: 'response', from: 'bot', text: 'Привет!'}
+    {id: crypto.randomUUID(), type: 'response', from: 'bot', text: 'Привет!'}
   ]);
 
-  @ViewChild('chatBody') chatBody!: ElementRef<HTMLDivElement>;
+  chatBody = viewChild.required<ElementRef<HTMLDivElement>>('chatBody');
 
   constructor(
+    private ngZone: NgZone,
     private chatService: ChatService,
-    private sessionService: SessionService
+    private sessionService: SessionService,
+    private destroyRef: DestroyRef // для автоматической очистки
   ) {
-  }
+    // Эффект, реагирующий на открытие/закрытие чата
+    effect(() => {
+      const isOpen = this.isOpen();
+      if (isOpen) {
+        // Отложим на следующий tick, чтобы DOM точно обновился
+        queueMicrotask(() => {
+          try {
+            const el = this.chatBody().nativeElement;
+            const onScroll = () => {
+              const threshold = 50;
+              const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
+              this.ngZone.run(() => {
+                this.userScrolledUp.set(!isAtBottom);
+              });
+            };
 
-  // ngAfterViewChecked() {
-  //   this.scrollToBottom();
-  // }
-
-  ngAfterViewInit() {
-    if (this.chatBody) {
-      this.chatBody.nativeElement.addEventListener('scroll', () => {
-        const el = this.chatBody.nativeElement;
-        const threshold = 50;
-        const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
-        this.userScrolledUp = !isAtBottom; // если не внизу → пользователь скроллил
-      });
-    }
+            el.addEventListener('scroll', onScroll);
+            // Автоматически удалим слушатель при уничтожении компонента или закрытии
+            this.destroyRef.onDestroy(() => {
+              el.removeEventListener('scroll', onScroll);
+            });
+          } catch (e) {
+            console.warn('chatBody not available yet');
+          }
+        });
+      } else {
+        // При закрытии — сбросим флаг скролла
+        this.userScrolledUp.set(false);
+      }
+    });
   }
 
   toggleChat() {
     this.isOpen.set(!this.isOpen());
   }
 
+  onKeyDown(event: KeyboardEvent, input: HTMLTextAreaElement) {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault(); // не перенос строки
+      this.sendMessage(input.value);
+      input.value = '';
+      this.onInput(input); // сбросить высоту
+    }
+  }
+
+  onInput(input: HTMLTextAreaElement) {
+    input.style.height = 'auto';
+    input.style.height = Math.min(input.scrollHeight, 120) + 'px'; // ограничение роста
+  }
+
   async sendMessage(text: string) {
     if (!text.trim()) return;
 
     // добавляем сообщение пользователя
-    this.messages.update(msgs => [...msgs, {type: 'response', from: 'user', text}]);
+    this.messages.update(msgs => [...msgs, {id: crypto.randomUUID(), type: 'response', from: 'user', text}]);
     // Скроллим вниз СРАЗУ, чтобы показать новое сообщение
     // Используем setTimeout(0) или requestAnimationFrame, чтобы дать DOM обновиться
     setTimeout(() => {
@@ -118,13 +151,13 @@ export class ChatBotComponent implements AfterViewInit {
                   text: last.text + msg.text // теперь строка + строка
                 };
               } else {
-                updated.push({type: 'response', from: 'bot', text: msg.text});
+                updated.push({id: crypto.randomUUID(), type: 'response', from: 'bot', text: msg.text});
               }
             }
             return updated;
           });
           // После каждого чанка — скроллим вниз, НО только если пользователь не скроллил вверх
-          if (!this.userScrolledUp) {
+          if (!this.userScrolledUp()) {
             setTimeout(() => {
               this.scrollToBottom();
             }, 0);
@@ -133,7 +166,7 @@ export class ChatBotComponent implements AfterViewInit {
         () => {
           this.isTyping.set(false);
           // Скроллим вниз ТОЛЬКО если пользователь не скроллил вверх
-          if (!this.userScrolledUp) {
+          if (!this.userScrolledUp()) {
             setTimeout(() => {
               this.scrollToBottom();
             }, 0);
@@ -145,32 +178,32 @@ export class ChatBotComponent implements AfterViewInit {
       console.error('Ошибка при стриме', err);
       this.messages.update(msgs => [
         ...msgs,
-        {type: 'error', from: 'bot', text: '⚠️ Ошибка при получении ответа от сервера'}
+        {id: crypto.randomUUID(), type: 'error', from: 'bot', text: '⚠️ Ошибка при получении ответа от сервера'}
       ]);
       this.isTyping.set(false);
     }
   }
 
-  private scrollToBottom() {
+  scrollToBottom(manual = false) {
     if (!this.chatBody) return;
 
-    const el = this.chatBody.nativeElement;
+    const el = this.chatBody().nativeElement;
     const threshold = 50;
+    el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
-
-    // Если мы внизу — сбрасываем флаг "пользователь скроллил вверх"
-    if (isAtBottom) {
-      this.userScrolledUp = false;
-    }
 
     // Скроллим вниз, если:
     // - мы и так внизу, ИЛИ
     // - пользователь НЕ скроллил вверх
-    if (!this.userScrolledUp) {
-      el.scrollTo({
-        top: el.scrollHeight,
-        behavior: 'smooth'
-      });
+    // if (!this.userScrolledUp()) {
+    //   el.scrollTo({
+    //     top: el.scrollHeight,
+    //     behavior: 'smooth'
+    //   });
+    // }
+    if (manual) {
+      // сброс флага только при ручном нажатии
+      this.userScrolledUp.set(false);
     }
   }
 

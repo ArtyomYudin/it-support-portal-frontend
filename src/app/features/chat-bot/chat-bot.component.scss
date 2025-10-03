@@ -1,3 +1,4 @@
+/* Контейнер чата */
 .chat-bot-container {
   position: fixed;
   bottom: 20px;
@@ -12,6 +13,7 @@
   }
 }
 
+/* Кнопка вызова чата */
 .chat-toggle-btn {
   background: #0065a9;
   color: white;
@@ -29,6 +31,7 @@
   }
 }
 
+/* Окно чата */
 .chat-window {
   position: absolute;
   bottom: 60px;
@@ -61,6 +64,7 @@
   }
 }
 
+/* Заголовок чата */
 .chat-header {
   display: flex;
   justify-content: space-between;
@@ -90,6 +94,7 @@
   }
 }
 
+/* Тело чата */
 .chat-body {
   flex: 1;
   padding: 10px;
@@ -99,6 +104,7 @@
   gap: 8px;
 }
 
+/* Сообщения */
 .message-row {
   display: flex;
   align-items: flex-end;
@@ -125,6 +131,7 @@
   flex-shrink: 0;
 }
 
+/* Сообщения бота и пользователя */
 .message {
   //padding: 8px 12px;
   //border-radius: 12px;
@@ -132,6 +139,8 @@
   word-wrap: break-word;
   //font-size: 12px;
   line-height: 1.4;
+  font-size: 14px;
+  padding: 8px 12px; /* одинаковый padding для пользователя и бота */
 }
 
 //.message-row.bot .message {
@@ -149,15 +158,13 @@
 .message-row.bot .message {
   background: var(--cds-alias-object-container-background, #f1f1f1);
   color: var(--cds-alias-object-text-color-body, #333);
-  border-radius: 12px 12px 2px 12px;
-  padding: 8px 12px;
+  border-radius: 12px 12px 12px 2px;
 }
 
 .message-row.user .message {
   background: var(--cds-alias-object-status-info-background, #e6f4ff);
   color: var(--cds-alias-object-status-info, #004f86);
-  border-radius: 12px 12px 12px 2px;
-  padding: 8px 12px;
+  border-radius: 12px 12px 2px 12px;
 }
 
 
@@ -170,21 +177,17 @@
   border-radius: 12px;
   padding: 8px 12px;
   max-width: fit-content;
-}
 
-.typing-indicator .dot {
-  width: 3px;
-  height: 3px;
-  background: #666;
-  border-radius: 50%;
-  animation: blink 1.4s infinite both;
-}
+  .dot {
+    width: 3px;
+    height: 3px;
+    background: #666;
+    border-radius: 50%;
+    animation: blink 1.4s infinite both;
+  }
 
-.typing-indicator .dot:nth-child(2) {
-  animation-delay: 0.2s;
-}
-.typing-indicator .dot:nth-child(3) {
-  animation-delay: 0.4s;
+  .dot:nth-child(2) { animation-delay: 0.2s; }
+  .dot:nth-child(3) { animation-delay: 0.4s; }
 }
 
 @keyframes blink {
@@ -192,29 +195,89 @@
   40% { opacity: 1; }
 }
 
+/* Футер чата */
 .chat-footer {
   padding: 8px;
   border-top: 1px solid #d6d6d6;
   background: #f9f9f9;
+  display: flex;
+  gap: 8px;
+  align-items: flex-end;
 
-  input {
-    width: 100%;
+  textarea.chat-input {
+    flex: 1;
+    resize: none;
+    max-height: 120px;
+    overflow-y: auto;
     padding: 6px 10px;
     border-radius: 4px;
     border: 1px solid #ccc;
     font-size: 14px;
+    line-height: 1.4;
+    font-family: inherit;
 
     &:focus {
       outline: none;
       border-color: #0065a9;
       box-shadow: 0 0 0 2px rgba(0, 101, 169, 0.2);
     }
-  }
-  @media (max-width: 768px) {
-    input {
-      font-size: 16px; /* ← отключает зум */
+
+    @media (max-width: 768px) {
+        font-size: 16px; /* отключает зум на iOS */
     }
   }
+
+  //input {
+  //  width: 100%;
+  //  padding: 6px 10px;
+  //  border-radius: 4px;
+  //  border: 1px solid #ccc;
+  //  font-size: 14px;
+  //
+  //  &:focus {
+  //    outline: none;
+  //    border-color: #0065a9;
+  //    box-shadow: 0 0 0 2px rgba(0, 101, 169, 0.2);
+  //  }
+  //}
+}
+
+.scroll-down-btn {
+  position: absolute;
+  bottom: 56px;          /* отступ от низа */
+  left: 50%;             /* центр по горизонтали */
+  transform: translateX(-50%);
+
+  background: none;
+  border: none;
+  outline: none;        /* убираем стандартный outline */
+  box-shadow: none;     /* убираем фокус-тень (например в Chrome) */
+  cursor: pointer;
+  opacity: 0.8;          /* полупрозрачная по умолчанию */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  user-select: none;     /* курсор не дергается и не появляется текстовый карет */
+  transition: opacity 0.3s ease-in-out; /* плавное появление/исчезновение */
+}
+
+.scroll-down-btn:focus {
+  outline: none;        /* при фокусе не добавляем рамку */
+  box-shadow: none;
+}
+
+.scroll-down-btn:hover {
+  opacity: 1;            /* ярче при наведении */
+}
+
+.scroll-down-btn svg {
+  display: block;
+  width: 16px;           /* маленькая аккуратная стрелка */
+  height: 16px;
+  stroke: var(--cds-alias-object-status-info, #0065a9);
+  pointer-events: none; /* клики проходят только по кнопке, не по самому svg */
 }
 
 .status-message {
@@ -226,6 +289,7 @@
   padding: 0;
 }
 
+/* Сообщения Markdown и plain-text */
 ::ng-deep .message.markdown-body {
   font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
@@ -233,39 +297,52 @@
   background: var(--cds-alias-object-container-background, #f8f9fa);
   color: var(--cds-global-color-gray-900, #202428);
   border: 1px solid var(--cds-alias-object-border-color, #d9d9d9);
-  border-radius: 6px;
-  padding: 6px 12px;  /* padding контейнера, без внутренних «лишних» верхних/нижних отступов */
+  border-radius: 12px;
+  padding: 8px 12px;  /* согласуем с .message */
   overflow-x: auto;
 
 
-  /* убираем лишние отступы сверху и снизу */
-  > *:first-child {
-    margin-top: 0 !important;
-  }
-  > *:last-child {
-    margin-bottom: 0 !important;
-  }
+  ///* убираем лишние отступы сверху и снизу */
+  //> *:first-child {
+  //  margin-top: 0 !important;
+  //}
+  //> *:last-child {
+  //  margin-bottom: 0 !important;
+  //}
 
-  h1, h2, h3 {
-    font-size: 0.95rem;  // меньше, чем в документации
-    margin: 4px 0 2px;   // компактно
-    font-weight: 600;
-    color: var(--cds-alias-object-text-color-link, #0f62a5);      // Clarity-синий
-  }
-
-  p {
+   /* plain-text для сообщений пользователя */
+  .plain-text {
+    white-space: pre-line; /* сохраняет переносы строк */
+    word-wrap: break-word;  /* длинные слова не ломают верстку */
     font-size: 14px;
-    margin: 2px 0;       // абзацы компактные
+    margin: 0; /* убираем лишние отступы */
   }
 
-  ul, ol {
-    padding-left: 16px;  // чуть меньше отступ
-    margin: 2px 0;
+   /* Абзацы и заголовки Markdown */
+  p, h1, h2, h3, ul, ol, li, blockquote, pre {
+    margin: 0;
+    padding: 0;
   }
-
-  li {
-    margin: 1px 0;
-  }
+  //h1, h2, h3 {
+  //  font-size: 0.95rem;  // меньше, чем в документации
+  //  margin: 4px 0 2px;   // компактно
+  //  font-weight: 600;
+  //  color: var(--cds-alias-object-text-color-link, #0f62a5);      // Clarity-синий
+  //}
+  //
+  //p {
+  //  font-size: 14px;
+  //  margin: 2px 0;       // абзацы компактные
+  //}
+  //
+  //ul, ol {
+  //  padding-left: 16px;  // чуть меньше отступ
+  //  margin: 2px 0;
+  //}
+  //
+  //li {
+  //  margin: 1px 0;
+  //}
 
   a {
     color: var(--cds-alias-object-text-color-link, #0065a9);
@@ -309,6 +386,15 @@
   //  margin: 4px 0;       // компактный отступ
   //}
 
+  // Inline-код (без подсветки)
+  :not(pre) > code {
+    font-size: 12px;
+    background: var(--cds-alias-object-tag-background, #eef1f4);
+    padding: 1px 3px;
+    border-radius: 3px;
+    font-family: 'Fira Code', Consolas, Monaco, monospace;
+  }
+
   /* Согласованный Prism с Clarity (автоматически подстраивается под тему) */
   pre[class*="language-"] {
     background: var(--cds-alias-object-code-background, #f8f8f8);
@@ -322,21 +408,13 @@
     overflow-x: auto;
   }
 
-  code[class*="language-"] {
-    font-size: 12px;
-    color: var(--cds-alias-object-text-color-body, #202428);
-    background: none;
-    text-shadow: none;
-  }
+  //code[class*="language-"] {
+  //  font-size: 12px;
+  //  color: var(--cds-alias-object-text-color-body, #202428);
+  //  background: none;
+  //  text-shadow: none;
+  //}
 
-  // Inline-код (без подсветки)
-  :not(pre) > code {
-    font-size: 12px;
-    background: var(--cds-alias-object-tag-background, #eef1f4);
-    padding: 1px 3px;
-    border-radius: 3px;
-    font-family: 'Fira Code', Consolas, Monaco, monospace;
-  }
 
   blockquote {
     border-left: 3px solid #0065a9;

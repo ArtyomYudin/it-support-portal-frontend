@@ -12,55 +12,85 @@
   <!-- Окно чата -->
   @if (isOpen()) {
     <div class="chat-window">
-    <div class="chat-header">
-      <h3>Чат с ботом</h3>
-      <button (click)="toggleChat()" aria-label="Закрыть чат">×</button>
-    </div>
+      <div class="chat-header">
+        <h3>Чат с ботом</h3>
+        <button (click)="toggleChat()" aria-label="Закрыть чат">×</button>
+      </div>
 
-    <div class="chat-body" #chatBody>
-      @for (msg of messages(); track msg.from) {
-        <div
-        class="message-row"
-        [class.user]="msg.from === 'user'"
-        [class.bot]="msg.from === 'bot'"
-        >
-          @if (msg.from === 'bot') {
-<!--            <div class="avatar">🤖</div>-->
-            <div class="avatar" ><cds-icon shape="administrator" size="lg"></cds-icon></div>
-          }
-          <div class="message markdown-body">
-            @if (msg.type === 'status') {
-              <div class="status-message">{{ msg.text }}</div>
+      <div class="chat-body" #chatBody>
+        @for (msg of messages(); track msg.id) {
+          <div
+          class="message-row"
+          [class.user]="msg.from === 'user'"
+          [class.bot]="msg.from === 'bot'"
+          >
+<!--            @if (msg.from === 'bot') {-->
+<!--  &lt;!&ndash;            <div class="avatar">🤖</div>&ndash;&gt;-->
+<!--              <div class="avatar" ><cds-icon shape="administrator" size="lg"></cds-icon></div>-->
+<!--            }-->
+<!--            <div class="message markdown-body">-->
+<!--              @if (msg.type === 'status') {-->
+<!--                <div class="status-message">{{ msg.text }}</div>-->
+<!--              }-->
+<!--              @if (msg.type === 'response') {-->
+<!--                <markdown [data]="msg.text"></markdown>-->
+<!--              }-->
+<!--            </div>-->
+<!--            @if (msg.from === 'user') {-->
+<!--  &lt;!&ndash;            <div class="avatar">🙂</div>&ndash;&gt;-->
+<!--              <div class="avatar" ><cds-icon shape="user" size="lg"></cds-icon></div>-->
+<!--            }-->
+            @if (msg.from === 'bot') {
+              <div class="avatar"><cds-icon shape="administrator" size="lg"></cds-icon></div>
             }
-            @if (msg.type === 'response') {
-              <markdown [data]="msg.text"></markdown>
+
+            <div class="message markdown-body">
+              @if (msg.type === 'status') {
+                <div class="status-message">{{ msg.text }}</div>
+              }
+              @if (msg.type === 'response') {
+                @if (msg.from === 'bot') {
+                  <markdown [data]="msg.text"></markdown>
+                }
+                @if (msg.from === 'user') {
+                  <div class="plain-text">{{ msg.text }}</div>
+                }
+              }
+            </div>
+
+            @if (msg.from === 'user') {
+              <div class="avatar"><cds-icon shape="user" size="lg"></cds-icon></div>
             }
           </div>
-          @if (msg.from === 'user') {
-<!--            <div class="avatar">🙂</div>-->
-            <div class="avatar" ><cds-icon shape="user" size="lg"></cds-icon></div>
-          }
+        }
+
+        <!-- Индикатор печати -->
+        @if (isTyping()) {
+          <div class="typing-indicator">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+          </div>
+        }
+      </div>
+
+      <div class="chat-footer">
+        <textarea
+          #input
+          class="chat-input"
+          rows="1"
+          placeholder="Введите сообщение..."
+          (keydown)="onKeyDown($event, input)"
+          (input)="onInput(input)"
+        ></textarea>
+      </div>
+
+      <!-- Кнопка "Вниз" -->
+      @if (userScrolledUp()) {
+        <div class="scroll-down-btn" (click)="scrollToBottom(true)">
+          <cds-icon shape="arrow" direction="down"></cds-icon>
         </div>
       }
-
-      <!-- Индикатор печати -->
-      @if (isTyping()) {
-        <div class="typing-indicator">
-          <div class="dot"></div>
-          <div class="dot"></div>
-          <div class="dot"></div>
-        </div>
-      }
-    </div>
-
-    <div class="chat-footer">
-      <input
-        #input
-        type="text"
-        (keyup.enter)="sendMessage(input.value); input.value=''"
-        placeholder="Введите сообщение..."
-      />
-    </div>
     </div>
   }
 </div>
