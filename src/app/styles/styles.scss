@@ -45,6 +45,12 @@ body {
 */
 
 @media (max-width: 768px) {
+  input, textarea, .clr-input, .clr-password {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
   .clr-vertical-nav {
     // margin-top: 0rem !important;
   }
