@@ -83,26 +83,26 @@ export class ChatBotComponent implements AfterViewInit{
   }
 
   ngAfterViewInit() {
-    // this.setupVisualViewportHandler();
+    this.setupVisualViewportHandler();
   }
 
-  // private setupVisualViewportHandler() {
-  //   if (!('visualViewport' in window)) return;
-  //
-  //   const setVh = () => {
-  //     const vh = window.visualViewport!.height * 0.01;
-  //     document.documentElement.style.setProperty('--vh', `${vh}px`);
-  //   };
-  //
-  //   // сразу выставляем
-  //   setVh();
-  //
-  //   // обновляем при каждом ресайзе
-  //   window.visualViewport!.addEventListener('resize', setVh);
-  //   this.destroyRef.onDestroy(() => {
-  //     window.visualViewport!.removeEventListener('resize', setVh);
-  //   });
-  // }
+  private setupVisualViewportHandler() {
+    if (!('visualViewport' in window)) return;
+
+    const setVh = () => {
+      const vh = window.visualViewport!.height * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+
+    // сразу выставляем
+    setVh();
+
+    // обновляем при каждом ресайзе
+    window.visualViewport!.addEventListener('resize', setVh);
+    this.destroyRef.onDestroy(() => {
+      window.visualViewport!.removeEventListener('resize', setVh);
+    });
+  }
 
   toggleChat() {
     this.isOpen.set(!this.isOpen());
