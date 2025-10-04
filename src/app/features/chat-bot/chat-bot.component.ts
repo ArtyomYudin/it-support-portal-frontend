@@ -43,8 +43,7 @@ export class ChatBotComponent implements AfterViewInit{
   ]);
 
   chatBody = viewChild.required<ElementRef<HTMLDivElement>>('chatBody');
-
-  visualViewportHeight = signal<number | null>(null);
+  
   isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 
@@ -93,17 +92,16 @@ export class ChatBotComponent implements AfterViewInit{
   private setupVisualViewportHandler() {
     if (!this.isIOS || !('visualViewport' in window)) return;
 
-    const viewport = window.visualViewport!;
-    const updateViewportHeight = () => {
-      // Сохраняем текущую высоту viewport'а
-      this.visualViewportHeight.set(viewport.height);
+    const adjustOnKeyboard = () => {
+      if (this.isOpen() && document.activeElement?.tagName === 'TEXTAREA') {
+        this.scrollToBottom(false);
+      }
     };
 
-    viewport.addEventListener('resize', updateViewportHeight);
-    updateViewportHeight(); // инициализация
-
+    const viewport = window.visualViewport!;
+    viewport.addEventListener('resize', adjustOnKeyboard);
     this.destroyRef.onDestroy(() => {
-      viewport.removeEventListener('resize', updateViewportHeight);
+      viewport.removeEventListener('resize', adjustOnKeyboard);
     });
   }
 
