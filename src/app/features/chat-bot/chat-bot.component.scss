@@ -10,7 +10,6 @@
   // На мобильных — кнопка прижата к краю, но не растягивается
   @media (max-width: 768px) {
     right: 16px;
-    isolation: isolate; // <- создаёт новый stacking context
   }
 }
 
@@ -66,7 +65,7 @@
     padding-bottom: env(safe-area-inset-bottom);
     width: 100vw;
     // здесь используем динамическую высоту с учётом клавиатуры
-    height: calc(var(--vh, 1vh) * 100);
+    //height: calc(var(--vh, 1vh) * 100);
     min-height: auto;   /* СБРОС min-height на мобилке */
     max-height: none;   /* или 100dvh */
     border-radius: 0;
