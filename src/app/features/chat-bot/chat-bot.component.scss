@@ -1,28 +1,43 @@
+@supports (bottom: env(safe-area-inset-bottom)) {
+  .chat-bot-container {
+    bottom: max(20px, env(safe-area-inset-bottom));
+  }
+
+  @media (max-width: 768px) {
+    .chat-window {
+      padding-bottom: env(safe-area-inset-bottom);
+    }
+
+    .chat-footer {
+      padding-bottom: max(8px, env(safe-area-inset-bottom));
+    }
+  }
+}
+
 /* Контейнер чата */
 .chat-bot-container {
   position: fixed;
-  //bottom: 20px;
-  bottom: max(20px, env(safe-area-inset-bottom));
+  bottom: 20px;
   right: 20px;
   z-index: 9999;
   font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
 
   // На мобильных — кнопка прижата к краю, но не растягивается
   @media (max-width: 768px) {
+    bottom: 16px;
     right: 16px;
-    isolation: isolate; // <- создаёт новый stacking context
   }
+}
+
+/* Улучшение тач-взаимодействия */
+.chat-toggle-btn,
+.chat-header button,
+.scroll-down-btn {
+  touch-action: manipulation;
 }
 
 /* Кнопка вызова чата */
 .chat-toggle-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  cds-icon {
-    display: block;
-  }
   background: #0065a9;
   color: white;
   border: none;
@@ -33,10 +48,26 @@
   cursor: pointer;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
   transition: background 0.2s;
-  touch-action: manipulation;
+  /* Центрирование содержимого */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Убедимся, что нет внутренних отступов/границ */
+  padding: 0;
+  margin: 0;
+  /* Для Safari: сбросить возможные стили по умолчанию */
+  -webkit-appearance: none;
+  appearance: none;
 
   &:hover {
     background: #004f86;
+  }
+
+  /* Убедимся, что иконка не "выпирает" */
+  cds-icon {
+    display: block;
+    width: 24px;   // или как нужно
+    height: 24px;
   }
 }
 
@@ -63,16 +94,13 @@
     left: 0;
     right: 0;
     bottom: 0;
-    padding-bottom: env(safe-area-inset-bottom);
     width: 100vw;
-    height: 100vh; // fallback
-    height: 100dvh; // современные браузеры
-    min-height: 70dvh; // или 80dvh
-    max-height: 100dvh;
+    height: 100dvh; // или 100vh, если dvh не поддерживается
+    max-height: 100dvh;;
+    min-height: 100dvh;;
     border-radius: 0;
     border: none;
     box-shadow: none;
-    background: #fff;
   }
 }
 
@@ -99,7 +127,6 @@
     cursor: pointer;
     color: #666;
     transition: color 0.2s;
-    touch-action: manipulation;
 
     &:hover {
       color: #000;
@@ -116,6 +143,15 @@
   flex-direction: column;
   gap: 8px;
   -webkit-overflow-scrolling: touch;
+  /* Скрыть скроллбар */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none; /* Firefox */
+
+  @media (max-width: 768px) {
+    max-height: calc(100dvh - 120px);
+  }
 }
 
 /* Сообщения */
@@ -170,40 +206,17 @@
 //}
 
 .message-row.bot .message {
-  //position: relative;
   background: var(--cds-alias-object-container-background, #f1f1f1);
   color: var(--cds-alias-object-text-color-body, #333);
   border-radius: 12px 12px 12px 2px;
 }
-//.message-row.bot .message::after {
-//  content: "";
-//  position: absolute;
-//  left: -10px; /* ещё сильнее наружу */
-//  bottom: 4px; /* чуть выше низа */
-//  width: 12px;
-//  height: 12px;
-//  background: red; /* тест! */
-//  //background: var(--cds-alias-object-container-background, #f1f1f1);
-//  border-bottom-right-radius: 12px;  /* скругляем уголок */
-//  z-index: 0; /* чтобы хвостик не перекрывал текст */
-//}
 
 .message-row.user .message {
-  //position: relative;
   background: var(--cds-alias-object-status-info-background, #e6f4ff);
   color: var(--cds-alias-object-status-info, #004f86);
   border-radius: 12px 12px 2px 12px;
 }
-//.message-row.user .message::after {
-//  content: "";
-//  position: absolute;
-//  right: -6px;  /* ближе к аватарке */
-//  bottom: 0;
-//  width: 12px;
-//  height: 12px;
-//  background: var(--cds-alias-object-status-info-background, #e6f4ff);
-//  border-bottom-left-radius: 12px;
-//}
+
 
 /* Индикатор печати */
 .typing-indicator {
@@ -234,37 +247,46 @@
 
 /* Футер чата */
 .chat-footer {
-  padding: 8px;
+  padding: 6px 8px;         /* padding сверху/снизу + слева/справа */
+  min-height: 48px;         /* textarea min-height (34px) + padding (6*2) + outline 2px */
   border-top: 1px solid #d6d6d6;
   background: #f9f9f9;
   display: flex;
   gap: 8px;
   align-items: flex-end;
+  box-sizing: border-box;
 
   textarea.chat-input {
     flex: 1;
     resize: none;
-    max-height: 120px;
-    overflow-y: auto;
+    min-height: 34px;          /* одна строка текста + padding */
+    max-height: 120px;         /* ограничение роста */
     padding: 6px 10px;
     border-radius: 4px;
     border: 1px solid #ccc;
+    outline: 2px solid transparent; /* всегда резервируем место */
+    outline-offset: -2px;
     font-size: 14px;
     line-height: 1.4;
     font-family: inherit;
+    box-sizing: border-box; /* учитывает padding в height */
+    overflow-y: hidden;
+    /* Скрываем скроллбар в WebKit (Chrome, Safari) */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    /* Для Firefox и других — убираем полосу, но оставляем прокрутку */
+    scrollbar-width: none; /* Firefox */
 
     &:focus {
-      outline: none;
       border-color: #0065a9;
-      box-shadow: 0 0 0 2px rgba(0, 101, 169, 0.2);
+      outline: 2px solid rgba(0,101,169,0.2); /* визуальный эффект, но высота не меняется */
+      outline-offset: -2px;  /* не меняет высоту */
     }
 
     @media (max-width: 768px) {
         font-size: 16px; /* отключает зум на iOS */
     }
-  }
-  @media (max-width: 768px) {
-    padding-bottom: max(8px, env(safe-area-inset-bottom));
   }
 
   //input {
@@ -301,7 +323,6 @@
   line-height: 1;
   user-select: none;     /* курсор не дергается и не появляется текстовый карет */
   transition: opacity 0.3s ease-in-out; /* плавное появление/исчезновение */
-  touch-action: manipulation;
 }
 
 .scroll-down-btn:focus {
@@ -532,3 +553,4 @@
 .token.function {
   color: var(--cds-global-color-purple-700, #6f42c1);
 }
+

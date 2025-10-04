@@ -81,7 +81,8 @@
           rows="1"
           placeholder="Введите сообщение..."
           (keydown)="onKeyDown($event, input)"
-          (input)="onInput(input)"
+          (focus)="adjustTextarea(input)"
+          (input)="adjustTextarea(input)"
         ></textarea>
       </div>
 

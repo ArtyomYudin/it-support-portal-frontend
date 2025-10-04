@@ -6,7 +6,7 @@ import {
   NgZone,
   DestroyRef,
   effect,
-  viewChild
+  viewChild, AfterViewInit
 } from '@angular/core';
 import { ChatService, ChatMessage } from '@service/chat-bot.service';
 import { MarkdownComponent, MARKED_OPTIONS, MarkedOptions } from 'ngx-markdown';
@@ -31,7 +31,7 @@ import { SessionService } from "@service/session.service";
   ]
 })
 
-export class ChatBotComponent {
+export class ChatBotComponent implements AfterViewInit {
   isOpen = signal(false);
 
   isTyping = signal(false);
@@ -43,6 +43,7 @@ export class ChatBotComponent {
   ]);
 
   chatBody = viewChild.required<ElementRef<HTMLDivElement>>('chatBody');
+  input = viewChild.required<ElementRef<HTMLTextAreaElement>>('input');
 
   constructor(
     private ngZone: NgZone,
@@ -82,6 +83,30 @@ export class ChatBotComponent {
     });
   }
 
+  ngAfterViewInit() {
+    this.adjustTextarea(this.input().nativeElement);
+  }
+
+  adjustTextarea(el: HTMLTextAreaElement) {
+    if (!el) return;
+
+    const minHeight = 34;
+    const maxHeight = 120;
+    const padding = 12;   // 2*6px
+    const outline = 2;    // учёт outline
+
+    const newHeight = Math.min(Math.max(el.scrollHeight, minHeight), maxHeight);
+    el.style.height = `${newHeight}px`;
+    el.style.overflowY = newHeight >= maxHeight ? 'auto' : 'hidden';
+
+    const footer = el.parentElement as HTMLElement;
+    if (footer) {
+      requestAnimationFrame(() => {
+        footer.style.height = `${newHeight + padding + outline}px`;
+      });
+    }
+  }
+
   toggleChat() {
     this.isOpen.set(!this.isOpen());
   }
@@ -95,9 +120,23 @@ export class ChatBotComponent {
     }
   }
 
-  onInput(input: HTMLTextAreaElement) {
+ onInput(input: HTMLTextAreaElement) {
+    const minHeight = 34;
+    const maxHeight = 120;
+    const padding = 12;
+    const outline = 2;
+
     input.style.height = 'auto';
-    input.style.height = Math.min(input.scrollHeight, 120) + 'px'; // ограничение роста
+    const newHeight = Math.min(Math.max(input.scrollHeight, minHeight), maxHeight);
+    input.style.height = `${newHeight}px`;
+    input.style.overflowY = newHeight >= maxHeight ? 'auto' : 'hidden';
+
+    const footer = input.parentElement as HTMLElement;
+    if (footer) {
+      requestAnimationFrame(() => {
+        footer.style.height = `${newHeight + padding + outline}px`;
+      });
+    }
   }
 
   async sendMessage(text: string) {
@@ -190,6 +229,10 @@ export class ChatBotComponent {
     const el = this.chatBody().nativeElement;
     const threshold = 50;
     el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    // Используем requestAnimationFrame для гарантии после рендера
+    // requestAnimationFrame(() => {
+    //   el.scrollTop = el.scrollHeight;
+    // });
     const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
 
     // Скроллим вниз, если:
