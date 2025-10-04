@@ -6,7 +6,7 @@ import {
   NgZone,
   DestroyRef,
   effect,
-  viewChild
+  viewChild, AfterViewInit
 } from '@angular/core';
 import { ChatService, ChatMessage } from '@service/chat-bot.service';
 import { MarkdownComponent, MARKED_OPTIONS, MarkedOptions } from 'ngx-markdown';
@@ -31,7 +31,7 @@ import { SessionService } from "@service/session.service";
   ]
 })
 
-export class ChatBotComponent {
+export class ChatBotComponent implements AfterViewInit{
   isOpen = signal(false);
 
   isTyping = signal(false);
@@ -43,6 +43,10 @@ export class ChatBotComponent {
   ]);
 
   chatBody = viewChild.required<ElementRef<HTMLDivElement>>('chatBody');
+
+  visualViewportHeight = signal<number | null>(null);
+  isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
 
   constructor(
     private ngZone: NgZone,
@@ -79,6 +83,27 @@ export class ChatBotComponent {
         // При закрытии — сбросим флаг скролла
         this.userScrolledUp.set(false);
       }
+    });
+  }
+
+  ngAfterViewInit() {
+    this.setupVisualViewportHandler();
+  }
+
+  private setupVisualViewportHandler() {
+    if (!this.isIOS || !('visualViewport' in window)) return;
+
+    const viewport = window.visualViewport!;
+    const updateViewportHeight = () => {
+      // Сохраняем текущую высоту viewport'а
+      this.visualViewportHeight.set(viewport.height);
+    };
+
+    viewport.addEventListener('resize', updateViewportHeight);
+    updateViewportHeight(); // инициализация
+
+    this.destroyRef.onDestroy(() => {
+      viewport.removeEventListener('resize', updateViewportHeight);
     });
   }
 
@@ -189,7 +214,11 @@ export class ChatBotComponent {
 
     const el = this.chatBody().nativeElement;
     const threshold = 50;
-    el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    // el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+    // Используем requestAnimationFrame для гарантии после рендера
+    requestAnimationFrame(() => {
+      el.scrollTop = el.scrollHeight;
+    });
     const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
 
     // Скроллим вниз, если:

@@ -11,7 +11,7 @@
 
   <!-- Окно чата -->
   @if (isOpen()) {
-    <div class="chat-window">
+    <div class="chat-window" [style.height.px]="isIOS ? visualViewportHeight() : null">
       <div class="chat-header">
         <h3>Чат с ботом</h3>
         <button (click)="toggleChat()" aria-label="Закрыть чат">×</button>
