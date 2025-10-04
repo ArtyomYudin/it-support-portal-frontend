@@ -65,10 +65,10 @@
     bottom: 0;
     padding-bottom: env(safe-area-inset-bottom);
     width: 100vw;
-    height: 100vh; // fallback
+    //height: 100vh; // fallback
     height: 100dvh; // современные браузеры
-    min-height: 70dvh; // или 80dvh
-    max-height: 100dvh;
+    min-height: auto;   /* СБРОС min-height на мобилке */
+    max-height: none;   /* или 100dvh */
     border-radius: 0;
     border: none;
     box-shadow: none;
@@ -109,6 +109,7 @@
 /* Тело чата */
 .chat-body {
   flex: 1;
+  min-height: 0;
   padding: 10px;
   overflow-y: auto;
   display: flex;
@@ -233,6 +234,7 @@
 
 /* Футер чата */
 .chat-footer {
+  flex-shrink: 0;
   padding: 8px;
   border-top: 1px solid #d6d6d6;
   background: #f9f9f9;
