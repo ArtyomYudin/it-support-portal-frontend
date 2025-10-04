@@ -1,14 +1,14 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { map } from 'rxjs/operators';
 // import { Subject } from 'rxjs';
-
 import { ClarityModule } from '@clr/angular';
 import { DatePipe, AsyncPipe } from '@angular/common';
 import { AuthenticationService } from '@service/auth.service';
 import { AuthUser } from '@model/auth-user.model';
 import { interval } from 'rxjs/internal/observable/interval';
 import { ThumbnailPhotoPipe } from '@pipe/thumbnailphoto.pipe';
+import {ThemeService} from "@service/theme.service";
 
 @Component({
     selector: 'fe-header-desktop',
@@ -17,7 +17,7 @@ import { ThumbnailPhotoPipe } from '@pipe/thumbnailphoto.pipe';
     styleUrls: ['./header.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderDesktopComponent {
+export class HeaderDesktopComponent implements OnInit {
   @Input() currentUser: AuthUser;
   // public currentUser: AuthUser;
 
@@ -25,7 +25,7 @@ export class HeaderDesktopComponent {
 
   // private ngUnsubscribe$: Subject<any> = new Subject();
 
-  constructor(private router: Router, private authenticationService: AuthenticationService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService, private themeService: ThemeService) {
     // this.authenticationService.currentUser$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe(x => {
     //   this.currentUser = x;
     // });
@@ -38,7 +38,9 @@ export class HeaderDesktopComponent {
     //       });}
   }
 
-  // ngOnInit(): void {}
+  ngOnInit(): void {
+    this.themeService.initTheme();
+  }
 
   // public ngOnDestroy(): void {
   // this.ngUnsubscribe$.next(null);
@@ -48,6 +50,15 @@ export class HeaderDesktopComponent {
   public onLogout(): void {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
+  }
+
+  toggleTheme(): void {
+    console.log('switch theme');
+    this.themeService.toggleTheme();
+  }
+
+  get isDarkMode(): boolean {
+    return document.documentElement.classList.contains('theme-dark');
   }
 
   public isAdmin(): boolean {

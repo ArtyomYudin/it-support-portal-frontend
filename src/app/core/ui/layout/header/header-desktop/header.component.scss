@@ -39,6 +39,16 @@
 
   & .header-actions {
     margin-right: -0.8rem;
+    &-theme {
+      & cds-icon {
+        height: 22px;
+        width: 22px;
+        //margin-top: 0.5rem;
+        opacity: 0.65;
+        // position: unset;
+        // margin-right: 0.5rem;
+      }
+    }
     &-logout {
       & cds-icon {
         height: 22px;
