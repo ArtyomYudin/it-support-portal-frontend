@@ -9,8 +9,8 @@
 
   // На мобильных — кнопка прижата к краю, но не растягивается
   @media (max-width: 768px) {
-    bottom: 16px;
     right: 16px;
+    isolation: isolate; // <- создаёт новый stacking context
   }
 }
 
