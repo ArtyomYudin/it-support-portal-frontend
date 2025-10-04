@@ -43,9 +43,6 @@ export class ChatBotComponent implements AfterViewInit{
   ]);
 
   chatBody = viewChild.required<ElementRef<HTMLDivElement>>('chatBody');
-  
-  isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
 
   constructor(
     private ngZone: NgZone,
@@ -90,18 +87,20 @@ export class ChatBotComponent implements AfterViewInit{
   }
 
   private setupVisualViewportHandler() {
-    if (!this.isIOS || !('visualViewport' in window)) return;
+    if (!('visualViewport' in window)) return;
 
-    const adjustOnKeyboard = () => {
-      if (this.isOpen() && document.activeElement?.tagName === 'TEXTAREA') {
-        this.scrollToBottom(false);
-      }
+    const setVh = () => {
+      const vh = window.visualViewport!.height * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
     };
 
-    const viewport = window.visualViewport!;
-    viewport.addEventListener('resize', adjustOnKeyboard);
+    // сразу выставляем
+    setVh();
+
+    // обновляем при каждом ресайзе
+    window.visualViewport!.addEventListener('resize', setVh);
     this.destroyRef.onDestroy(() => {
-      viewport.removeEventListener('resize', adjustOnKeyboard);
+      window.visualViewport!.removeEventListener('resize', setVh);
     });
   }
 
