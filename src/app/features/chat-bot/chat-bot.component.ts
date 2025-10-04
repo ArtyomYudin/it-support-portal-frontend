@@ -6,7 +6,7 @@ import {
   NgZone,
   DestroyRef,
   effect,
-  viewChild, AfterViewInit
+  viewChild
 } from '@angular/core';
 import { ChatService, ChatMessage } from '@service/chat-bot.service';
 import { MarkdownComponent, MARKED_OPTIONS, MarkedOptions } from 'ngx-markdown';
@@ -31,7 +31,7 @@ import { SessionService } from "@service/session.service";
   ]
 })
 
-export class ChatBotComponent implements AfterViewInit{
+export class ChatBotComponent {
   isOpen = signal(false);
 
   isTyping = signal(false);
@@ -43,9 +43,6 @@ export class ChatBotComponent implements AfterViewInit{
   ]);
 
   chatBody = viewChild.required<ElementRef<HTMLDivElement>>('chatBody');
-  
-  isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-
 
   constructor(
     private ngZone: NgZone,
@@ -82,26 +79,6 @@ export class ChatBotComponent implements AfterViewInit{
         // При закрытии — сбросим флаг скролла
         this.userScrolledUp.set(false);
       }
-    });
-  }
-
-  ngAfterViewInit() {
-    this.setupVisualViewportHandler();
-  }
-
-  private setupVisualViewportHandler() {
-    if (!this.isIOS || !('visualViewport' in window)) return;
-
-    const adjustOnKeyboard = () => {
-      if (this.isOpen() && document.activeElement?.tagName === 'TEXTAREA') {
-        this.scrollToBottom(false);
-      }
-    };
-
-    const viewport = window.visualViewport!;
-    viewport.addEventListener('resize', adjustOnKeyboard);
-    this.destroyRef.onDestroy(() => {
-      viewport.removeEventListener('resize', adjustOnKeyboard);
     });
   }
 
@@ -212,11 +189,7 @@ export class ChatBotComponent implements AfterViewInit{
 
     const el = this.chatBody().nativeElement;
     const threshold = 50;
-    // el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
-    // Используем requestAnimationFrame для гарантии после рендера
-    requestAnimationFrame(() => {
-      el.scrollTop = el.scrollHeight;
-    });
+    el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
     const isAtBottom = el.scrollTop + el.clientHeight >= el.scrollHeight - threshold;
 
     // Скроллим вниз, если:
