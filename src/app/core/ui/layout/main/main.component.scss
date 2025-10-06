@@ -1,4 +1,34 @@
-.content-container {
-  //min-height: calc(100vh - 3rem);
-  min-height: 100vh;
+::ng-deep clr-main-container {
+  display: flex !important;
+  flex-direction: column; /* если header мобильный сверху */
+}
+
+/* Мобильный хедер — фиксированная высота */
+::ng-deep fe-header-mobile {
+  flex: 0 0 auto; /* не растягивается */
+}
+
+/* fe-main должен заполнить остаток */
+::ng-deep fe-main {
+  flex: 1;
+  display: flex; /* чтобы .content-container мог растягиваться */
+  min-height: 0; /* критично! */
+  overflow: hidden;
+}
+
+::ng-deep fe-main .content-container {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+::ng-deep fe-main .content-container .content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  box-sizing: border-box;
 }

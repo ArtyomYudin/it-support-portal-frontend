@@ -1,7 +1,7 @@
 .login-wrapper {
   background: none;
   //padding: 0rem 1rem 1rem 1rem;
-  margin: -1.2rem -1.2rem 0rem -1.2rem;
+  //margin: -1.2rem -1.2rem 0rem -1.2rem;
   height: -webkit-fill-available;
   //padding-bottom: 0;
   font-family: Metropolis, "Avenir Next", "Helvetica Neue", Arial, sans-serif;
@@ -11,6 +11,7 @@
 }
 
 .login-wrapper .login {
+  box-sizing: border-box;
   //background: #fafafa;
   position: relative;
   display: flex;
