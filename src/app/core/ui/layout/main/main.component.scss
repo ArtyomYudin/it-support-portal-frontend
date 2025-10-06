@@ -3,10 +3,10 @@
   flex-direction: column; /* если header мобильный сверху */
 }
 
-/* Мобильный хедер — фиксированная высота */
-::ng-deep fe-header-mobile {
-  flex: 0 0 auto; /* не растягивается */
-}
+///* Мобильный хедер — фиксированная высота */
+//::ng-deep fe-header-mobile {
+//  flex: 0 0 auto; /* не растягивается */
+//}
 
 /* fe-main должен заполнить остаток */
 ::ng-deep fe-main {
