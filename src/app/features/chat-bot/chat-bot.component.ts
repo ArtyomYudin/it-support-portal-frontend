@@ -86,19 +86,26 @@ export class ChatBotComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     // this.adjustTextarea(this.input().nativeElement);
+    this.setVhVariable();
     if ('visualViewport' in window) {
-      const viewport = window.visualViewport!;
-      const container = document.querySelector('.chat-bot-container') as HTMLElement | null;
-
-      const adjust = () => {
-        if (!container) return;
-        const offset = window.innerHeight - viewport.height - viewport.offsetTop;
-        container.style.transform = offset > 0 ? `translateY(-${offset}px)` : '';
-      };
-
-      viewport.addEventListener('resize', adjust);
-      this.destroyRef.onDestroy(() => viewport.removeEventListener('resize', adjust));
+        const viewport = window.visualViewport!;
+        const adjustPosition = () => {
+          // На мобильных — ничего не двигаем, потому что окно и так fixed
+          // Но если вы хотите компенсировать клавиатуру — см. ниже
+        };
+        viewport.addEventListener('resize', adjustPosition);
+        this.destroyRef.onDestroy(() => viewport.removeEventListener('resize', adjustPosition));
     }
+  }
+
+  private setVhVariable() {
+    const setVh = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    setVh();
+    window.addEventListener('resize', setVh);
+    this.destroyRef.onDestroy(() => window.removeEventListener('resize', setVh));
   }
 
   adjustTextarea(el: HTMLTextAreaElement) {
@@ -135,6 +142,12 @@ export class ChatBotComponent implements AfterViewInit {
             input.focus();
             const len = input.value.length;
             input.setSelectionRange(len, len);
+            // Прокрутка к полю ввода на мобильных
+            if (window.innerWidth <= 768) {
+              setTimeout(() => {
+                input.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+              }, 300); // дать время клавиатуре открыться
+            }
           }
 
           // скроллим вниз сразу после появления окна

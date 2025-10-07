@@ -17,19 +17,21 @@
 /* Контейнер чата */
 .chat-bot-container {
   position: fixed;
-  //bottom: 20px;
-  //right: 20px;
+  bottom: 20px;
+  right: 20px;
   //z-index: 9999;
   font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
-  inset: 0; /* растягиваем на весь экран */
+  //inset: 0; /* растягиваем на весь экран */
   z-index: 2147483647; /* максимально возможный индекс */
   pointer-events: none; /* чтобы клики проходили через невидимую область */
   isolation: isolate; /* отдельный stacking context */
 
   // На мобильных — кнопка прижата к краю, но не растягивается
   @media (max-width: 768px) {
-    bottom: 16px;
-    right: 16px;
+    /* На мобильных — контейнер растягивается, но только чтобы ловить клики вне окна */
+    inset: 0;
+    bottom: 0; /* переопределяем */
+    right: 0;
   }
 
   /* Скрытое окно */
@@ -135,23 +137,24 @@
 
   // Полноэкранный режим ТОЛЬКО для открытого окна на мобильных
   @media (max-width: 768px) {
-    //position: fixed;
-    //top: 0;
-    //left: 0;
-    //right: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
     //bottom: 0;
-    //width: 100vw;
-    //height: 100dvh; // или 100vh, если dvh не поддерживается
-    //max-height: 100dvh;;
-    //min-height: 100dvh;;
-    //border-radius: 0;
-    //border: none;
-    //box-shadow: none;
     width: 100%;
     height: calc(var(--vh, 1vh) * 100);
-    right: 0;
-    bottom: 0;
+    min-height: calc(var(--vh, 1vh) * 100);
+    max-height: none;
+    //min-height: 100dvh;
     border-radius: 0;
+    border: none;
+    box-shadow: none;
+    //width: 100%;
+    //height: calc(var(--vh, 1vh) * 100);
+    //right: 0;
+    //bottom: 0;
+    //border-radius: 0;
   }
 }
 
