@@ -17,15 +17,45 @@
 /* Контейнер чата */
 .chat-bot-container {
   position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 9999;
+  //bottom: 20px;
+  //right: 20px;
+  //z-index: 9999;
   font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
+  inset: 0; /* растягиваем на весь экран */
+  z-index: 2147483647; /* максимально возможный индекс */
+  pointer-events: none; /* чтобы клики проходили через невидимую область */
+  isolation: isolate; /* отдельный stacking context */
 
   // На мобильных — кнопка прижата к краю, но не растягивается
   @media (max-width: 768px) {
     bottom: 16px;
     right: 16px;
+  }
+
+  /* Скрытое окно */
+  &.closed {
+    .chat-toggle-btn {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .chat-window {
+      opacity: 0;
+      pointer-events: none;
+    }
+  }
+
+  /* Открытое окно */
+  &.open {
+    .chat-toggle-btn {
+      opacity: 0; /*  прячем кнопку */
+      visibility: hidden;
+      pointer-events: none !important; /* не кликабельна */
+      transition: opacity 0.25s ease;
+    }
+    .chat-window {
+      opacity: 1;
+      pointer-events: auto;
+    }
   }
 }
 
@@ -38,6 +68,10 @@
 
 /* Кнопка вызова чата */
 .chat-toggle-btn {
+  position: absolute;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  right: 20px;
+  z-index: 2147483647; /* чтобы всегда была поверх */
   background: var(--cds-alias-object-value-background-color-primary, #0065a9);
   color: var(--cds-alias-object-value-text-color-primary, #ffffff);
   border: none;
@@ -58,6 +92,7 @@
   /* Для Safari: сбросить возможные стили по умолчанию */
   -webkit-appearance: none;
   appearance: none;
+  pointer-events: auto; /* кликабельна несмотря на pointer-events:none у контейнера */
 
   &:hover {
     background: var(--cds-alias-object-interaction-background-color-hover, #004f86);
@@ -69,13 +104,23 @@
     width: 24px;   // или как нужно
     height: 24px;
   }
+
+  @media (max-width: 768px) {
+    bottom: max(16px, env(safe-area-inset-bottom));
+    right: 16px;
+    width: 52px;
+    height: 52px;
+    font-size: 22px;
+  }
 }
 
 /* Окно чата */
 .chat-window {
   position: absolute;
-  bottom: 60px;
-  right: 0;
+  //bottom: 60px;
+  //right: 0;
+  right: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
   width: 640px;
   max-height: 480px;
   min-height: 480px;
@@ -86,21 +131,27 @@
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
+  pointer-events: auto; /* клики активны только внутри окна */
 
   // Полноэкранный режим ТОЛЬКО для открытого окна на мобильных
   @media (max-width: 768px) {
-    position: fixed;
-    top: 0;
-    left: 0;
+    //position: fixed;
+    //top: 0;
+    //left: 0;
+    //right: 0;
+    //bottom: 0;
+    //width: 100vw;
+    //height: 100dvh; // или 100vh, если dvh не поддерживается
+    //max-height: 100dvh;;
+    //min-height: 100dvh;;
+    //border-radius: 0;
+    //border: none;
+    //box-shadow: none;
+    width: 100%;
+    height: calc(var(--vh, 1vh) * 100);
     right: 0;
     bottom: 0;
-    width: 100vw;
-    height: 100dvh; // или 100vh, если dvh не поддерживается
-    max-height: 100dvh;;
-    min-height: 100dvh;;
     border-radius: 0;
-    border: none;
-    box-shadow: none;
   }
 }
 

@@ -1,4 +1,7 @@
-<div class="chat-bot-container">
+<div class="chat-bot-container"
+  [class.open]="isOpen()"
+  [class.closed]="!isOpen()"
+>
   <!-- Кнопка вызова чата -->
   <button
     class="chat-toggle-btn"
