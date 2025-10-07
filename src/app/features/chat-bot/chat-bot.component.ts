@@ -85,7 +85,20 @@ export class ChatBotComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.adjustTextarea(this.input().nativeElement);
+    // this.adjustTextarea(this.input().nativeElement);
+    if ('visualViewport' in window) {
+      const viewport = window.visualViewport!;
+      const container = document.querySelector('.chat-bot-container') as HTMLElement | null;
+
+      const adjust = () => {
+        if (!container) return;
+        const offset = window.innerHeight - viewport.height - viewport.offsetTop;
+        container.style.transform = offset > 0 ? `translateY(-${offset}px)` : '';
+      };
+
+      viewport.addEventListener('resize', adjust);
+      this.destroyRef.onDestroy(() => viewport.removeEventListener('resize', adjust));
+    }
   }
 
   adjustTextarea(el: HTMLTextAreaElement) {
@@ -109,7 +122,26 @@ export class ChatBotComponent implements AfterViewInit {
   }
 
   toggleChat() {
-    this.isOpen.set(!this.isOpen());
+    const nowOpen = !this.isOpen();
+    this.isOpen.set(nowOpen);
+
+    if (nowOpen) {
+      // ждём следующий кадр рендера
+      requestAnimationFrame(() => {
+        // ещё один rAF на случай, если Angular отрисует контент чуть позже
+        requestAnimationFrame(() => {
+          const input = this.input()?.nativeElement;
+          if (input) {
+            input.focus();
+            const len = input.value.length;
+            input.setSelectionRange(len, len);
+          }
+
+          // скроллим вниз сразу после появления окна
+          this.scrollToBottom();
+        });
+      });
+    }
   }
 
   onKeyDown(event: KeyboardEvent, input: HTMLTextAreaElement) {
