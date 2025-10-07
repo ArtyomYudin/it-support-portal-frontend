@@ -10,10 +10,11 @@ import { AuthUser } from '@model/auth-user.model';
 import { MainComponent } from '@core/ui/layout/main/main.component';
 import { HeaderMobileComponent } from '@core/ui/layout/header/header-mobile/header.component';
 import {HeaderDesktopComponent} from "@core/ui/layout/header/header-desktop/header.component";
+import {ChatBotComponent} from "@feature/chat-bot/chat-bot.component";
 
 @Component({
     selector: 'fe-layout',
-  imports: [ClarityModule, MainComponent, HeaderMobileComponent, HeaderDesktopComponent],
+  imports: [ClarityModule, MainComponent, HeaderMobileComponent, HeaderDesktopComponent, ChatBotComponent],
     templateUrl: './layout.component.html',
     styleUrls: ['./layout.component.scss']
 })
