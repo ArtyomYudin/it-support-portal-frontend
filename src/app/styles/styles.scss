@@ -228,11 +228,12 @@ button.datagrid-column-title {
 
 
 [cds-theme='light'] {
-  --clr-header-font-color: 565656;
+  --clr-header-font-color: #565656;
 //  --cds-alias-object-app-background: var(--cds-global-color-blue-700);
 }
 
 [cds-theme='dark'] {
+  --clr-header-font-color: #fafafa;
   .chat-bot-container {
     .chat-window {
       background: var(--cds-global-color-gray-800);

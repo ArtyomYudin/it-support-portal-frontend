@@ -36,4 +36,9 @@ export class ThemeService {
   private getSystemPreference(): 'light' | 'dark' {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
+
+  getCssVar(name: string): string {
+  // Читаем с <body>, потому что cds-theme установлен на body
+    return getComputedStyle(document.body).getPropertyValue(name).trim();
+  }
 }

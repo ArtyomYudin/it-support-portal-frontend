@@ -23,7 +23,8 @@
       margin: 0;
       text-align: left;
       //   font-weight: 700;
-      color: #666666;
+      //color: #666666;
+      color: var(--clr-header-font-color);
       font-size: 0.55rem;
       font-weight: 600;
       letter-spacing: 0.03em;

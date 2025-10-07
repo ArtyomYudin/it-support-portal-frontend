@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  DestroyRef,
+  inject
+} from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -8,6 +17,8 @@ import { Event } from '@service/websocket.service.event';
 import { SubscriptionLike } from 'rxjs/internal/types';
 
 import { ClarityModule } from '@clr/angular';
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {ThemeService} from "@service/theme.service";
 
 Chart.register(...registerables);
 
@@ -31,11 +42,19 @@ export class AvayaE1ChartComponent implements OnInit, OnDestroy {
 
   private ngUnsubscribe$: Subject<any> = new Subject();
 
-  constructor(private wsService: WebsocketService) {
+  private destroyRef = inject(DestroyRef);
+
+  constructor(private wsService: WebsocketService, private themeService: ThemeService) {
     this.avayaE1ListArray$ = this.wsService.on<any>(Event.EV_AVAYA_E1_INFO).pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe$));
   }
 
   ngOnInit(): void {
+    // Подписка на смену темы
+    this.themeService.currentTheme$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.updateChartColors();
+      });
     this.createAvayaE1Chart();
     this.avayaE1InfoSubscription = this.avayaE1ListArray$.subscribe(value => {
       this.avayaE1Channel.length = 0;
@@ -51,6 +70,17 @@ export class AvayaE1ChartComponent implements OnInit, OnDestroy {
 
     this.avayaE1InfoSubscription.unsubscribe();
     this.avayaE1Chart.destroy();
+  }
+
+  private updateChartColors(): void {
+    if (!this.avayaE1Chart) return;
+    const textColor = this.themeService.getCssVar('--clr-header-font-color');
+
+    // Обновляем опции
+    const options = this.avayaE1Chart.options;
+    options.plugins.legend.labels.color = textColor;
+
+    this.avayaE1Chart.update('none');
   }
 
   private centerTextPlugin = {
@@ -96,6 +126,7 @@ export class AvayaE1ChartComponent implements OnInit, OnDestroy {
   };
 
   private createAvayaE1Chart() {
+    const textColor = this.themeService.getCssVar('--clr-header-font-color');
     const avayaE1Chart = this.refAvayaE1Chart.nativeElement;
     const ctx = avayaE1Chart.getContext('2d');
     this.avayaE1Chart = new Chart(ctx, {
@@ -131,6 +162,7 @@ export class AvayaE1ChartComponent implements OnInit, OnDestroy {
                 // return (qtd !=='0')?true:false;
                 return true;
               },
+              color: textColor,
               font: {
                 family: "'Metropolis','Avenir Next','Helvetica Neue','Arial','sans-serif'",
                 size: 13,

@@ -20,6 +20,7 @@ import { ClarityModule } from '@clr/angular';
 import { WebsocketService } from '@service/websocket.service';
 import { Event } from '@service/websocket.service.event';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import { ThemeService} from "@service/theme.service";
 
 Chart.register(...registerables);
 
@@ -46,7 +47,7 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
   // private ngUnsubscribe$: Subject<any> = new Subject();
   private destroyRef = inject(DestroyRef);
 
-  constructor(private wsService: WebsocketService) {
+  constructor(private wsService: WebsocketService,  private themeService: ThemeService) {
     this.providerListArray$ = this.wsService.on<any>(Event.EV_PROVIDER_INFO).pipe(
       distinctUntilChanged(),
       takeUntilDestroyed(this.destroyRef)
@@ -63,6 +64,12 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
       // console.log(this.inSpeedInfo);
       // console.log(this.outSpeedInfo);
     });
+    // Подписка на смену темы
+    this.themeService.currentTheme$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.updateChartColors();
+      });
     this.createProviderSpeedChart();
   }
 
@@ -73,7 +80,35 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
     this.providerSpeedChart.destroy();
   }
 
+  private updateChartColors(): void {
+    if (!this.providerSpeedChart) return;
+    const textColor = this.themeService.getCssVar('--clr-header-font-color');
+    const successColor = this.themeService.getCssVar('--cds-alias-viz-sequential-green-600');
+    const infoColor = this.themeService.getCssVar('--cds-alias-viz-sequential-blue-600');
+    const gridColor = this.themeService.getCssVar('--cds-global-color-gray-400');
+
+    // Обновляем цвета фона
+    this.providerSpeedChart.data.datasets[0].backgroundColor = successColor;
+    this.providerSpeedChart.data.datasets[1].backgroundColor = infoColor;
+
+    // Обновляем опции
+    const options = this.providerSpeedChart.options;
+    options.plugins.datalabels.color = textColor;
+    options.scales.x.ticks.color = textColor;
+    options.scales.y.ticks.color = textColor;
+    options.scales.x.grid.color = gridColor;
+    options.scales.y.grid.color = gridColor;
+
+    this.providerSpeedChart.update('none');
+  }
+
   private createProviderSpeedChart() {
+    const successColor = this.themeService.getCssVar('--cds-alias-viz-sequential-green-600');
+    const infoColor = this.themeService.getCssVar('--cds-alias-viz-sequential-blue-600');
+    const textColor = this.themeService.getCssVar('--clr-header-font-color');
+    const gridColor = this.themeService.getCssVar('--cds-global-color-gray-400');
+
+    // const gridColor = getCssVar('--cds-global-color-gray-400'); // или используйте прозрачность
     const providerSpeedChart = this.refProviderSpeedChart.nativeElement;
     const ctx = providerSpeedChart.getContext('2d');
     this.providerSpeedChart = new Chart(ctx, {
@@ -85,13 +120,13 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
           {
             label: 'Входящий траффик',
             data: this.inSpeedInfo,
-            backgroundColor: 'hsl(93, 79%, 40%)',
+            backgroundColor: successColor,
             borderWidth: 0,
           },
           {
             label: 'Исходящий траффик',
             data: this.outSpeedInfo,
-            backgroundColor: 'hsl(198, 66%, 57%)',
+            backgroundColor: infoColor,
             borderWidth: 0,
           },
         ],
@@ -109,6 +144,7 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
             display: false,
           },
           datalabels: {
+            color: textColor,
             anchor: 'end',
             align: 'end',
             clamp: true,
@@ -121,22 +157,30 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
         scales: {
           y: {
             ticks: {
+              color: textColor,
               font: {
                 family: "'Metropolis','Avenir Next','Helvetica Neue','Arial','sans-serif'",
                 size: 13,
                 weight: 500,
               },
             },
+            grid: {
+              color: gridColor,
+            },
           },
           x: {
             type: 'linear',
             grace: '12%',
             ticks: {
+              color: textColor,
               font: {
                 family: "'Metropolis','Avenir Next','Helvetica Neue','Arial','sans-serif'",
                 size: 13,
                 weight: 500,
               },
+            },
+            grid: {
+              color: gridColor,
             },
           },
         },

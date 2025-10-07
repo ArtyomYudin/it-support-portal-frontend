@@ -16,6 +16,7 @@ import { Event } from '@service/websocket.service.event';
 
 import { ClarityModule } from '@clr/angular';
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {ThemeService} from "@service/theme.service";
 
 Chart.register(...registerables);
 
@@ -40,13 +41,20 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
   private destroyRef = inject(DestroyRef);
 
 
-  constructor(private wsService: WebsocketService) {
+  constructor(private wsService: WebsocketService, private themeService: ThemeService) {
     this.hwGroupAlarmListArray$ = this.wsService
       .on<any>(Event.EV_HARDWARE_GROUP_ALARM)
       .pipe(distinctUntilChanged(), takeUntilDestroyed(this.destroyRef));
   }
 
   ngOnInit(): void {
+    // Подписка на смену темы
+    this.themeService.currentTheme$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.updateChartColors();
+      });
+
     this.createHWAlarmChart();
     this.hwGroupAlarmListArray$.subscribe(groupAlarm => {
       this.hwAlarmLabel.length = 0;
@@ -66,6 +74,17 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.hwAlarmChart.destroy();
+  }
+
+  private updateChartColors(): void {
+    if (!this.hwAlarmChart) return;
+    const textColor = this.themeService.getCssVar('--clr-header-font-color');
+
+    // Обновляем опции
+    const options = this.hwAlarmChart.options;
+    options.plugins.legend.labels.color = textColor;
+
+    this.hwAlarmChart.update('none');
   }
 
   private centerTextPlugin = {
@@ -111,6 +130,7 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
   };
 
   private createHWAlarmChart() {
+    const textColor = this.themeService.getCssVar('--clr-header-font-color');
     const hwAlarmChart = this.refHWAlarmChart.nativeElement;
     const ctx = hwAlarmChart.getContext('2d');
     this.hwAlarmChart = new Chart(ctx, {
@@ -151,6 +171,7 @@ export class HardwareChartComponent implements OnInit, OnDestroy {
                 // return (qtd !=='0')?true:false;
                 return true;
               },
+              color: textColor,
               font: {
                 family: "'Metropolis','Avenir Next','Helvetica Neue','Arial','sans-serif'",
                 size: 13,
