@@ -218,7 +218,8 @@ button.datagrid-column-title {
 
 .module-title {
   font-size: 0.8rem;
-  color: #565656;
+  //color: #565656;
+  color: var(--clr-header-font-color);
   padding-top: 0;
   padding-bottom: 0.5rem;
 }
