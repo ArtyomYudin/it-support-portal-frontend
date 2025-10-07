@@ -8,7 +8,11 @@
     <div class="header-actions">
       <div class="settings" style="align-items: center">
         <button class="btn btn-link btn-icon header-actions-theme" aria-label="toggle to dark theme" (click)="toggleTheme()">
-          <cds-icon shape="moon"> </cds-icon>
+          @if ((themeService.currentTheme$ | async) === 'dark') {
+            <cds-icon shape="sun"></cds-icon>
+          } @else {
+            <cds-icon shape="moon"></cds-icon>
+          }
         </button>
         <div class="notify-signpost">
           <clr-signpost>

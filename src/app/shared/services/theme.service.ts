@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import {BehaviorSubject} from "rxjs/internal/BehaviorSubject";
 
 @Injectable({
   providedIn: 'root'
@@ -6,6 +7,9 @@ import { Injectable } from '@angular/core';
 export class ThemeService {
   private readonly THEME_KEY = 'clarity-theme';
   private body: HTMLElement = document.body;
+  private _currentTheme = new BehaviorSubject<'light' | 'dark'>('light');
+
+  public readonly currentTheme$ = this._currentTheme.asObservable();
 
   initTheme(): void {
     const savedTheme = localStorage.getItem(this.THEME_KEY) as 'light' | 'dark' | null;
@@ -14,7 +18,7 @@ export class ThemeService {
   }
 
   toggleTheme(): void {
-    const current = this.getCurrentTheme();
+    const current = this._currentTheme.value;
     const newTheme = current === 'dark' ? 'light' : 'dark';
     this.setTheme(newTheme);
     localStorage.setItem(this.THEME_KEY, newTheme);
@@ -22,6 +26,7 @@ export class ThemeService {
 
   private setTheme(theme: 'light' | 'dark'): void {
     this.body.setAttribute('cds-theme', theme);
+    this._currentTheme.next(theme);
   }
 
   private getCurrentTheme(): 'light' | 'dark' {

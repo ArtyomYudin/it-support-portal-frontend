@@ -25,7 +25,7 @@ export class HeaderDesktopComponent implements OnInit {
 
   // private ngUnsubscribe$: Subject<any> = new Subject();
 
-  constructor(private router: Router, private authenticationService: AuthenticationService, private themeService: ThemeService) {
+  constructor(private router: Router, private authenticationService: AuthenticationService, public themeService: ThemeService) {
     // this.authenticationService.currentUser$.pipe(takeUntil(this.ngUnsubscribe$)).subscribe(x => {
     //   this.currentUser = x;
     // });
@@ -53,7 +53,7 @@ export class HeaderDesktopComponent implements OnInit {
   }
 
   toggleTheme(): void {
-    console.log('switch theme');
+    // console.log('switch theme');
     this.themeService.toggleTheme();
   }
 
