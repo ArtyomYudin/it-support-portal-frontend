@@ -38,8 +38,8 @@
 
 /* Кнопка вызова чата */
 .chat-toggle-btn {
-  background: #0065a9;
-  color: white;
+  background: var(--cds-alias-object-value-background-color-primary, #0065a9);
+  color: var(--cds-alias-object-value-text-color-primary, #ffffff);
   border: none;
   border-radius: 50%;
   width: 48px;
@@ -60,7 +60,7 @@
   appearance: none;
 
   &:hover {
-    background: #004f86;
+    background: var(--cds-alias-object-interaction-background-color-hover, #004f86);
   }
 
   /* Убедимся, что иконка не "выпирает" */
@@ -81,8 +81,8 @@
   min-height: 480px;
   display: flex;
   flex-direction: column;
-  background: #fff;
-  border: 1px solid #d6d6d6;
+  background: var(--cds-alias-object-container-background-color, #ffffff);
+  border: 1px solid var(--cds-alias-object-border-color, #d6d6d6);
   border-radius: 6px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   overflow: hidden;
@@ -110,14 +110,14 @@
   justify-content: space-between;
   align-items: center;
   padding: 8px 12px;
-  background: #f5f7fa;
-  border-bottom: 1px solid #d6d6d6;
+  background: var(--cds-alias-object-body-background-color, #f5f7fa);
+  border-bottom: 1px solid var(--cds-alias-object-border-color, #d6d6d6);
 
   h3 {
     margin: 0;
     font-size: 14px;
     font-weight: 600;
-    color: #343a40;
+    color: var(--cds-alias-object-text-color-body, #343a40);
   }
 
   button {
@@ -206,14 +206,14 @@
 //}
 
 .message-row.bot .message {
-  background: #f1f1f1;
-  color: #333;
+  background: var(--cds-alias-object-body-background-color, #f1f1f1);
+  color: var(--cds-alias-object-text-color-body, #333333);
   border-radius: 12px 12px 12px 2px;
 }
 
 .message-row.user .message {
-  background: #e6f4ff;
-  color: #004f86;
+  background: var(--cds-alias-object-value-background-color-primary-tint-3, #e6f4ff);
+  color: var(--cds-alias-object-value-text-color-primary, #004f86);
   border-radius: 12px 12px 2px 12px;
 }
 
@@ -249,8 +249,8 @@
 .chat-footer {
   padding: 6px 8px;         /* padding сверху/снизу + слева/справа */
   min-height: 48px;         /* textarea min-height (34px) + padding (6*2) + outline 2px */
-  border-top: 1px solid #d6d6d6;
-  background: #f9f9f9;
+  border-top: 1px solid var(--cds-alias-object-border-color, #d6d6d6);
+  background: var(--cds-alias-object-body-background-color, #f9f9f9);
   display: flex;
   gap: 8px;
   align-items: flex-end;
@@ -263,7 +263,9 @@
     max-height: 120px;         /* ограничение роста */
     padding: 6px 10px;
     border-radius: 4px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--cds-alias-object-border-color, #ccc);
+    background: var(--cds-alias-object-container-background-color, #ffffff);
+    color: var(--cds-alias-object-text-color-body, #202428);
     outline: 2px solid transparent; /* всегда резервируем место */
     outline-offset: -2px;
     font-size: 14px;
@@ -279,8 +281,8 @@
     scrollbar-width: none; /* Firefox */
 
     &:focus {
-      border-color: #0065a9;
-      outline: 2px solid rgba(0,101,169,0.2); /* визуальный эффект, но высота не меняется */
+      border-color: var(--cds-alias-object-value-background-color-primary, #0065a9);
+      outline: 2px solid var(--cds-alias-object-value-background-color-primary-tint-2, rgba(0,101,169,0.2)); /* визуальный эффект, но высота не меняется */
       outline-offset: -2px;  /* не меняет высоту */
     }
 
@@ -356,9 +358,9 @@
   font-family: 'Metropolis', 'Avenir Next', 'Helvetica Neue', Arial, sans-serif;
   font-size: 14px;
   line-height: 1.5;
-  background: #f8f9fa;
-  color: #202428;
-  border: 1px solid #d9d9d9;
+  background: var(--cds-alias-object-body-background-color, #f8f9fa);
+  color: var(--cds-alias-object-text-color-body, #202428);
+  border: 1px solid var(--cds-alias-object-border-color, #d9d9d9);
   border-radius: 12px;
   padding: 8px 12px;  /* согласуем с .message */
   overflow-x: auto;
@@ -553,4 +555,3 @@
 .token.function {
   color: var(--cds-global-color-purple-700, #6f42c1);
 }
-

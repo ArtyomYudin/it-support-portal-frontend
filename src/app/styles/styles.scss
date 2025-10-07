@@ -3,7 +3,6 @@
 // @import '~@cds/core/styles/theme.dark.min.css';
 
 @import 'node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css';
-
 /*
 body {
   background-color: #1b2a32;
@@ -71,7 +70,7 @@ body {
   }
   .clr-vertical-nav .nav-trigger + .nav-content {
     border-top-width: 0 !important;
-    padding-top: .6rem !important;
+    //padding-top: .6rem !important;
   }
   .content-area {
     //margin-left: 2rem;
@@ -222,4 +221,62 @@ button.datagrid-column-title {
   color: #565656;
   padding-top: 0;
   padding-bottom: 0.5rem;
+}
+
+
+
+
+
+[cds-theme='light'] {
+  --clr-header-font-color: 565656;
+//  --cds-alias-object-app-background: var(--cds-global-color-blue-700);
+}
+
+[cds-theme='dark'] {
+  .chat-bot-container {
+    .chat-window {
+      background: var(--cds-global-color-gray-800);
+      border-color: var(--cds-global-color-gray-700);
+      color: var(--cds-global-color-gray-0);
+
+      .chat-header {
+        background: var(--cds-global-color-gray-900);
+        border-bottom-color: var(--cds-global-color-gray-700);
+
+        h3 {
+          color: var(--cds-global-color-gray-0);
+        }
+
+        button {
+          color: var(--cds-global-color-gray-200);
+        }
+      }
+
+      .chat-body {
+        .message-row.bot .message {
+          background: var(--cds-global-color-gray-700);
+          color: var(--cds-global-color-gray-0);
+        }
+
+        .message-row.user .message {
+          background: var(--cds-global-color-blue-900);
+          color: var(--cds-global-color-blue-50);
+        }
+      }
+
+      .chat-footer {
+        background: var(--cds-global-color-gray-800);
+
+        textarea.chat-input {
+          background: var(--cds-global-color-gray-900);
+          color: var(--cds-global-color-gray-0);
+          border-color: var(--cds-global-color-gray-600);
+        }
+      }
+    }
+  }
+
+  .header-desktop {
+    background-color: var(--cds-global-color-construction-900);
+  }
 }

@@ -6,7 +6,7 @@ import {
   NgZone,
   DestroyRef,
   effect,
-  viewChild, AfterViewInit
+  viewChild, AfterViewInit, ViewEncapsulation
 } from '@angular/core';
 import { ChatService, ChatMessage } from '@service/chat-bot.service';
 import { MarkdownComponent, MARKED_OPTIONS, MarkedOptions } from 'ngx-markdown';
@@ -18,6 +18,7 @@ import { SessionService } from "@service/session.service";
   standalone: true,
   templateUrl: './chat-bot.component.html',
   imports: [MarkdownComponent, ClrTimelineModule],
+  // encapsulation: ViewEncapsulation.None,  // <- здесь отключаем изоляцию стилей
   styleUrls: ['./chat-bot.component.scss'],
   providers: [
     {
