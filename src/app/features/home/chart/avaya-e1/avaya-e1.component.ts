@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import {distinctUntilChanged, takeUntil, tap} from 'rxjs/operators';
 import { Chart, registerables } from 'chart.js';
 import { WebsocketService } from '@service/websocket.service';
 import { Event } from '@service/websocket.service.event';
@@ -40,12 +40,14 @@ export class AvayaE1ChartComponent implements OnInit, OnDestroy {
 
   private avayaE1Channel: any = [60, 0];
 
-  private ngUnsubscribe$: Subject<any> = new Subject();
-
   private destroyRef = inject(DestroyRef);
 
   constructor(private wsService: WebsocketService, private themeService: ThemeService) {
-    this.avayaE1ListArray$ = this.wsService.on<any>(Event.EV_AVAYA_E1_INFO).pipe(distinctUntilChanged(), takeUntil(this.ngUnsubscribe$));
+    this.avayaE1ListArray$ = this.wsService.on<any>(Event.EV_AVAYA_E1_INFO)
+      .pipe(
+        distinctUntilChanged(),
+        takeUntilDestroyed(this.destroyRef),
+      );
   }
 
   ngOnInit(): void {
@@ -65,9 +67,6 @@ export class AvayaE1ChartComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy(): void {
-    this.ngUnsubscribe$.next(null);
-    this.ngUnsubscribe$.complete();
-
     this.avayaE1InfoSubscription.unsubscribe();
     this.avayaE1Chart.destroy();
   }
