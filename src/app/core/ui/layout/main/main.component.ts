@@ -24,11 +24,11 @@ loadSocialIconSet();
 
 
 import { HeaderDesktopComponent } from '@core/ui/layout/header/header-desktop/header.component';
-import {ChatBotComponent} from "@feature/chat-bot/chat-bot.component";
+import {ChatbotComponent} from "@feature/chatbot/chatbot.component";
 
 @Component({
     selector: 'fe-main',
-  imports: [RouterModule, ClarityModule, HeaderDesktopComponent, ChatBotComponent],
+  imports: [RouterModule, ClarityModule, HeaderDesktopComponent, ChatbotComponent],
     templateUrl: './main.component.html',
     styleUrls: ['./main.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush

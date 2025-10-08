@@ -17,7 +17,7 @@ import { AuthenticationService } from '@service/auth.service';
     styleUrls: ['./login-page.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class LoginPageComponent implements OnInit, OnDestroy {
+export class LoginPageComponent implements OnInit, OnDestroy {
   public submitted = false;
 
   public loading = false;

@@ -35,7 +35,7 @@ import { GuestComponent } from './guest/guest.component';
     changeDetection: ChangeDetectionStrategy.OnPush,
     providers: [MatSnackBar, DatePipe, EmployeeNamePipe]
 })
-export default class PacsComponent implements OnInit, OnDestroy {
+export class PacsComponent implements OnInit, OnDestroy {
   public departmentStructureArray$: Observable<any>;
 
   public employeeLastEventArray$: Observable<any>;

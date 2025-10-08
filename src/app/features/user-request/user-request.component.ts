@@ -9,7 +9,7 @@ import { RequestListComponent } from '@feature/user-request/request-list/request
     styleUrls: ['./user-request.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class UserRequestComponent {
+export class UserRequestComponent {
   // constructor() {}
   // ngOnInit(): void {}
 }

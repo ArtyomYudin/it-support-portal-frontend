@@ -11,7 +11,7 @@ import { UserActivityComponent } from './user-activity/user-activity.component';
     styleUrls: ['./vpn.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class VpnComponent implements OnInit {
+export class VpnComponent implements OnInit {
   constructor(private wsService: WebsocketService) {}
 
   ngOnInit(): void {

@@ -14,12 +14,12 @@ import { ClrTimelineModule } from "@clr/angular";
 import { SessionService } from "@service/session.service";
 
 @Component({
-  selector: 'fe-chat-bot',
+  selector: 'fe-chatbot',
   standalone: true,
-  templateUrl: './chat-bot.component.html',
+  templateUrl: './chatbot.component.html',
   imports: [MarkdownComponent, ClrTimelineModule],
   // encapsulation: ViewEncapsulation.None,  // <- здесь отключаем изоляцию стилей
-  styleUrls: ['./chat-bot.component.scss'],
+  styleUrls: ['./chatbot.component.scss'],
   providers: [
     {
       provide: MARKED_OPTIONS, // ← вот так правильно!
@@ -32,7 +32,7 @@ import { SessionService } from "@service/session.service";
   ]
 })
 
-export class ChatBotComponent implements AfterViewInit {
+export class ChatbotComponent implements AfterViewInit {
   isOpen = signal(false);
 
   isTyping = signal(false);

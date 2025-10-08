@@ -41,7 +41,7 @@ Chart.register(...registerables);
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export default class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy {
 
   public dhcpLoading = true;
 

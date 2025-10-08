@@ -9,7 +9,7 @@ import { AvayaCDRComponent } from './avaya-cdr/avaya-cdr.component';
     styleUrls: ['./avaya.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export default class AvayaComponent {
+export class AvayaComponent {
   // constructor() {}
   // ngOnInit(): void {}
 }
