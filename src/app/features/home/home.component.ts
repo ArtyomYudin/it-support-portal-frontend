@@ -16,6 +16,7 @@ import { HardwareChartComponent } from './chart/hardware/hardware.component';
 import { AvayaE1DailyChartComponent } from './chart/avaya-e1-daily/avaya-e1-daily.component';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {EmployeeNamePipe} from "@pipe/employeename.pipe";
+import {environment} from "../../../environments/environment";
 
 declare let streamCam: any;
 declare let streamCamRoom1: any;

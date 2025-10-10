@@ -1,1 +1,34 @@
-<p>vss works!</p>
+<div class="module-title">
+    <span>Камеры видеонаблюдения</span>
+</div>
+
+@for (row of cameraRows; track $index) {
+  <div class="clr-row">
+    @for (i of row; track i) {
+      <div class="clr-col clr-col-lg-2">
+        <div class="card">
+          <div class="card-header">
+            <h5 class="card-header__head">Камера {{ i }}</h5>
+          </div>
+          <div class="card-block">
+            <div class="canvas-container">
+              <video class="context-canvas"
+                     id="camera-{{ i }}"
+                     muted
+                     autoplay
+                     playsinline
+                     (click)="startCamera(i)">
+              </video>
+              @if (isCameraLoading(i)) {
+                <div class="loading">Загрузка...</div>
+              }
+              @if (isCameraError(i)) {
+                <div class="error">Ошибка подключения</div>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+    }
+  </div>
+}

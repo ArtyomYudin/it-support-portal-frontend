@@ -118,7 +118,7 @@ export class WebsocketService implements IWebsocketService, OnDestroy {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
     this.config = {
       // url: `ws://${environment.apiHost}:${environment.apiPort}/${environment.WebSocketPath}?token=${token}`,
-      url: `${protocol}://${environment.apiHost}/${environment.WebSocketPath}?token=${token}`,
+      url: `${protocol}://${environment.apiHost}/${environment.webSocketPath}?token=${token}`,
       closeObserver: {
         next: (event: CloseEvent) => {
           this.websocket$ = null;

@@ -147,28 +147,15 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
           },
           datalabels: {
             color: textColor,
-            // anchor: 'end',
-            // align: 'end',
+            anchor: 'end',
+            align: 'end',
             clamp: true,
             clip: false,
             font: {
               size: 11,
+              family: "'Metropolis','Avenir Next','Helvetica Neue','Arial',sans-serif",
             },
             formatter: (value) => value?.toFixed ? value.toFixed(1) : value,
-            align: (context) => {
-              const chart = context.chart;
-              const meta = chart.getDatasetMeta(context.datasetIndex);
-              const bar = meta.data[context.dataIndex];
-              const { x, base } = bar.getProps(['x', 'base'], true);
-              const chartRight = chart.chartArea.right;
-
-              // Определяем расстояние от конца бара до края области
-              const distanceToRight = chartRight - x;
-
-              // Если меньше 40px — размещаем подпись внутри бара
-              return distanceToRight < 40 ? 'right' : 'end';
-            },
-            anchor: 'end',
             offset: 2,
           },
         },
@@ -188,7 +175,7 @@ export class ProviderChartComponent implements OnInit, OnDestroy {
           },
           x: {
             type: 'linear',
-            grace: '10%',
+            grace: '20%',
             beginAtZero: true,
             ticks: {
               color: textColor,

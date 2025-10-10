@@ -10,7 +10,8 @@ export const environment = {
   apiUrl: 'http://127.0.0.1:8000/api',
   jwtLogin: 'token',
   jwtRefresh: 'token/refresh',
-  WebSocketPath: 'api/ws',
+  webSocketPath: 'api/ws',
+  vssSocketPath: 'vss',
   chatBotAskSSEUrl: '/ask/sse',
   chatBotHost: '172.20.4.50:8008',
 };

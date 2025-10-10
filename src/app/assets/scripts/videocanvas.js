@@ -1,7 +1,8 @@
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-function streamCam() {
+function streamCam(url) {
+  console.log(url);
   const client = 'wss://it.center-inform.ru:9999';
   const canvas = document.getElementById('main-camera');
   const player = new JSMpeg.Player(client, {
