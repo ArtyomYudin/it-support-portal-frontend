@@ -70,7 +70,7 @@ export const routes: Routes = [
     loadComponent: () => import('../features/vss/vss.component').then(m => m.VssComponent),
     canActivate: [AuthGuard],
     // data: { key: 'cached_vpn' },
-    data: { reuseRoute: true },
+    data: { reuseRoute: false },
   },
   {
     path: 'setting',

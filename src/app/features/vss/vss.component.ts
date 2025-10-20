@@ -70,7 +70,8 @@ export class VssComponent implements OnInit, AfterViewInit, OnDestroy {
 
         const player = mpegts.createPlayer({
           isLive: true,
-          url: `${protocol}://${host}:${port}/ws`,
+          url: `${protocol}://${host}:8080/ws/${port}`,
+          // url: `${protocol}://${host}:${port}/ws`,
           type: 'mpegts',
           // reconnectInterval: 5000, // нет в mpegts.js, убираем
           // liveBufferLatencyChasing: true,
