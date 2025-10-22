@@ -2,33 +2,77 @@
     <span>Камеры видеонаблюдения</span>
 </div>
 
-@for (row of cameraRows; track $index) {
-  <div class="clr-row">
-    @for (i of row; track i) {
-      <div class="clr-col clr-col-lg-2">
-        <div class="card">
-          <div class="card-header">
-            <h5 class="card-header__head">Камера {{ i }}</h5>
-          </div>
-          <div class="card-block">
-            <div class="canvas-container">
-              <video class="context-canvas"
-                     id="camera-{{ i }}"
-                     muted
-                     autoplay
-                     playsinline
-                     (click)="startCamera(i)">
-              </video>
-              @if (isCameraLoading(i)) {
-                <div class="loading">Загрузка...</div>
-              }
-              @if (isCameraError(i)) {
-                <div class="error">Ошибка подключения</div>
-              }
-            </div>
-          </div>
+<!--@for (row of cameraRows; track $index) {-->
+<!--  <div class="clr-row">-->
+<!--    @for (cam of row; track cam.id) {-->
+<!--      <div class="clr-col clr-col-12 clr-col-md-6 clr-col-lg-2 clr-col-xl-2">-->
+<!--        <div class="card">-->
+<!--          <div class="card-header">-->
+<!--            <h5 class="card-header__head">{{ cam.name }}</h5>-->
+<!--          </div>-->
+<!--          <div class="card-block">-->
+<!--            <div class="canvas-container">-->
+<!--              <video class="context-canvas"-->
+<!--                     id="camera-{{ cam.id }}"-->
+<!--                     muted-->
+<!--                     autoplay-->
+<!--                     playsinline-->
+<!--                     (click)="startCamera(cam.id)">-->
+<!--              </video>-->
+<!--              @if (isCameraLoading(cam.id)) {-->
+<!--                <div class="loading">Загрузка...</div>-->
+<!--              }-->
+<!--              @if (isCameraError(cam.id)) {-->
+<!--                <div class="error">Ошибка подключения</div>-->
+<!--              }-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    }-->
+<!--  </div>-->
+<!--}-->
+
+<div class="cameras-grid">
+  @for (cam of cameras; track cam.id) {
+    <div class="camera-item">
+      <div class="card clickable" >
+        <div class="card-header">
+          <h5 class="card-header__head">{{ cam.name }}</h5>
+        </div>
+        <div class="card-block video-container">
+          <video
+            class="context-canvas"
+            [id]="'camera-' + cam.id"
+            muted
+            autoplay
+            playsinline>
+          </video>
+<!--          (click)="openCamera(cam.id, cam.name)"-->
+<!--          @if (isCameraLoading(cam.id)) {-->
+<!--            <div class="overlay loading">Загрузка...</div>-->
+<!--          }-->
+<!--          @if (isCameraError(cam.id)) {-->
+<!--            <div class="overlay error">Ошибка</div>-->
+<!--          }-->
         </div>
       </div>
-    }
-  </div>
-}
+    </div>
+  }
+</div>
+
+<clr-modal #cameraModal [(clrModalOpen)]="cameraModalOpened" [clrModalSize]="'xl'" (clrModalOpenChange)="onModalClose($event)">
+    <h3 class="modal-title">{{ cameraName }}</h3>
+    <div class="modal-body">
+        <div class="modal-video-container">
+          <video
+            #modalVideo
+            class="modal-context-canvas"
+            muted
+            autoplay
+            playsinline>
+          </video>
+        </div>
+    </div>
+</clr-modal>
+

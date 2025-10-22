@@ -1,78 +1,228 @@
+//.card {
+//  z-index: 3;
+//  //box-shadow: 0 1px 4px #00000024;
+//  box-shadow: 0 0.05rem 0.15rem #8c8c8c40;
+//
+//  //border-radius: 50px;
+//  //background: #e0e0e0;
+//  //box-shadow: 20px 20px 40px #d5d5d5, -20px -20px 40px #ffffff;
+//  //Icon
+//  &-icon {
+//    border-radius: 3px;
+//    background-color: #999;
+//    //color: white;
+//    color: #0072a3;
+//    padding: 10px;
+//    margin-top: -24px;
+//    margin-right: 15px;
+//    float: left;
+//
+//    // Icon Blue
+//    &__blue {
+//      //background: linear-gradient(60deg, #03a9f4, #027bb1) !important;
+//      //box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #027bb1;
+//      background: linear-gradient(60deg, #fafafa, #f2f2f2) !important;
+//      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #dedede;
+//    }
+//
+//    //Icon Red
+//    &__red {
+//      //color: white;
+//      color: #ef5350;
+//      //background: linear-gradient(60deg, #ef5350, #ea2027);
+//      //box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #ea2027;
+//      background: linear-gradient(60deg, #fafafa, #f2f2f2) !important;
+//      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #dedede;
+//    }
+//
+//    //Icon Yellow
+//    &__yellow {
+//      color: white;
+//      background: linear-gradient(60deg, #ffc312, #fb8c00);
+//      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #fb8c00;
+//    }
+//
+//    //Icon Green
+//    &__green {
+//      //color: white;
+//      color: #66bb6a;
+//      //background: linear-gradient(60deg, #66bb6a, #43a047);
+//      //box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #43a047;
+//      background: linear-gradient(60deg, #fafafa, #f2f2f2) !important;
+//      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #dedede;
+//    }
+//  }
+//
+//  // Header
+//  &-header {
+//    //padding: 0.4rem 0.7rem;
+//    padding: 0.2rem 0.4rem; /* уменьшаем отступы */
+//    min-height: 20px;
+//    &__head {
+//      margin: 0;
+//      text-align: right;
+//      font-size: 0.65rem;
+//      //   font-weight: 700;
+//      //color: #565656;
+//      color: var(--clr-header-font-color);
+//    }
+//  }
+//
+//  // Block
+//  &-block {
+//    //padding: 0.4rem 0.7rem;
+//    padding : 0;
+//  }
+//}
+//
+//.context-canvas {
+//  width: 100%;
+//  //height: 100%;
+//  //z-index: 1;
+//}
+
+//:host {
+//  display: block;
+//  width: 100vw;
+//  height: 100dvh;
+//  overflow: hidden;
+//  padding: 0;
+//  margin: 0;
+//}
+
+.cameras-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: minmax(0, 1fr); /* высота распределяется равномерно */
+  gap: 8px;
+  height: calc(100dvh - 126px);
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+  overflow: hidden; /* предотвращаем выход за границы */
+}
+
+.camera-item {
+  display: flex;
+  flex-direction: column;
+  height: 100%; /* заполняет ячейку сетки */
+  position: relative;
+}
+
 .card {
-  z-index: 3;
-  //box-shadow: 0 1px 4px #00000024;
-  box-shadow: 0 0.05rem 0.15rem #8c8c8c40;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  // Ваши существующие стили остаются
+}
 
-  //border-radius: 50px;
-  //background: #e0e0e0;
-  //box-shadow: 20px 20px 40px #d5d5d5, -20px -20px 40px #ffffff;
-  //Icon
-  &-icon {
-    border-radius: 3px;
-    background-color: #999;
-    //color: white;
-    color: #0072a3;
-    padding: 10px;
-    margin-top: -24px;
-    margin-right: 15px;
-    float: left;
+.card-header {
+  padding: 0.2rem 0.4rem; /* уменьшаем отступы */
+  min-height: 20px;
+  flex-shrink: 0; /* не сжимаем заголовок */
+}
 
-    // Icon Blue
-    &__blue {
-      //background: linear-gradient(60deg, #03a9f4, #027bb1) !important;
-      //box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #027bb1;
-      background: linear-gradient(60deg, #fafafa, #f2f2f2) !important;
-      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #dedede;
-    }
+.card-header__head {
+  font-size: 0.65rem; /* мелкий, но читаемый */
+  font-weight: 600;
+  margin: 0;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
-    //Icon Red
-    &__red {
-      //color: white;
-      color: #ef5350;
-      //background: linear-gradient(60deg, #ef5350, #ea2027);
-      //box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #ea2027;
-      background: linear-gradient(60deg, #fafafa, #f2f2f2) !important;
-      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #dedede;
-    }
+.card-block {
+  flex: 1;
+  padding: 0;
+  position: relative;
+  overflow: hidden; /* предотвращаем выход видео за границы */
+}
 
-    //Icon Yellow
-    &__yellow {
-      color: white;
-      background: linear-gradient(60deg, #ffc312, #fb8c00);
-      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #fb8c00;
-    }
-
-    //Icon Green
-    &__green {
-      //color: white;
-      color: #66bb6a;
-      //background: linear-gradient(60deg, #66bb6a, #43a047);
-      //box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #43a047;
-      background: linear-gradient(60deg, #fafafa, #f2f2f2) !important;
-      box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.14), 0 7px 10px -5px #dedede;
-    }
-  }
-
-  // Header
-  &-header {
-    padding: 0.4rem 0.7rem;
-    &__head {
-      margin: 0;
-      text-align: right;
-      //   font-weight: 700;
-      //color: #565656;
-      color: var(--clr-header-font-color);
-    }
-  }
-
-  // Block
-  &-block {
-    padding: 0.4rem 0.7rem;
-  }
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
 }
 
 .context-canvas {
   width: 100%;
-  //height: 100%;
-  //z-index: 1;
+  height: 100%;
+  object-fit: contain; /* всё видео помещается без обрезки */
+  display: block;
+  background: #000;
+  /* ГЛАВНОЕ: отключаем "нативные" размеры */
+  min-width: 0;
+  min-height: 0;
+}
+
+.overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 0.65rem;
+  pointer-events: none;
+}
+
+//Clickble Hover
+.card.clickable:hover {
+  //box-shadow: 0 0.15rem 0 0 #03a9f4;
+  //border: 1px solid #03a9f4;
+  box-shadow: 0 0.05rem 0.15rem #8c8c8c40;
+  border-color: #dedede;
+  cursor: pointer;
+  text-decoration: none;
+  -webkit-transform: translateY(-4px);
+  transform: translateY(-4px);
+  transition: border 0.2s ease-out, -webkit-transform 0.2s ease-outease-out;
+  transition: border 0.2s ease-out, transform 0.2s ease-out;
+  transition: border 0.2s ease-out, transform 0.2s ease-out, -webkit-transform 0.2s ease-out;
+}
+
+
+::ng-deep .modal-content-wrapper {
+  width: auto;             /* ширина под контент */
+  height: calc(100vh - 0.5rem);            /* высота под контент */
+  max-width: 90dvw;         /* не шире 90% окна */
+  max-height: 90dvh;        /* не выше 90% окна */
+}
+
+.custom-modal .modal-content {
+  width: auto;             /* ширина под контент */
+  height: auto;            /* высота под контент */
+  max-width: 90vw;         /* не шире 90% окна */
+  max-height: 90vh;        /* не выше 90% окна */
+}
+
+.custom-modal .modal-body {
+  //padding: 0; /* убираем внутренние отступы */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.modal-video-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: auto;           /* чтобы контейнер рос по видео */
+  max-height: 90vh;       /* ограничение высоты по экрану */
+  background: #000;
+}
+
+.modal-video-container video.modal-context-canvas {
+  display: block;
+  width: auto;            /* ширина под видео */
+  height: auto;           /* высота под видео */
+  max-width: 100%;        /* не вылезаем за ширину модалки */
+  max-height: 90vh;       /* не вылезаем за экран */
+  object-fit: contain;    /* сохраняем пропорции */
 }
