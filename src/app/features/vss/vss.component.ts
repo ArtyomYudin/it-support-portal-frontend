@@ -60,7 +60,7 @@ export class VssComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private initAllCameras(): void {
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const host = '127.0.0.1' //environment.apiHost || window.location.hostname;
+    // const host = '127.0.0.1' //environment.apiHost || window.location.hostname;
 
     this.cameras.forEach(camera => {
       const videoId = `camera-${camera.id}`;
@@ -82,7 +82,7 @@ export class VssComponent implements OnInit, AfterViewInit, OnDestroy {
         const player = mpegts.createPlayer({
           isLive: true,
           // url: `${protocol}://${host}:8080/ws/${port}`,
-          url: `${protocol}://${host}:8080/ws/${camera.id}`,
+          url: `${protocol}://${environment.vssHost}/${environment.vssSocketPath}/${camera.id}`,
           // url: `${protocol}://${host}:${port}/ws`,
           type: 'mpegts',
           // reconnectInterval: 5000, // нет в mpegts.js, убираем
