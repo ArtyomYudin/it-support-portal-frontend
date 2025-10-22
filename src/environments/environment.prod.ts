@@ -11,7 +11,7 @@ export const environment = {
   webSocketPath: 'api/ws',
   vssSocketPath: 'vss',
   chatBotAskSSEUrl: '/ask/sse',
-  chatBotHost: 'itsupport.center-inform.ru'
+  chatBotHost: 'itsupport.center-inform.ru',
 
   cameras: [
     { id: 'floor2_left_wing', name: '2 эт. левое крыло', location: 'Second Floor Left Wing' },
