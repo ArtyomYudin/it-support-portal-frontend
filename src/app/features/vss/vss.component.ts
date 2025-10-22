@@ -144,8 +144,8 @@ export class VssComponent implements OnInit, AfterViewInit, OnDestroy {
     if (!this.modalVideoRef) return;
     const modalVideo = this.modalVideoRef.nativeElement;
     const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    const host = '127.0.0.1';
-    const url = `${protocol}://${host}:8080/ws/${id}`;
+    // const host = '127.0.0.1';
+    const url = `${protocol}://${environment.vssHost}/${environment.vssSocketPath}/${id}`;
 
     // уничтожаем старый, если был
     const oldPlayer = this.mpegPlayers.get(`modal-${id}`);

@@ -6,10 +6,11 @@ export const environment = {
   apiPort: 8888,
   apiTestURL: 'ws/',
   apiUrl: '/api',
+  vssHost: 'itsupport.center-inform.ru',
   jwtLogin: 'token',
   jwtRefresh: 'token/refresh',
   webSocketPath: 'api/ws',
-  vssSocketPath: 'vss',
+  vssSocketPath: 'vss/ws',
   chatBotAskSSEUrl: '/ask/sse',
   chatBotHost: 'itsupport.center-inform.ru',
 
