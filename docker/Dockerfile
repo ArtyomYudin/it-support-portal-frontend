@@ -32,7 +32,7 @@ RUN npm install --force
 
 # Copy source and build Angular app
 COPY . .
-RUN ng build it-support-portal-frontend --configuration production
+RUN NG_BUILD_UNSUPPORTED_BROWSER=true ng build it-support-portal-frontend --configuration production
 
 # Stage 2: Serve with Nginx
 FROM nginx:alpine
