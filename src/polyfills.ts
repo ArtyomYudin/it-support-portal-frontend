@@ -17,7 +17,8 @@
 /** *************************************************************************************************
  * BROWSER POLYFILLS
  */
-
+// import 'core-js/stable';
+// import 'regenerator-runtime/runtime'; // если используете async/await
 /**
  * IE11 requires the following for NgClass support on SVG elements
  */
