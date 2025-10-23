@@ -2,9 +2,8 @@ name: Publish Docker image
 
 on:
   push:
-    branches: [ main ]  # или ваша основная ветка
-  # Можно добавить теги, если нужно:
-  # tags: [ 'v*' ]
+#    branches: [ main ]  # или ваша основная ветка
+    tags: [ 'v*' ]
 
 env:
 #  DOCKER_IMAGE: ${{ secrets.DOCKER_USERNAME }}/it-support-portal-frontend  # ← замените my-app-name на желаемое имя образа
@@ -20,6 +19,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Get version from tag
+        run: echo "VERSION=${GITHUB_REF#refs/tags/v}" >> $GITHUB_ENV
+
       - name: Log in to Harbor
         uses: docker/login-action@v3
         with:
@@ -27,14 +29,14 @@ jobs:
           username: ${{ secrets.HARBOR_USERNAME }}
           password: ${{ secrets.HARBOR_PASSWORD }}
 
-      - name: Extract Docker metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=raw,value=latest
-            type=sha,prefix=sha-
+#      - name: Extract Docker metadata
+#        id: meta
+#        uses: docker/metadata-action@v5
+#        with:
+#          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+#          tags: |
+#            type=raw,value=latest
+#            type=sha,prefix=sha-
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
@@ -42,5 +44,6 @@ jobs:
           context: .
           file: ./docker/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
