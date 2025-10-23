@@ -26,7 +26,7 @@ platformBrowserDynamic()
 
 import { bootstrapApplication } from '@angular/platform-browser';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import {APP_INITIALIZER, importProvidersFrom, LOCALE_ID} from '@angular/core';
+import {APP_INITIALIZER, importProvidersFrom, inject, LOCALE_ID} from '@angular/core';
 import {HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withInterceptorsFromDi} from '@angular/common/http';
 import { PreloadAllModules, RouteReuseStrategy, RouterModule } from '@angular/router';
 import { CustomReuseStrategy } from '@core/custom-reuse-strategy';
@@ -41,6 +41,7 @@ import { websocketInitializer } from '@service/websocket.service'
 
 // Импортируем Clarity
 import { ClarityModule } from '@clr/angular';
+import {TokenRefreshService} from "@service/token-refresh.service";
 
 registerLocaleData(localeRu, 'ru');
 
@@ -49,20 +50,33 @@ registerLocaleData(localeRu, 'ru');
 //   // return localStorage.getItem('CurrentUser') ? JSON.parse(localStorage.getItem('CurrentUser')).token : null;
 // }
 
+// Фабрика инициализации сервиса проверки токена
+function startTokenRefresh() {
+  const tokenRefreshService = inject(TokenRefreshService);
+  return () => tokenRefreshService.startTokenRefreshTimer();
+}
+
 
 bootstrapApplication(AppComponent, {
   providers: [
+    provideHttpClient(withInterceptorsFromDi()), // <- здесь подключаем HTTP с DI интерцепторами
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: LOCALE_ID, useValue: 'ru' },
+    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
+    provideAnimations(),
     {
       provide: APP_INITIALIZER,
       useFactory: websocketInitializer,
       multi: true, // ← важно! позволяет регистрировать несколько инициализаторов
     },
-    { provide: LOCALE_ID, useValue: 'ru' },
-    { provide: RouteReuseStrategy, useClass: CustomReuseStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    provideAnimations(),
+    // --- Инициализация автообновления токена ---
+    {
+      provide: APP_INITIALIZER,
+      useFactory: startTokenRefresh,
+      multi: true,
+    },
     // provideHttpClient(withInterceptorsFromDi()),
-    importProvidersFrom(HttpClientModule),
+    // importProvidersFrom(HttpClientModule),
     // importProvidersFrom(JwtModule),
     // importProvidersFrom(
     //  JwtModule.forRoot({

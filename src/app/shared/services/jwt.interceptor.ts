@@ -1,46 +1,59 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
-import { Observable, pipe, throwError, BehaviorSubject } from 'rxjs';
+import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { AuthenticationService } from '@service/auth.service';
 import { environment } from 'src/environments/environment';
-import { catchError, switchMap, filter, take } from 'rxjs/operators'
+import { catchError, switchMap, filter, take, finalize } from 'rxjs/operators';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
   private isRefreshing = false;
-  private refreshTokenSubject: BehaviorSubject<string | null> = new BehaviorSubject<string | null>(null);
+  private refreshTokenSubject = new BehaviorSubject<string | null>(null);
+  private jwtHelper = new JwtHelperService();
 
-  constructor(private authenticationService: AuthenticationService) {}
+  constructor(private authenticationService: AuthenticationService) {
+    console.log('JwtInterceptor создан');
+  }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    console.log('JwtInterceptor: запрос к', request.url);
+
     const currentUser = this.authenticationService.currentUserValue;
     const token = currentUser?.token || null;
     const isLoggedIn = !!token;
-    const isApiUrl = request.url.startsWith(environment.apiUrl);
+    const isApiUrl = request.url.startsWith('/api') || request.url.startsWith(environment.apiUrl);
+    const isRefreshUrl = request.url.includes(environment.jwtRefresh);
+    const isLoginUrl = request.url.includes(environment.jwtLogin);
 
-    if (
-      isLoggedIn &&
-      isApiUrl &&
-      request.url !== `${environment.apiUrl}/${environment.jwtRefresh}` &&
-      request.url !== `${environment.apiUrl}/${environment.jwtLogin}`
-    ) {
-      request = this.addToken(request, token!);
+    console.log('Текущий токен:', token);
+
+    if (isLoggedIn && isApiUrl && !isRefreshUrl && !isLoginUrl) {
+      if (this.jwtHelper.isTokenExpired(token)) {
+        console.log('Токен истёк. Будет выполнен refresh...');
+        return this.handle403Error(request, next);
+      } else {
+        console.log('Токен действителен. Отправляем запрос.');
+        request = this.addToken(request, token);
+      }
     }
 
     return next.handle(request).pipe(
       catchError(error => {
-        if (
-          error instanceof HttpErrorResponse &&
-          (error.status === 401 || error.status === 403) &&
-          request.url === `${environment.apiUrl}/${environment.jwtRefresh}`
-        ) {
-          this.authenticationService.logout();
-          return throwError(() => error);
-        } else if (error instanceof HttpErrorResponse && error.status === 403) {
-          return this.handle403Error(request, next);
-        } else {
-          return throwError(() => error);
+        if (error instanceof HttpErrorResponse) {
+          if (error.status === 401) {
+            console.warn('401: токен недействителен, logout');
+            this.authenticationService.logout();
+            return throwError(() => error);
+          }
+
+          if (error.status === 403 && !isRefreshUrl) {
+            console.warn('403: токен истёк, выполняем refresh');
+            return this.handle403Error(request, next);
+          }
         }
+
+        return throwError(() => error);
       })
     );
   }
@@ -52,11 +65,11 @@ export class JwtInterceptor implements HttpInterceptor {
 
       return this.authenticationService.refreshToken().pipe(
         switchMap((user: any) => {
-          this.isRefreshing = false;
           const newToken = user?.token;
           this.refreshTokenSubject.next(newToken);
           return next.handle(this.addToken(request, newToken));
-        })
+        }),
+        finalize(() => (this.isRefreshing = false))
       );
     } else {
       return this.refreshTokenSubject.pipe(
