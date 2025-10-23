@@ -186,43 +186,98 @@
 }
 
 
-::ng-deep .modal-content-wrapper {
-  width: auto;             /* ширина под контент */
-  height: calc(100vh - 0.5rem);            /* высота под контент */
-  max-width: 90dvw;         /* не шире 90% окна */
-  max-height: 90dvh;        /* не выше 90% окна */
-}
+//::ng-deep .modal-content-wrapper {
+//  width: auto;             /* ширина под контент */
+//  height: calc(100vh - 0.5rem);            /* высота под контент */
+//  max-width: 90dvw;         /* не шире 90% окна */
+//  max-height: 90dvh;        /* не выше 90% окна */
+//}
 
-.custom-modal .modal-content {
-  width: auto;             /* ширина под контент */
-  height: auto;            /* высота под контент */
-  max-width: 90vw;         /* не шире 90% окна */
-  max-height: 90vh;        /* не выше 90% окна */
-}
+//.custom-modal .modal-content {
+//  width: auto;             /* ширина под контент */
+//  height: auto;            /* высота под контент */
+//  max-width: 90vw;         /* не шире 90% окна */
+//  max-height: 90vh;        /* не выше 90% окна */
+//}
+//
+//.custom-modal .modal-body {
+//  //padding: 0; /* убираем внутренние отступы */
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//}
+//
+//
+//.modal-video-container {
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//  width: 100%;
+//  height: auto;           /* чтобы контейнер рос по видео */
+//  max-height: 90vh;       /* ограничение высоты по экрану */
+//  background: #000;
+//}
+//
+//.modal-video-container video.modal-context-canvas {
+//  display: block;
+//  width: auto;            /* ширина под видео */
+//  height: auto;           /* высота под видео */
+//  max-width: 100%;        /* не вылезаем за ширину модалки */
+//  max-height: 90vh;       /* не вылезаем за экран */
+//  object-fit: contain;    /* сохраняем пропорции */
+//}
 
-.custom-modal .modal-body {
-  //padding: 0; /* убираем внутренние отступы */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-
-.modal-video-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: auto;           /* чтобы контейнер рос по видео */
-  max-height: 90vh;       /* ограничение высоты по экрану */
-  background: #000;
-}
-
-.modal-video-container video.modal-context-canvas {
-  display: block;
-  width: auto;            /* ширина под видео */
-  height: auto;           /* высота под видео */
-  max-width: 100%;        /* не вылезаем за ширину модалки */
-  max-height: 90vh;       /* не вылезаем за экран */
-  object-fit: contain;    /* сохраняем пропорции */
-}
+///* =============================
+//   Ограничиваем модалку
+//============================= */
+//::ng-deep clr-modal .modal-dialog {
+//  max-width: 90vw;
+//  max-height: 90vh;
+//  display: flex;
+//  flex-direction: column;
+//}
+//
+//::ng-deep .modal-body-wrapper {
+//    //max-height: 70vh;
+//    overflow: hidden;
+//}
+//
+///* =============================
+//   Тело модалки без скроллов
+//============================= */
+//::ng-deep clr-modal .modal-body {
+//  flex: 1 1 auto;
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//  overflow: hidden;
+//  padding: 0;
+//}
+//
+///* =============================
+//   Контейнер с фиксированным 4:3
+//============================= */
+//.modal-video-container {
+//  position: relative;
+//  width: 100%;
+//  max-width: 90dvw;
+//  max-height: 80dvh;
+//  aspect-ratio: 4 / 3; /* сохраняем 4:3 */
+//  display: flex;
+//  justify-content: center;
+//  align-items: center;
+//  background: black;
+//  overflow: hidden;
+//}
+//
+///* =============================
+//   Видео вписывается без обрезания
+//============================= */
+//.modal-context-canvas {
+//  width: auto;
+//  height: auto;
+//  object-fit: contain;
+//  background: black;
+//  display: block;
+//}

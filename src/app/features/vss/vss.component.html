@@ -46,7 +46,9 @@
             [id]="'camera-' + cam.id"
             muted
             autoplay
-            playsinline>
+            playsinline
+            (click)="openCamera(cam.id, cam.name)"
+          >
           </video>
 <!--          (click)="openCamera(cam.id, cam.name)"-->
 <!--          @if (isCameraLoading(cam.id)) {-->
@@ -61,7 +63,7 @@
   }
 </div>
 
-<clr-modal #cameraModal [(clrModalOpen)]="cameraModalOpened" [clrModalSize]="'xl'" (clrModalOpenChange)="onModalClose($event)">
+<clr-modal #cameraModal [(clrModalOpen)]="cameraModalOpened" [clrModalSize]="'full-screen'" (clrModalOpenChange)="onModalClose($event)">
     <h3 class="modal-title">{{ cameraName }}</h3>
     <div class="modal-body">
         <div class="modal-video-container">
