@@ -71,7 +71,7 @@ export class AuthenticationService {
     }
 
     return this.http
-      .post<any>(`${environment.apiUrl}/${environment.jwtLogin}`, { refresh: refreshToken })
+      .post<any>(`${environment.apiUrl}/${environment.jwtRefresh}`, { refresh: refreshToken })
       .pipe(
         map(response => {
           if (response.access) {

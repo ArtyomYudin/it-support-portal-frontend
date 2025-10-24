@@ -13,11 +13,11 @@ export class JwtInterceptor implements HttpInterceptor {
   private jwtHelper = new JwtHelperService();
 
   constructor(private authenticationService: AuthenticationService) {
-    console.log('JwtInterceptor создан');
+    // console.log('JwtInterceptor создан');
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('JwtInterceptor: запрос к', request.url);
+    // console.log('JwtInterceptor: запрос к', request.url);
 
     const currentUser = this.authenticationService.currentUserValue;
     const token = currentUser?.token || null;
@@ -26,14 +26,14 @@ export class JwtInterceptor implements HttpInterceptor {
     const isRefreshUrl = request.url.includes(environment.jwtRefresh);
     const isLoginUrl = request.url.includes(environment.jwtLogin);
 
-    console.log('Текущий токен:', token);
+    // console.log('Текущий токен:', token);
 
     if (isLoggedIn && isApiUrl && !isRefreshUrl && !isLoginUrl) {
       if (this.jwtHelper.isTokenExpired(token)) {
-        console.log('Токен истёк. Будет выполнен refresh...');
+        // console.log('Токен истёк. Будет выполнен refresh...');
         return this.handle403Error(request, next);
       } else {
-        console.log('Токен действителен. Отправляем запрос.');
+        // console.log('Токен действителен. Отправляем запрос.');
         request = this.addToken(request, token);
       }
     }

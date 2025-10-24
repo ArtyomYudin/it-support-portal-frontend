@@ -2,13 +2,14 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { interval, Subject, switchMap, takeUntil, tap, EMPTY } from 'rxjs'; // 👈 добавляем EMPTY
 import { AuthenticationService } from '@service/auth.service';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { Router } from "@angular/router";
 
 @Injectable({ providedIn: 'root' })
 export class TokenRefreshService implements OnDestroy {
   private destroy$ = new Subject<void>();
   private jwtHelper = new JwtHelperService();
 
-  constructor(private authService: AuthenticationService) {}
+  constructor(private authService: AuthenticationService, private router: Router,) {}
 
   startTokenRefreshTimer(): void {
     this.stopTokenRefreshTimer();
@@ -57,6 +58,8 @@ export class TokenRefreshService implements OnDestroy {
         },
         error: (err) => {
           console.error('[TokenRefresh] Ошибка при обновлении токена:', err);
+          this.authService.logout();
+           this.router.navigate(['/login']);
         }
       });
   }
