@@ -42,8 +42,9 @@
         </div>
         <div class="card-block video-container">
           <video
+            #cameraVideo
             class="context-canvas"
-            [id]="'camera-' + cam.id"
+            [attr.data-id]="cam.id"
             muted
             autoplay
             playsinline

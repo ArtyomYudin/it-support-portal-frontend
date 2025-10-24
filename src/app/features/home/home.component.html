@@ -162,7 +162,14 @@
           </div>
           <div class="card-block">
             <div class="canvas-container">
-              <canvas class="context-canvas" id="main-camera"></canvas>
+              <video
+                #cameraVideo
+                class="context-canvas"
+                [attr.data-id]="'street_entrance'"
+                muted
+                autoplay
+                playsinline>
+              </video>
             </div>
           </div>
         </div>
@@ -177,7 +184,14 @@
           </div>
           <div class="card-block">
             <div class="canvas-container">
-              <canvas class="context-canvas" id="server-room-1"></canvas>
+              <video
+                #cameraVideo
+                class="context-canvas"
+                [attr.data-id]="'server_room'"
+                muted
+                autoplay
+                playsinline>
+              </video>
             </div>
           </div>
         </div>

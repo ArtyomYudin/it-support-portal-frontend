@@ -1,4 +1,14 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit} from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef, ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChildren,
+  AfterViewInit
+} from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
 import { Subject } from 'rxjs/internal/Subject';
 import {distinctUntilChanged, map, share, takeUntil, tap} from 'rxjs/operators';
@@ -6,7 +16,6 @@ import { ClarityModule } from '@clr/angular';
 import { Chart, registerables } from 'chart.js';
 import {AsyncPipe, DatePipe} from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { DynamicScriptLoaderService } from '@service/dynamic.script.loader.service';
 import { WebsocketService } from '@service/websocket.service';
 import { Event } from '@service/websocket.service.event';
 
@@ -17,10 +26,8 @@ import { AvayaE1DailyChartComponent } from './chart/avaya-e1-daily/avaya-e1-dail
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {EmployeeNamePipe} from "@pipe/employeename.pipe";
 import {environment} from "../../../environments/environment";
-
-declare let streamCam: any;
-declare let streamCamRoom1: any;
-declare let streamCamRoom2: any;
+import {Camera} from "@model/camera.model";
+import {CameraPlayerService} from "@service/camera-player.service";
 
 Chart.register(...registerables);
 
@@ -33,16 +40,16 @@ Chart.register(...registerables);
     ProviderChartComponent,
     AvayaE1ChartComponent,
     HardwareChartComponent,
-    AvayaE1DailyChartComponent,
+    // AvayaE1DailyChartComponent,
     DatePipe,
-    EmployeeNamePipe
+    // EmployeeNamePipe
   ],
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public dhcpLoading = true;
 
@@ -54,17 +61,22 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   public dhcpInfoArray$: Observable<any>;
 
-  private mainCamPlayer: any;
-
-  private room1CamPlayer: any;
-
-  private room2CamPlayer: any;
-
   private isConnected: boolean;
 
   private destroyRef = inject(DestroyRef);
 
-  constructor(private dynamicScriptLoader: DynamicScriptLoaderService, private wsService: WebsocketService) {
+  @ViewChildren('cameraVideo') cameraVideos!: QueryList<ElementRef<HTMLVideoElement>>;
+
+  cameras: Camera[] = environment.cameras;
+  private cameraPlayers: Map<string, HTMLVideoElement> = new Map();
+  private mpegPlayers: Map<string, any> = new Map();
+  private loadingStates: Map<string, boolean> = new Map();
+  private errorStates: Map<string, boolean> = new Map();
+
+  constructor(
+    private wsService: WebsocketService,
+    private cameraPlayerService: CameraPlayerService
+  ) {
     this.vpnActiveSessionCountArray$ = this.wsService.on<any>(Event.EV_VPN_ACTIVE_SESSION_COUNT).pipe(
       distinctUntilChanged(),
       tap(() => {
@@ -104,25 +116,59 @@ export class HomeComponent implements OnInit, OnDestroy {
       console.log("Send getDashboardEvent");
       this.wsService.send('getDashboardEvent', null);
     });
-    this.loadScripts();
+    // this.loadScripts();
+  }
+
+  ngAfterViewInit(): void {
+    this.initAllCameras();
   }
 
   public ngOnDestroy(): void {
-    this.mainCamPlayer.destroy();
-    this.room1CamPlayer.destroy();
-    this.room2CamPlayer.destroy();
     // this.wsService.disconnect()
+    this.cameraPlayers.forEach((video, port) => {
+      video.pause();
+      video.src = '';
+    });
+    this.mpegPlayers.forEach(player => player?.destroy());
+    this.cameraPlayers.clear();
+    this.mpegPlayers.clear();
+    this.loadingStates.clear();
+    this.errorStates.clear();
   }
 
-  private loadScripts() {
-    this.dynamicScriptLoader
-      .load('jsmpeg', 'videocanvas')
-      .then(() => {
-        // Script Loaded Successfully
-        this.mainCamPlayer = streamCam();
-        this.room1CamPlayer = streamCamRoom1();
-        this.room2CamPlayer = streamCamRoom2();
-      })
-      .catch(error => console.log(error));
+  private initAllCameras(): void {
+    const targetCameras = ['street_entrance', 'server_room'];
+    const filteredCameras = this.cameras.filter(cam => targetCameras.includes(cam.id));
+
+    filteredCameras.forEach((camera: { id: string; }) => {
+      const videoRef = this.cameraVideos.find(
+        ref => ref.nativeElement.dataset.id === String(camera.id)
+      );
+
+      if (!videoRef) {
+        console.warn(`Video element for camera ${camera.id} not found`);
+        return;
+      }
+
+      const video = videoRef.nativeElement;
+
+      const player = this.cameraPlayerService.initializeCamera(
+        camera,
+        video,
+        () => {
+          this.loadingStates.set(camera.id, false);
+          this.errorStates.set(camera.id, false);
+        },
+        (detail) => {
+          this.loadingStates.set(camera.id, false);
+          this.errorStates.set(camera.id, true);
+        }
+      );
+
+      if (player) {
+        this.mpegPlayers.set(camera.id, player);
+        this.cameraPlayers.set(camera.id, video);
+      }
+    });
   }
 }

@@ -1,8 +1,18 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewChild, ElementRef} from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  QueryList, ViewChildren
+} from '@angular/core';
 import {ClrModal, ClrIconModule, ClrModalModule} from "@clr/angular";
 import { environment } from "../../../environments/environment";
 import mpegts from 'mpegts.js';
-import {Camera} from "@model/camera.model";
+import { Camera } from "@model/camera.model";
+import {CameraPlayerService} from "@service/camera-player.service";
 
 @Component({
   selector: 'fe-vss',
@@ -13,25 +23,24 @@ import {Camera} from "@model/camera.model";
 })
 export class VssComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  @ViewChildren('cameraVideo') cameraVideos!: QueryList<ElementRef<HTMLVideoElement>>;
   @ViewChild('cameraModal', {static: true}) modal: ClrModal | undefined;
   @ViewChild('modalVideo', { static: false }) modalVideoRef: ElementRef<HTMLVideoElement> | undefined;
 
 
   cameras: Camera[] = environment.cameras;
-  cameraPlayers: Map<string, HTMLVideoElement> = new Map();
-  mpegPlayers: Map<string, any> = new Map();
-  loadingStates: Map<string, boolean> = new Map();
-  errorStates: Map<string, boolean> = new Map();
+  private cameraPlayers: Map<string, HTMLVideoElement> = new Map();
+  private mpegPlayers: Map<string, any> = new Map();
+  private loadingStates: Map<string, boolean> = new Map();
+  private errorStates: Map<string, boolean> = new Map();
 
   public cameraModalOpened: boolean = false;
   public cameraId: string;
   public cameraName: string;
 
-  constructor() {
-  }
+  constructor(private cameraPlayerService: CameraPlayerService) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit(): void {
     this.initAllCameras();
@@ -59,63 +68,34 @@ export class VssComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private initAllCameras(): void {
-    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-    // const host = '127.0.0.1' //environment.apiHost || window.location.hostname;
-
     this.cameras.forEach(camera => {
-      const videoId = `camera-${camera.id}`;
-      const video = document.getElementById(videoId) as HTMLVideoElement;
-      if (!video) {
-        console.warn(`Video element with ID ${videoId} not found`);
+      const videoRef = this.cameraVideos.find(
+        ref => ref.nativeElement.dataset.id === String(camera.id)
+      );
+
+      if (!videoRef) {
+        console.warn(`Video element for camera ${camera.id} not found`);
         return;
       }
 
-      console.log(`Initializing camera ${camera.id}, video element:`, video);
+      const video = videoRef.nativeElement;
 
-      video.muted = true;
-      video.playsInline = true;
-
-      if (mpegts.isSupported()) {
-        this.loadingStates.set(camera.id, true);
-        this.errorStates.set(camera.id, false);
-
-        const player = mpegts.createPlayer({
-          isLive: true,
-          // url: `${protocol}://${host}:8080/ws/${port}`,
-          url: `${protocol}://${environment.vssHost}/${environment.vssSocketPath}/${camera.id}`,
-          // url: `${protocol}://${host}:${port}/ws`,
-          type: 'mpegts',
-          // reconnectInterval: 5000, // нет в mpegts.js, убираем
-          // liveBufferLatencyChasing: true,
-          //  enableStashBuffer: false,
-          //  stashInitialSize: 128,
-        });
-
-        player.attachMediaElement(video);
-        player.load();
-
-        // Заменяем Events.CONNECTED на 'connected'
-        player.on('connected', () => {
-          console.log(`[${camera.id}] Connected`);
+      const player = this.cameraPlayerService.initializeCamera(
+        camera,
+        video,
+        () => {
           this.loadingStates.set(camera.id, false);
           this.errorStates.set(camera.id, false);
-        });
-
-        player.on('error', (type: any, detail: any) => {
-          console.error(`[${camera.id}] Player error:`, detail);
+        },
+        (detail) => {
           this.loadingStates.set(camera.id, false);
           this.errorStates.set(camera.id, true);
-        });
+        }
+      );
 
-        player.on('statistics_info', (stat: any) => {
-          // можно логировать задержки, fps и т.д.
-        });
-
+      if (player) {
         this.mpegPlayers.set(camera.id, player);
         this.cameraPlayers.set(camera.id, video);
-      } else {
-        console.error(`[${camera.id}] mpegts.js не поддерживается браузером`);
-        this.errorStates.set(camera.id, true);
       }
     });
   }
