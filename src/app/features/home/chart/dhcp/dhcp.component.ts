@@ -47,7 +47,6 @@ export class DhcpChartComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.createDhcpScopeChart();
     this.dhcpScopesArray$.subscribe(scopes => {
       // Очистка текущих данных
       this.scopeLabels.length = 0;
@@ -62,8 +61,7 @@ export class DhcpChartComponent implements OnInit, OnDestroy {
         this.reservedAddress.push(scope.reservedAddress || 0);
       });
       // Обновление данных графика
-      this.dhcpScopeChart.update()
-      // this.updateChart();
+      this.dhcpScopeChart.update('none')
     });
     this.themeService.currentTheme$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -183,17 +181,6 @@ export class DhcpChartComponent implements OnInit, OnDestroy {
         // aspectRatio: 2.5,
       }
     });
-  }
-
-  private updateChart(): void {
-    if (!this.dhcpScopeChart) return;
-
-    this.dhcpScopeChart.data.labels = this.scopeLabels;
-    this.dhcpScopeChart.data.datasets[0].data = this.addressesFree;
-    this.dhcpScopeChart.data.datasets[1].data = this.addressesInUse;
-    this.dhcpScopeChart.data.datasets[2].data = this.reservedAddress;
-
-    this.dhcpScopeChart.update();
   }
 
 }
