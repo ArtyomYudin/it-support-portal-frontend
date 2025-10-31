@@ -44,5 +44,6 @@ export enum Event {
   EV_PACS_EMPLOYEE_LAST_EVENT = 'event_pacs_employee_last_event',
 
   EV_DHCP_LEASE = 'event_dhcp_lease',
-  EV_DHCP_INFO = 'event_dhcp_info',
+  EV_DHCP_SCOPE = 'event_dhcp_scope',
+  EV_DHCP_STATISTICS = 'event_dhcp_statistics'
 }

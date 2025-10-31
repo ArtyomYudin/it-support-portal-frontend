@@ -103,47 +103,48 @@
       </div>
 
       <div class="clr-col-lg-12 clr-col-md-12 clr-col-sm-12 clr-col-xs-12">
-        <div class="card clickable" routerLink="/dhcp">
-          <div class="card-header">
-            <div class="card-icon card-icon__blue">
-              <cds-icon shape="computer" style="width: 24px; height: 24px"></cds-icon>
-            </div>
-            <h5 class="card-header__head">Статистика DHCP</h5>
-          </div>
-          <div class="card-block">
-            <div class="spinner-centered">@if (dhcpLoading) {
-              <clr-spinner clrSmall>Loading data</clr-spinner>
-            }</div>
+        <fe-home-chart-dhcp></fe-home-chart-dhcp>
+<!--        <div class="card clickable" routerLink="/dhcp">-->
+<!--          <div class="card-header">-->
+<!--            <div class="card-icon card-icon__blue">-->
+<!--              <cds-icon shape="computer" style="width: 24px; height: 24px"></cds-icon>-->
+<!--            </div>-->
+<!--            <h5 class="card-header__head">Статистика DHCP</h5>-->
+<!--          </div>-->
+<!--          <div class="card-block">-->
+<!--            <div class="spinner-centered">@if (dhcpLoading) {-->
+<!--              <clr-spinner clrSmall>Loading data</clr-spinner>-->
+<!--            }</div>-->
 
-            @for (dhcp of dhcpInfoArray$ | async; track dhcp) {
-              <div class="card-info">
-                <table class="card-info__dhcp">
-                  <th colspan="3">{{ dhcp.scopeId }}/24</th>
-                  <tr>
-                    <td>
-                      <div class="card-info__dhcp__data">
-                        <span class="card-info__dhcp__data_value">{{ dhcp.addressesFree }}</span>
-                        <span class="card-info__dhcp__data_title">Свободно</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="card-info__dhcp__data">
-                        <span class="card-info__dhcp__data_value">{{ dhcp.addressesInUse }}</span>
-                        <span class="card-info__dhcp__data_title">Используется</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div class="card-info__dhcp__data">
-                        <span class="card-info__dhcp__data_value">{{ dhcp.reservedAddress }}</span>
-                        <span class="card-info__dhcp__data_title">Зарезервировано</span>
-                      </div>
-                    </td>
-                  </tr>
-                </table>
-              </div>
-            }
-          </div>
-        </div>
+<!--            @for (dhcp of dhcpInfoArray$ | async; track dhcp.scopeId) {-->
+<!--              <div class="card-info">-->
+<!--                <table class="card-info__dhcp">-->
+<!--                  <th colspan="3">{{ dhcp.scopeId }}/24</th>-->
+<!--                  <tr>-->
+<!--                    <td>-->
+<!--                      <div class="card-info__dhcp__data">-->
+<!--&lt;!&ndash;                        <span class="card-info__dhcp__data_value">{{ dhcp.addressesFree }}</span>&ndash;&gt;-->
+<!--                        <span class="card-info__dhcp__data_title">Свободно {{ dhcp.addressesFree }}</span>-->
+<!--                      </div>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                      <div class="card-info__dhcp__data">-->
+<!--&lt;!&ndash;                        <span class="card-info__dhcp__data_value">{{ dhcp.addressesInUse }}</span>&ndash;&gt;-->
+<!--                        <span class="card-info__dhcp__data_title">Используется {{ dhcp.addressesInUse }}</span>-->
+<!--                      </div>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                      <div class="card-info__dhcp__data">-->
+<!--&lt;!&ndash;                        <span class="card-info__dhcp__data_value">{{ dhcp.reservedAddress }}</span>&ndash;&gt;-->
+<!--                        <span class="card-info__dhcp__data_title">Зарезервировано {{ dhcp.reservedAddress }}</span>-->
+<!--                      </div>-->
+<!--                    </td>-->
+<!--                  </tr>-->
+<!--                </table>-->
+<!--              </div>-->
+<!--            }-->
+<!--          </div>-->
+<!--        </div>-->
       </div>
     </div>
   </div>

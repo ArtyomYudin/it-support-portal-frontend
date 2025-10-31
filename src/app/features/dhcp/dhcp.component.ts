@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/
 import { WebsocketService } from '@service/websocket.service';
 import { ClarityModule, ClrCommonStringsService } from '@clr/angular';
 import { Observable } from 'rxjs/internal/Observable';
-import { AsyncPipe } from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import { distinctUntilChanged, takeUntil, tap } from 'rxjs/operators';
 import { Subject } from 'rxjs/internal/Subject';
 import { russionLocale } from '@translation/russion';
@@ -14,7 +14,7 @@ import { Event } from '@service/websocket.service.event';
     templateUrl: './dhcp.component.html',
     styleUrls: ['./dhcp.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [ClarityModule, AsyncPipe]
+  imports: [ClarityModule, AsyncPipe, DatePipe]
 })
 export class DhcpComponent implements OnInit, OnDestroy {
   public loading = true;

@@ -10,18 +10,17 @@ import {
   AfterViewInit
 } from '@angular/core';
 import { Observable } from 'rxjs/internal/Observable';
-import { Subject } from 'rxjs/internal/Subject';
-import {distinctUntilChanged, map, share, takeUntil, tap} from 'rxjs/operators';
+import {distinctUntilChanged, map, share, startWith, tap} from 'rxjs/operators';
 import { ClarityModule } from '@clr/angular';
 import { Chart, registerables } from 'chart.js';
 import {AsyncPipe, DatePipe} from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { WebsocketService } from '@service/websocket.service';
 import { Event } from '@service/websocket.service.event';
-
 import { ProviderChartComponent } from './chart/provider/provider.component';
 import { AvayaE1ChartComponent } from './chart/avaya-e1/avaya-e1.component';
 import { HardwareChartComponent } from './chart/hardware/hardware.component';
+import { DhcpChartComponent } from './chart/dhcp/dhcp.component';
 import { AvayaE1DailyChartComponent } from './chart/avaya-e1-daily/avaya-e1-daily.component';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import {EmployeeNamePipe} from "@pipe/employeename.pipe";
@@ -40,8 +39,10 @@ Chart.register(...registerables);
     ProviderChartComponent,
     AvayaE1ChartComponent,
     HardwareChartComponent,
+    DhcpChartComponent,
     // AvayaE1DailyChartComponent,
     DatePipe,
+    DhcpChartComponent,
     // EmployeeNamePipe
   ],
     templateUrl: './home.component.html',
@@ -98,9 +99,11 @@ export class HomeComponent implements OnInit, OnDestroy, AfterViewInit {
     //   console.log('vpnSessionsByHost$ emits:', data);
     //   console.log('Type:', Array.isArray(data) ? '✅ Массив' : '❌ НЕ массив!');
     // });
-    this.dhcpInfoArray$ = this.wsService.on<any>(Event.EV_DHCP_INFO).pipe(
+    this.dhcpInfoArray$ = this.wsService.on<any>(Event.EV_DHCP_SCOPE).pipe(
+      map(res => res?.results || []),
       distinctUntilChanged(),
-      tap(() => {
+      tap((res) => {
+        console.log(res)
         this.dhcpLoading = false;
       }),
       takeUntilDestroyed(this.destroyRef)

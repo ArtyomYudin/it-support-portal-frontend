@@ -7,7 +7,7 @@
         <clr-dg-column [clrDgField]="'ipAddress'">
             <ng-container *clrDgHideableColumn="{ hidden: false }">IP адрес</ng-container>
         </clr-dg-column>
-        <clr-dg-column>
+        <clr-dg-column [clrDgField]="'macAddress'">
             <ng-container *clrDgHideableColumn="{ hidden: false }">MAC адрес</ng-container>
         </clr-dg-column>
         <clr-dg-column>
@@ -27,7 +27,7 @@
             <clr-dg-cell>{{ lease.macAddress }}</clr-dg-cell>
             <clr-dg-cell>{{ lease.hostName }}</clr-dg-cell>
             <clr-dg-cell>{{ lease.addressState }}</clr-dg-cell>
-            <clr-dg-cell>{{ lease.leaseExpiryTime }}</clr-dg-cell>
+            <clr-dg-cell>{{ lease.leaseExpiryTime | date : 'd MMMM YYYY, HH:mm:ss' }}</clr-dg-cell>
         </clr-dg-row>
         <!--
         <clr-dg-column-toggle>

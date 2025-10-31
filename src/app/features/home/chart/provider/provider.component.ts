@@ -28,7 +28,7 @@ Chart.register(...registerables);
     selector: 'fe-home-chart-provider',
     imports: [ClarityModule],
     templateUrl: './provider.component.html',
-    styleUrls: ['../..//home.component.scss'],
+    styleUrls: ['../../home.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProviderChartComponent implements OnInit, OnDestroy {
