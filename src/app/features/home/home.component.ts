@@ -21,9 +21,9 @@ import { ProviderChartComponent } from './chart/provider/provider.component';
 import { AvayaE1ChartComponent } from './chart/avaya-e1/avaya-e1.component';
 import { HardwareChartComponent } from './chart/hardware/hardware.component';
 import { DhcpChartComponent } from './chart/dhcp/dhcp.component';
-import { AvayaE1DailyChartComponent } from './chart/avaya-e1-daily/avaya-e1-daily.component';
+// import { AvayaE1DailyChartComponent } from './chart/avaya-e1-daily/avaya-e1-daily.component';
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import {EmployeeNamePipe} from "@pipe/employeename.pipe";
+// import {EmployeeNamePipe} from "@pipe/employeename.pipe";
 import {environment} from "../../../environments/environment";
 import {Camera} from "@model/camera.model";
 import {CameraPlayerService} from "@service/camera-player.service";
@@ -42,7 +42,6 @@ Chart.register(...registerables);
     DhcpChartComponent,
     // AvayaE1DailyChartComponent,
     DatePipe,
-    DhcpChartComponent,
     // EmployeeNamePipe
   ],
     templateUrl: './home.component.html',
